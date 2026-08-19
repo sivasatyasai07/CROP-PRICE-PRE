@@ -346,7 +346,7 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
           </div>
 
           {/* 4. Action Buttons (Generate 3-Day Forecast + Live Location Symbol) */}
-          <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', width: '100%' }}>
+          <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', width: '100%' }}>
             <button
               id="btn-generate-forecast"
               type="button"
@@ -356,30 +356,30 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
               style={{
                 background: loading || !isFormValid ? '#2d6a4f' : '#1b4332',
                 color: '#ffffff',
-                fontWeight: 700,
-                fontSize: '0.92rem',
-                padding: '0 1.25rem',
-                height: '44px',
-                borderRadius: '10px',
+                fontWeight: 800,
+                fontSize: '1rem',
+                padding: '0 1.65rem',
+                height: '48px',
+                borderRadius: '12px',
                 border: 'none',
                 cursor: loading || !isFormValid ? 'not-allowed' : 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 2px 8px rgba(27, 67, 50, 0.25)',
+                gap: '0.6rem',
+                boxShadow: '0 4px 12px rgba(27, 67, 50, 0.28)',
                 transition: 'all 0.2s ease',
                 whiteSpace: 'nowrap',
                 opacity: !isFormValid && !loading ? 0.6 : 1,
                 flex: 1,
-                minWidth: '160px',
+                minWidth: '180px',
               }}
             >
               {loading ? (
                 <>
                   <svg
                     className="spin"
-                    style={{ width: '18px', height: '18px' }}
+                    style={{ width: '20px', height: '20px' }}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -387,11 +387,11 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" opacity="0.25"></circle>
                     <path fill="currentColor" opacity="0.75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span>{loadingStep || (language === 'te' ? 'అంచనా వేస్తోంది…' : 'Generating…')}</span>
+                  <span>{language === 'te' ? 'అంచనా వేస్తోంది…' : (language === 'hi' ? 'पूर्वानुमान जारी…' : 'Generating…')}</span>
                 </>
               ) : (
                 <>
-                  <Calendar size={18} />
+                  <Calendar size={20} />
                   <span>{t.forecast?.generateBtn || 'Generate 3-Day Forecast'}</span>
                 </>
               )}
@@ -405,10 +405,10 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
               disabled={detectingLocation || loading}
               title={t.location?.detectLocationBtn || 'Detect closest APMC market near current location'}
               style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: '10px',
-                border: '1px solid #cbd5e1',
+                width: '48px',
+                height: '48px',
+                borderRadius: '12px',
+                border: '1.5px solid #cbd5e1',
                 background: '#ffffff',
                 color: '#16a34a',
                 display: 'flex',
@@ -417,11 +417,11 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
                 cursor: detectingLocation || loading ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s ease',
                 flexShrink: 0,
-                boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
               }}
             >
               <Navigation
-                size={18}
+                size={20}
                 color="#16a34a"
                 className={detectingLocation ? 'spin' : ''}
               />

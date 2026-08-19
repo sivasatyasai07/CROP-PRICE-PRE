@@ -48,6 +48,62 @@ export const ForecastResult: React.FC<ForecastResultProps> = ({ data, language: 
     TrendIcon = Minus;
   }
 
+  // 2-Day Sell or Hold Recommendation Logic
+  const day2Record = displayRecords.length >= 2 ? displayRecords[1] : displayRecords[0];
+  const day3Record = displayRecords.length >= 3 ? displayRecords[2] : day2Record;
+  const targetFuturePrice = day2Record?.modal_price ?? day3Record?.modal_price ?? basePrice;
+  const twoDayDiff = (targetFuturePrice !== null && basePrice !== null) ? targetFuturePrice - basePrice : 0;
+  const twoDayPct = (basePrice && basePrice > 0) ? (twoDayDiff / basePrice) * 100 : 0;
+
+  let recTitle = 'HOLD CROP (Wait 2 Days for Higher Price)';
+  let recDescription = `Prices are projected to increase by ₹${Math.abs(twoDayDiff).toFixed(2)}/quintal (+${Math.abs(twoDayPct).toFixed(1)}%) over the next 2 days. Holding your harvest is recommended to get higher profits.`;
+  let recBadgeText = '📈 RECOMMENDATION: HOLD';
+  let recColor = '#15803d';
+  let recBg = '#f0fdf4';
+  let recBorder = '#86efac';
+  let recIconBg = '#dcfce7';
+  let recBadgeBg = '#dcfce7';
+  let RecIcon = TrendingUp;
+
+  if (twoDayDiff < -10 || twoDayPct < -1.0) {
+    recTitle = 'SELL NOW (Avoid Potential Price Drop)';
+    recDescription = `Prices are projected to decline by ₹${Math.abs(twoDayDiff).toFixed(2)}/quintal (-${Math.abs(twoDayPct).toFixed(1)}%) over the next 2 days. Selling at today's modal price is advised to avoid losses.`;
+    recBadgeText = '📉 RECOMMENDATION: SELL NOW';
+    recColor = '#b91c1c';
+    recBg = '#fef2f2';
+    recBorder = '#fca5a5';
+    recIconBg = '#fee2e2';
+    recBadgeBg = '#fee2e2';
+    RecIcon = TrendingDown;
+  } else if (Math.abs(twoDayDiff) <= 10) {
+    recTitle = 'SELL OR HOLD (Stable Mandi Prices)';
+    recDescription = `Prices are expected to remain steady around ₹${(basePrice ?? 0).toFixed(2)}/quintal over the next 2 days. You may sell now or hold based on your storage and logistics convenience.`;
+    recBadgeText = '⚖️ RECOMMENDATION: SELL OR HOLD';
+    recColor = '#0369a1';
+    recBg = '#f0f9ff';
+    recBorder = '#7dd3fc';
+    recIconBg = '#e0f2fe';
+    recBadgeBg = '#e0f2fe';
+    RecIcon = Minus;
+  }
+
+  // Multi-language translation for recommendation
+  if (_language === 'te') {
+    if (twoDayDiff > 10 || twoDayPct > 1.0) {
+      recTitle = 'పంటను నిల్వ ఉంచండి (2 రోజులు వేచి ఉండండి)';
+      recDescription = `రాబోయే 2 రోజుల్లో ధర క్వింటాలుకు ₹${Math.abs(twoDayDiff).toFixed(2)} పెరిగే అవకాశం ఉంది. అధిక లాభం కోసం నిల్వ ఉంచడం మంచిది.`;
+      recBadgeText = '📈 సిఫార్సు: నిల్వ ఉంచండి (HOLD)';
+    } else if (twoDayDiff < -10 || twoDayPct < -1.0) {
+      recTitle = 'వెంటనే అమ్మండి (ధర తగ్గే అవకాశం)';
+      recDescription = `రాబోయే 2 రోజుల్లో ధర క్వింటాలుకు ₹${Math.abs(twoDayDiff).toFixed(2)} తగ్గే అవకాశం ఉంది. నేటి ధర వద్ద వెంటనే అమ్మడం మంచిది.`;
+      recBadgeText = '📉 సిఫార్సు: అమ్మండి (SELL NOW)';
+    } else {
+      recTitle = 'అమ్మండి లేదా నిల్వ ఉంచండి (స్థిరమైన ధరలు)';
+      recDescription = `రాబోయే 2 రోజుల్లో ధరలు స్థిరంగా ఉండే అవకాశం ఉంది. మీ వీలును బట్టి నిర్ణయం తీసుకోండి.`;
+      recBadgeText = '⚖️ సిఫార్సు: అమ్మండి లేదా నిల్వ ఉంచండి';
+    }
+  }
+
   const topBorderAccents = ['#10b981', '#f59e0b', '#3b82f6'];
   const dayPills = ['Tomorrow (Day 1)', 'Day +2', 'Day +3'];
 
@@ -127,7 +183,67 @@ export const ForecastResult: React.FC<ForecastResultProps> = ({ data, language: 
         </div>
       </div>
 
-      {/* 2. 3 Cards Side-by-Side */}
+      {/* 2. Farmer 2-Day Sell vs Hold Recommendation Card */}
+      {basePrice !== null && basePrice > 0 && (
+        <div
+          style={{
+            background: recBg,
+            border: `1.5px solid ${recBorder}`,
+            borderRadius: '16px',
+            padding: '1.25rem 1.75rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                background: recIconBg,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <RecIcon size={22} color={recColor} strokeWidth={2.5} />
+            </div>
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: recColor, textTransform: 'uppercase', letterSpacing: '0.4px' }}>
+                {_language === 'te' ? 'రైతు మార్కెట్ సలహా (2 రోజుల నిర్ణయం)' : 'FARMER MARKET ADVISORY (2-DAY DECISION)'}
+              </div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginTop: '0.1rem' }}>
+                {recTitle}
+              </div>
+              <p style={{ fontSize: '0.85rem', color: '#334155', fontWeight: 500, margin: '0.2rem 0 0 0' }}>
+                {recDescription}
+              </p>
+            </div>
+          </div>
+
+          <div
+            style={{
+              padding: '0.5rem 1.15rem',
+              borderRadius: '50px',
+              fontWeight: 800,
+              fontSize: '0.88rem',
+              background: recBadgeBg,
+              color: recColor,
+              border: `1.5px solid ${recBorder}`,
+            }}
+          >
+            {recBadgeText}
+          </div>
+        </div>
+      )}
+
+      {/* 3. 3 Cards Side-by-Side */}
       <div
         style={{
           display: 'grid',

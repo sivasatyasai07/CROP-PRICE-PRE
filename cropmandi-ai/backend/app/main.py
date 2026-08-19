@@ -61,8 +61,10 @@ app.include_router(sync.router, prefix="/api/v1")
 
 @app.on_event("startup")
 def startup_price_sync_event():
+    from app.services.seed_service import seed_markets_and_commodities
     from app.services.master_data_service import load_master_data
     from app.services.scheduler_service import start_background_startup_sync, start_daily_scheduler
+    seed_markets_and_commodities()
     load_master_data()
     start_background_startup_sync()
     start_daily_scheduler()

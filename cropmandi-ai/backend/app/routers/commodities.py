@@ -12,12 +12,9 @@ router = APIRouter(prefix="/api/v1/commodities", tags=["Commodities"])
 
 @router.get("", response_model=List[CommodityOut])
 def list_commodities(db: Session = Depends(get_db)):
-    max_obs_date = db.query(func.max(CleanedMarketPrice.observation_date)).scalar() or date.today()
-    cutoff_date = max_obs_date - timedelta(days=20)
-
-    return db.query(Commodity)\
-             .join(CleanedMarketPrice, CleanedMarketPrice.commodity_id == Commodity.id)\
-             .filter(Commodity.is_active == True)\
-             .group_by(Commodity.id)\
-             .having(func.max(CleanedMarketPrice.observation_date) >= cutoff_date)\
-             .all()
+    commodities = db.query(Commodity).filter(Commodity.is_active == True).order_by(Commodity.canonical_name.asc()).all()
+    if not commodities:
+        from app.services.seed_service import seed_markets_and_commodities
+        seed_markets_and_commodities(db)
+        commodities = db.query(Commodity).filter(Commodity.is_active == True).order_by(Commodity.canonical_name.asc()).all()
+    return commodities

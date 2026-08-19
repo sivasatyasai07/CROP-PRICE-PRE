@@ -49,13 +49,27 @@ export const WeatherTab: React.FC<Props> = ({ language }) => {
     detectUserLocationAndFetchWeather();
   }, []);
 
+const FALLBACK_APMC_MARKETS: Market[] = [
+  { id: 1, canonical_name: 'Madanapalle APMC', original_name: 'Madanapalle', district: 'Annamayya', state: 'Andhra Pradesh', latitude: 13.55, longitude: 78.50, is_active: true },
+  { id: 2, canonical_name: 'Kurnool APMC', original_name: 'Kurnool', district: 'Kurnool', state: 'Andhra Pradesh', latitude: 15.8281, longitude: 78.0373, is_active: true },
+  { id: 3, canonical_name: 'Tenali APMC', original_name: 'Tenali', district: 'Guntur', state: 'Andhra Pradesh', latitude: 16.2430, longitude: 80.6400, is_active: true },
+  { id: 4, canonical_name: 'Rajahmundry APMC', original_name: 'Rajahmundry', district: 'East Godavari', state: 'Andhra Pradesh', latitude: 17.0005, longitude: 81.8040, is_active: true },
+  { id: 5, canonical_name: 'Ananthapur APMC', original_name: 'Ananthapur', district: 'Anantapur', state: 'Andhra Pradesh', latitude: 14.6819, longitude: 77.6006, is_active: true },
+  { id: 6, canonical_name: 'Pattikonda APMC', original_name: 'Pattikonda', district: 'Kurnool', state: 'Andhra Pradesh', latitude: 15.40, longitude: 77.5167, is_active: true },
+  { id: 7, canonical_name: 'Guntur APMC', original_name: 'Guntur', district: 'Guntur', state: 'Andhra Pradesh', latitude: 16.3067, longitude: 80.4365, is_active: true },
+  { id: 8, canonical_name: 'Eluru APMC', original_name: 'Eluru', district: 'Eluru', state: 'Andhra Pradesh', latitude: 16.7107, longitude: 81.0952, is_active: true },
+];
+
   const loadMarkets = async () => {
     try {
       const res = await api.get<Market[]>('/markets');
       // Filter ONLY markets with valid geographical coordinates where data is available and fetchable
-      const validMarkets = res.data.filter(
+      let validMarkets = res.data.filter(
         (m) => m.latitude !== null && m.longitude !== null && m.latitude !== undefined && m.longitude !== undefined
       );
+      if (validMarkets.length === 0) {
+        validMarkets = FALLBACK_APMC_MARKETS;
+      }
       setMarkets(validMarkets);
       if (validMarkets.length > 0) {
         setSelectedMarketId(validMarkets[0].id);
@@ -63,6 +77,11 @@ export const WeatherTab: React.FC<Props> = ({ language }) => {
       }
     } catch (e) {
       console.error(e);
+      setMarkets(FALLBACK_APMC_MARKETS);
+      if (FALLBACK_APMC_MARKETS.length > 0) {
+        setSelectedMarketId(FALLBACK_APMC_MARKETS[0].id);
+        fetchMandiWeather(FALLBACK_APMC_MARKETS[0].id);
+      }
     }
   };
 

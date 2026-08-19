@@ -52,17 +52,44 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
     loadMetaData();
   }, []);
 
+const FALLBACK_COMMODITIES: Commodity[] = [
+  { id: 1, canonical_name: 'Tomato', commodity_group: 'Vegetables', unit: 'Rs./Quintal' },
+  { id: 2, canonical_name: 'Onion', commodity_group: 'Vegetables', unit: 'Rs./Quintal' },
+  { id: 3, canonical_name: 'Potato', commodity_group: 'Vegetables', unit: 'Rs./Quintal' },
+  { id: 4, canonical_name: 'Green Chilli', commodity_group: 'Vegetables', unit: 'Rs./Quintal' },
+  { id: 5, canonical_name: 'Lemon', commodity_group: 'Fruits', unit: 'Rs./Quintal' },
+  { id: 6, canonical_name: 'Paddy', commodity_group: 'Cereals', unit: 'Rs./Quintal' },
+  { id: 7, canonical_name: 'Maize', commodity_group: 'Cereals', unit: 'Rs./Quintal' },
+  { id: 8, canonical_name: 'Groundnut', commodity_group: 'Oilseeds', unit: 'Rs./Quintal' },
+];
+
+const FALLBACK_MARKETS: Market[] = [
+  { id: 1, canonical_name: 'Madanapalle APMC', original_name: 'Madanapalle', district: 'Annamayya', state: 'Andhra Pradesh', latitude: 13.55, longitude: 78.50, is_active: true },
+  { id: 2, canonical_name: 'Kurnool APMC', original_name: 'Kurnool', district: 'Kurnool', state: 'Andhra Pradesh', latitude: 15.8281, longitude: 78.0373, is_active: true },
+  { id: 3, canonical_name: 'Tenali APMC', original_name: 'Tenali', district: 'Guntur', state: 'Andhra Pradesh', latitude: 16.2430, longitude: 80.6400, is_active: true },
+  { id: 4, canonical_name: 'Rajahmundry APMC', original_name: 'Rajahmundry', district: 'East Godavari', state: 'Andhra Pradesh', latitude: 17.0005, longitude: 81.8040, is_active: true },
+  { id: 5, canonical_name: 'Ananthapur APMC', original_name: 'Ananthapur', district: 'Anantapur', state: 'Andhra Pradesh', latitude: 14.6819, longitude: 77.6006, is_active: true },
+  { id: 6, canonical_name: 'Pattikonda APMC', original_name: 'Pattikonda', district: 'Kurnool', state: 'Andhra Pradesh', latitude: 15.40, longitude: 77.5167, is_active: true },
+];
+
   const loadMetaData = async () => {
     try {
       const cRes = await api.get<Commodity[]>('/commodities');
-      setCommodities(cRes.data);
-      if (cRes.data.length > 0) {
-        const firstCommId = cRes.data[0].id;
+      let commList = cRes.data;
+      if (!commList || commList.length === 0) {
+        commList = FALLBACK_COMMODITIES;
+      }
+      setCommodities(commList);
+      if (commList.length > 0) {
+        const firstCommId = commList[0].id;
         setSelectedCommodityId(firstCommId);
         await handleCommodityChange(firstCommId);
       }
     } catch (e) {
       console.error(e);
+      setCommodities(FALLBACK_COMMODITIES);
+      setSelectedCommodityId(FALLBACK_COMMODITIES[0].id);
+      await handleCommodityChange(FALLBACK_COMMODITIES[0].id);
     }
   };
 
@@ -70,7 +97,10 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
     setSelectedCommodityId(cId);
     try {
       const mRes = await api.get<Market[]>('/markets', { params: { commodity_id: cId } });
-      const availableMarkets = mRes.data;
+      let availableMarkets = mRes.data;
+      if (!availableMarkets || availableMarkets.length === 0) {
+        availableMarkets = FALLBACK_MARKETS;
+      }
       setMarkets(availableMarkets);
 
       if (availableMarkets.length > 0) {
@@ -79,13 +109,14 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
         const m2 = availableMarkets.length > 1 ? availableMarkets[1].id : null;
         setCompareMarketId(m2);
         fetchMarketData(m1.id, m2, cId);
-      } else {
-        setPrimaryHistory([]);
-        setCompareHistory([]);
-        setComparisons([]);
       }
     } catch (e) {
       console.error(e);
+      setMarkets(FALLBACK_MARKETS);
+      const m1 = FALLBACK_MARKETS[0];
+      setPrimaryMarketId(m1.id);
+      setCompareMarketId(FALLBACK_MARKETS[1].id);
+      fetchMarketData(m1.id, FALLBACK_MARKETS[1].id, cId);
     }
   };
 
