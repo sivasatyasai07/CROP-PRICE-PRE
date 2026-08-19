@@ -22,8 +22,12 @@ class Settings(BaseSettings):
     DATA_GOV_API_KEY: str = ""
     DATA_GOV_RESOURCE_ID: str = "/resource/35985678-0d79-46b4-9ed6-6f13308a1d24"
     DATA_GOV_BASE_URL: str = "https://api.data.gov.in"
+    DATA_GOV_FORMAT: str = "json"
     DATA_GOV_TIMEOUT_SECONDS: int = 30
     DATA_GOV_MAX_RETRIES: int = 2
+    DATA_GOV_API_TIMEOUT_SECONDS: int = 30
+    DATA_GOV_API_MAX_RETRIES: int = 3
+    DATA_GOV_PAGE_LIMIT: int = 1000
     DATA_GOV_RATE_LIMIT_DELAY: float = 0.5
     DATA_GOV_PAGE_SIZE: int = 1000
     DATA_GOV_MAX_SYNC_HOURS: int = 24
@@ -33,6 +37,13 @@ class Settings(BaseSettings):
     DYNAMIC_DATA_GOV_FETCH: bool = True
     MAX_HISTORICAL_DAYS_FETCH: int = 3
     FORCE_REFRESH_ON_GENERATE: bool = True
+    LIVE_REFRESH_LOOKBACK_DAYS: int = 14
+    LIVE_REFRESH_INCLUDE_TODAY: bool = True
+    LIVE_REFRESH_INCLUDE_YESTERDAY: bool = True
+    LIVE_REFRESH_FORCE_REFRESH: bool = True
+    STARTUP_SYNC_ENABLED: bool = True
+    DAILY_SYNC_ENABLED: bool = True
+    DAILY_SYNC_LOOKBACK_DAYS: int = 14
     
     # Weather
     WEATHER_API_URL: str = "https://api.open-meteo.com/v1"
