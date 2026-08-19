@@ -1,0 +1,33 @@
+{
+  "commodity": "Tomato",
+  "market": "Pattikonda APMC",
+  "forecast_origin_date": "2026-08-18",
+  "latest_observed_date": "2026-08-17",
+  "latest_observed_price": 1300.0,
+  "feature_row_date": "2026-08-17 00:00:00",
+  "model_artifact_path": "C:\\Users\\sivas\\OneDrive\\Desktop\\ghfh\\cropmandi-ai\\backend\\app\\ml\\..\\..\\..\\ml\\models\\catboost_h1_vv20260818_153724.cbm",
+  "model_file_exists": true,
+  "model_loaded_successfully": true,
+  "model_predict_executed": true,
+  "raw_model_output": {
+    "h1": 1665.66,
+    "h2": 1591.41,
+    "h3": 1897.2
+  },
+  "final_api_output": {
+    "h1": 1665.66,
+    "h2": 1591.41,
+    "h3": 1897.2
+  },
+  "output_equals_last_observed_price": false,
+  "output_equals_fixed_offset": false,
+  "output_came_from_fallback": false,
+  "feature_count": 98,
+  "missing_feature_count": 0,
+  "arrival_features_present": true,
+  "weather_features_present": true,
+  "seasonal_features_present": true,
+  "model_version": "v20260818_153724",
+  "diagnostic_passed": true,
+  "failure_reasons": []
+}

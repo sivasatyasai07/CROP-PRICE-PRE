@@ -1,0 +1,186 @@
+{
+  "model_version": "v20260818_153724",
+  "catboost_metrics": {
+    "horizon_1": {
+      "mae": 816.4,
+      "rmse": 2034.99,
+      "mape": 13.06,
+      "wape": 19.8,
+      "smape": 13.71,
+      "r2": 0.7184,
+      "count": 9044,
+      "zero_excluded_mape_count": 0
+    },
+    "horizon_2": {
+      "mae": 986.16,
+      "rmse": 2292.05,
+      "mape": 16.75,
+      "wape": 23.92,
+      "smape": 17.47,
+      "r2": 0.6429,
+      "count": 8976,
+      "zero_excluded_mape_count": 0
+    },
+    "horizon_3": {
+      "mae": 941.71,
+      "rmse": 2150.53,
+      "mape": 16.63,
+      "wape": 22.86,
+      "smape": 17.07,
+      "r2": 0.6857,
+      "count": 8909,
+      "zero_excluded_mape_count": 0
+    }
+  },
+  "baseline_metrics": {
+    "horizon_1": {
+      "naive_last_price_mae": 231.4,
+      "naive_last_price_rmse": 602.07,
+      "naive_last_price_wape": 5.61,
+      "mean_3day_mae": 243.6,
+      "seasonal_7day_mae": 369.19
+    },
+    "horizon_2": {
+      "naive_last_price_mae": 263.76,
+      "naive_last_price_rmse": 656.55,
+      "naive_last_price_wape": 6.4,
+      "mean_3day_mae": 271.17,
+      "seasonal_7day_mae": 387.17
+    },
+    "horizon_3": {
+      "naive_last_price_mae": 295.62,
+      "naive_last_price_rmse": 719.37,
+      "naive_last_price_wape": 7.17,
+      "mean_3day_mae": 297.6,
+      "seasonal_7day_mae": 402.04
+    }
+  },
+  "top_features": {
+    "horizon_1": [
+      {
+        "feature": "lag_1",
+        "importance": 29.569
+      },
+      {
+        "feature": "lag_2",
+        "importance": 9.743
+      },
+      {
+        "feature": "rolling_mean_3",
+        "importance": 8.262
+      },
+      {
+        "feature": "rolling_median_7",
+        "importance": 5.44
+      },
+      {
+        "feature": "rolling_max_7",
+        "importance": 5.237
+      },
+      {
+        "feature": "same_day_regional_median",
+        "importance": 5.045
+      },
+      {
+        "feature": "same_day_regional_max",
+        "importance": 4.67
+      },
+      {
+        "feature": "price_change_from_last_year",
+        "importance": 3.398
+      },
+      {
+        "feature": "lag_3",
+        "importance": 2.895
+      },
+      {
+        "feature": "same_day_regional_mean",
+        "importance": 2.304
+      }
+    ],
+    "horizon_2": [
+      {
+        "feature": "lag_1",
+        "importance": 22.96
+      },
+      {
+        "feature": "rolling_mean_3",
+        "importance": 7.231
+      },
+      {
+        "feature": "lag_2",
+        "importance": 6.562
+      },
+      {
+        "feature": "same_day_regional_median",
+        "importance": 5.976
+      },
+      {
+        "feature": "rolling_max_7",
+        "importance": 5.072
+      },
+      {
+        "feature": "rolling_mean_7",
+        "importance": 3.135
+      },
+      {
+        "feature": "rolling_median_7",
+        "importance": 3.131
+      },
+      {
+        "feature": "rolling_min_7",
+        "importance": 3.005
+      },
+      {
+        "feature": "same_day_regional_max",
+        "importance": 2.851
+      },
+      {
+        "feature": "lag_3",
+        "importance": 2.579
+      }
+    ],
+    "horizon_3": [
+      {
+        "feature": "lag_1",
+        "importance": 22.616
+      },
+      {
+        "feature": "rolling_mean_3",
+        "importance": 9.253
+      },
+      {
+        "feature": "lag_2",
+        "importance": 7.679
+      },
+      {
+        "feature": "rolling_max_7",
+        "importance": 7.204
+      },
+      {
+        "feature": "same_day_regional_median",
+        "importance": 5.781
+      },
+      {
+        "feature": "same_day_regional_max",
+        "importance": 4.047
+      },
+      {
+        "feature": "rolling_min_7",
+        "importance": 3.32
+      },
+      {
+        "feature": "same_day_regional_mean",
+        "importance": 3.285
+      },
+      {
+        "feature": "same_day_regional_min",
+        "importance": 2.903
+      },
+      {
+        "feature": "rolling_mean_7",
+        "importance": 2.642
+      }
+    ]
+  }
+}

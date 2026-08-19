@@ -1,0 +1,53 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+.output/
+.vite/
+frontend/dist/
+frontend/node_modules/
+cropmandi-ai/frontend/dist/
+cropmandi-ai/frontend/node_modules/
+
+# Database & SQLite
+*.db
+*.sqlite
+*.sqlite3
+cropmandi-ai/cropmandi.db
+cropmandi-ai/backend/cropmandi.db
+
+# User & Disease Local History
+backend/data/users.json
+data/users.json
+cropmandi-ai/backend/data/users.json
+cropmandi-ai/backend/data/disease_history/
+cropmandi-ai/backend/data/disease_images/
+
+# ML Artifacts & Temporary Logs
+catboost_info/
+cropmandi-ai/catboost_info/
+*.log
+.DS_Store
+.vscode/
+.idea/
+.gemini/
+.system_generated/
+graphify-out/

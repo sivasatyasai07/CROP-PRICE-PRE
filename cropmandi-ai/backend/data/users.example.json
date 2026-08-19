@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": "8d5c8b6a-4fa7-4c9a-a43d-123456789abc",
+      "email": "farmer@example.com",
+      "password_hash": "$bcrypt$v=12$...",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-14T15:30:00Z",
+      "updated_at": "2026-08-14T15:30:00Z"
+    }
+  ]
+}

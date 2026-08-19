@@ -1,0 +1,43 @@
+# Environment variables
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+.output/
+.vite/
+
+# ML Artifacts & Data
+ml/data/raw/*
+!ml/data/raw/.gitkeep
+ml/data/cleaned/*
+!ml/data/cleaned/.gitkeep
+ml/data/features/*
+!ml/data/features/.gitkeep
+ml/models/*.cbm
+ml/models/*.pkl
+ml/models/*.json
+
+# System / IDE
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Authentication Data (Prototype)
+backend/data/users.json
+data/users.json

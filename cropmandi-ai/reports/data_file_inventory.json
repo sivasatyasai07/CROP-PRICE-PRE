@@ -1,0 +1,78 @@
+{
+  "audit_timestamp": "2026-08-18T21:44:15Z",
+  "data_files": [
+    {
+      "filename": "master-data.csv",
+      "path": "backend/data/master-data.csv",
+      "size_bytes": 4513457,
+      "status": "active_master_data",
+      "purpose": "Official local AP mandi historical data source for fallback & seeding (2021-2026)",
+      "imported_by": [
+        "app.services.master_data_service",
+        "app.services.forecast_reconciliation_service",
+        "scripts/seed_database_daily.py",
+        "scripts/import_csv.py"
+      ],
+      "recommended_action": "keep",
+      "risk_level": "critical"
+    },
+    {
+      "filename": "market_aliases.json",
+      "path": "ml/data/market_aliases.json",
+      "size_bytes": 3611,
+      "status": "active_configuration_data",
+      "purpose": "Normalizes Andhra Pradesh APMC mandi names between agmarknet live feed and database",
+      "imported_by": [
+        "app.services.cleaning_service",
+        "scripts/clean_data.py"
+      ],
+      "recommended_action": "keep",
+      "risk_level": "high"
+    },
+    {
+      "filename": "users.json",
+      "path": "backend/data/users.json",
+      "size_bytes": 3299,
+      "status": "active_user_data",
+      "purpose": "Local JSON store for user accounts, passwords (hashed), and sessions",
+      "imported_by": [
+        "app.services.user_store"
+      ],
+      "recommended_action": "keep",
+      "risk_level": "high"
+    },
+    {
+      "filename": "users.example.json",
+      "path": "backend/data/users.example.json",
+      "size_bytes": 301,
+      "status": "template_fixture",
+      "purpose": "Example template for initializing user_store.py",
+      "imported_by": [],
+      "recommended_action": "keep",
+      "risk_level": "low"
+    },
+    {
+      "filename": "cropmandi.db",
+      "path": "cropmandi.db",
+      "size_bytes": 11329536,
+      "status": "active_database",
+      "purpose": "Primary SQLite database containing commodities, markets, cleaned_market_prices, model_runs",
+      "imported_by": [
+        "app.database",
+        "app.config"
+      ],
+      "recommended_action": "keep",
+      "risk_level": "critical"
+    },
+    {
+      "filename": "cropmandi.db",
+      "path": "backend/cropmandi.db",
+      "size_bytes": 147456,
+      "status": "obsolete_duplicate",
+      "purpose": "Secondary/stale database created in backend subdirectory",
+      "imported_by": [],
+      "recommended_action": "archive",
+      "risk_level": "medium"
+    }
+  ]
+}

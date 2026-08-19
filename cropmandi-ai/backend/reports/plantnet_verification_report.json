@@ -1,0 +1,22 @@
+{
+  "report_title": "PlantNet Integration Verification Report",
+  "verified_at": "2026-08-19T15:03:52.088188",
+  "total_checks": 7,
+  "checks_passed": 7,
+  "all_passed": true,
+  "configuration": {
+    "provider": "PlantNet",
+    "base_url": "https://my-api.plantnet.org/v2/identify",
+    "project": "all",
+    "timeout_seconds": 60,
+    "api_key_secured": true
+  },
+  "sample_top_result": {
+    "crop": "Tomato",
+    "scientific_name": "Solanum lycopersicum L.",
+    "score": 0.8924,
+    "crop_match_status": "match",
+    "disease_status": "requires_second_stage"
+  },
+  "status": "VERIFIED_SUCCESSFUL"
+}

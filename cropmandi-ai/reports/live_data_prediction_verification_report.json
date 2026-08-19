@@ -1,0 +1,22 @@
+{
+  "report_name": "Live Data Before Prediction Verification Report",
+  "generated_at": "2026-08-19T06:20:39.089839Z",
+  "verification_status": "PASSED",
+  "commodity": "Tomato",
+  "market": "Madanapalli APMC",
+  "forecast_date": "2026-08-16",
+  "api_called": true,
+  "api_status": "success",
+  "refresh_start_date": "2026-08-05",
+  "refresh_end_date": "2026-08-19",
+  "latest_api_date": "2026-08-18",
+  "latest_database_date": "2026-08-18",
+  "latest_feature_date": null,
+  "feature_dataset_refreshed": true,
+  "latest_price_used": 1800.0,
+  "latest_arrival_used": null,
+  "prediction_generated": true,
+  "official_target_values_used": 3,
+  "stale_data_detected": false,
+  "records_count": 4
+}

@@ -1,0 +1,89 @@
+{
+  "audit_timestamp": "2026-08-18T15:09:33.926314",
+  "total_tested": 1,
+  "passed": 1,
+  "failed": 0,
+  "reports": [
+    {
+      "commodity": "Tomato",
+      "market": "Madanapalli APMC",
+      "selected_date": "2026-08-14",
+      "status": "PASS",
+      "dates": [
+        {
+          "date": "2026-08-14",
+          "modal_price": 1700.0,
+          "price_source": "official_csv",
+          "data_status": "observed_csv",
+          "is_observed": true,
+          "is_predicted": false,
+          "source_label": "Official value from master-data.csv",
+          "api_checked": true,
+          "api_record_found": false,
+          "master_csv_checked": true,
+          "master_csv_record_found": true,
+          "prediction_generated": false,
+          "valid": true,
+          "errors": []
+        },
+        {
+          "date": "2026-08-15",
+          "modal_price": 1700.0,
+          "price_source": "official_csv",
+          "data_status": "observed_csv",
+          "is_observed": true,
+          "is_predicted": false,
+          "source_label": "Official value from master-data.csv",
+          "api_checked": true,
+          "api_record_found": false,
+          "master_csv_checked": true,
+          "master_csv_record_found": true,
+          "prediction_generated": false,
+          "valid": true,
+          "errors": []
+        },
+        {
+          "date": "2026-08-16",
+          "modal_price": 1800.0,
+          "price_source": "official_csv",
+          "data_status": "observed_csv",
+          "is_observed": true,
+          "is_predicted": false,
+          "source_label": "Official value from master-data.csv",
+          "api_checked": true,
+          "api_record_found": false,
+          "master_csv_checked": true,
+          "master_csv_record_found": true,
+          "prediction_generated": false,
+          "valid": true,
+          "errors": []
+        },
+        {
+          "date": "2026-08-17",
+          "modal_price": 1400.0,
+          "price_source": "official_api",
+          "data_status": "observed_live",
+          "is_observed": true,
+          "is_predicted": false,
+          "source_label": "Official value from data.gov.in",
+          "api_checked": true,
+          "api_record_found": true,
+          "master_csv_checked": false,
+          "master_csv_record_found": false,
+          "prediction_generated": false,
+          "valid": true,
+          "errors": []
+        }
+      ],
+      "summary": {
+        "official_api_count": 1,
+        "official_csv_count": 3,
+        "predicted_count": 0,
+        "unavailable_count": 0,
+        "official_values": 4,
+        "predicted_values": 0,
+        "unavailable_values": 0
+      }
+    }
+  ]
+}

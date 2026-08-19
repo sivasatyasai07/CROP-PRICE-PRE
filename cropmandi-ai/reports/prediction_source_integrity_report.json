@@ -1,0 +1,31 @@
+{
+  "report_name": "Prediction Source Integrity & Verification Report",
+  "generated_at": "2026-08-19T05:25:47.540541Z",
+  "verification_status": "PASSED",
+  "summary": {
+    "model_success_count": 3,
+    "model_failure_count": 3,
+    "fallback_last_observed_count": 3,
+    "predicted_model_count": 3,
+    "official_api_count": 1,
+    "official_csv_count": 3,
+    "unavailable_count": 0,
+    "confidence_interval_available_count": 3,
+    "hardcoded_interval_count": 0,
+    "source_label_mismatch_count": 0,
+    "feature_schema_mismatch_count": 1,
+    "arrival_features_used_count": 3,
+    "weather_features_used_count": 3,
+    "seasonal_features_used_count": 3,
+    "tests_passed": 12,
+    "tests_failed": 0
+  },
+  "integrity_assertions": {
+    "fallback_mislabeled_as_model": false,
+    "fake_conformal_intervals_prohibited": true,
+    "hardcoded_official_confidence_removed": true,
+    "feature_schema_fail_closed": true,
+    "arrival_weather_features_verified": true,
+    "official_api_csv_model_precedence_verified": true
+  }
+}

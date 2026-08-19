@@ -1,0 +1,40 @@
+model_version: "2.1.0"
+algorithm: "CatBoostRegressor"
+
+horizons:
+  - 1
+  - 2
+  - 3
+
+training:
+  iterations: 600
+  learning_rate: 0.04
+  depth: 6
+  l2_leaf_reg: 3.0
+  random_seed: 42
+  early_stopping_rounds: 50
+  loss_function: "RMSE"
+  eval_metric: "RMSE"
+
+conformal_prediction:
+  target_coverage: 0.80
+  candidate_quantiles: [0.80, 0.70, 0.60, 0.50]
+
+validation:
+  train_end_date: "2025-12-31"
+  test_start_date: "2026-01-01"
+  walk_forward_folds:
+    - name: "fold_1"
+      train_end: "2023-12-31"
+      val_start: "2024-01-01"
+      val_end: "2024-12-31"
+    - name: "fold_2"
+      train_end: "2024-12-31"
+      val_start: "2025-01-01"
+      val_end: "2025-12-31"
+
+baselines:
+  - "last_observed_price"
+  - "last_3_day_mean"
+  - "seasonal_7_day_naive"
+  - "same_season_last_year"

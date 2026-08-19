@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap');
+
+:root {
+  /* Warm Earthy Agricultural Color Palette */
+  --bg-primary: #fbf9f4;
+  --bg-secondary: #f4efe4;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: #ffffff;
+  
+  --primary: #2d6a4f;
+  --primary-dark: #1b4332;
+  --primary-light: #40916c;
+  --primary-subtle: #d8f3dc;
+  
+  --accent-gold: #d97706;
+  --accent-gold-light: #fef3c7;
+  --accent-terracotta: #c2410c;
+  
+  --text-main: #1c2d20;
+  --text-muted: #526756;
+  --text-inverse: #ffffff;
+  
+  --border-color: rgba(45, 106, 79, 0.16);
+  --border-color-strong: rgba(45, 106, 79, 0.35);
+  
+  --shadow-sm: 0 2px 8px rgba(27, 67, 50, 0.04);
+  --shadow-md: 0 8px 24px rgba(27, 67, 50, 0.08);
+  --shadow-lg: 0 16px 40px rgba(27, 67, 50, 0.12);
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Telugu', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Malayalam', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(64, 145, 108, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(217, 119, 6, 0.05) 0%, transparent 40%);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Glassmorphic & Warm Agricultural Panels */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--border-color-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.agricultural-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Typography & Headings */
+h1, h2, h3, h4 {
+  color: var(--primary-dark);
+  letter-spacing: -0.01em;
+}
+
+/* Form Controls & Inputs */
+.form-select, .form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-select:focus, .form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
+
+/* Primary Action Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--text-inverse);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px rgba(45, 106, 79, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(45, 106, 79, 0.35);
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: var(--primary-dark);
+  font-weight: 600;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-subtle);
+  border-color: var(--primary);
+}
+
+/* Badges & Tags */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-green {
+  background-color: var(--primary-subtle);
+  color: var(--primary-dark);
+  border: 1px solid rgba(45, 106, 79, 0.3);
+}
+
+.badge-gold {
+  background-color: var(--accent-gold-light);
+  color: #92400e;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: #b7c4b9;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

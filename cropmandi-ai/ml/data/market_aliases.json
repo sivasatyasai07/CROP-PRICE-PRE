@@ -1,0 +1,114 @@
+{
+  "markets": {
+    "Anantapur APMC": {
+      "canonical_name": "Anantapur APMC",
+      "district": "Anantapur",
+      "state": "Andhra Pradesh",
+      "latitude": 14.6819,
+      "longitude": 77.6006,
+      "aliases": ["Anantapur APMC", "Ananthapur APMC", "Ananthapuramu APMC", "Anantapur"]
+    },
+    "B.Kothakota H/Q Angallu": {
+      "canonical_name": "B.Kothakota H/Q Angallu",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.6333,
+      "longitude": 78.4333,
+      "aliases": ["B.Kothakota H/Q Angallu", "B.Kothakota HQ Angallu", "B.Kothakota H/Q Angallu APMC", "B.Kothakota"]
+    },
+    "Guramkonda Sub-yard of AMC Valmikipuram": {
+      "canonical_name": "Guramkonda Sub-yard of AMC Valmikipuram",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.7833,
+      "longitude": 78.5833,
+      "aliases": ["Guramkonda Sub-yard of AMC Valmikipuram", "Guramkonda", "Guramkonda AMC", "Guramkonda Subyard"]
+    },
+    "Kalikiri APMC": {
+      "canonical_name": "Kalikiri APMC",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.6833,
+      "longitude": 78.7833,
+      "aliases": ["Kalikiri APMC", "Kalikiri"]
+    },
+    "Madanapalli APMC": {
+      "canonical_name": "Madanapalli APMC",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.5500,
+      "longitude": 78.5000,
+      "aliases": ["Madanapalli APMC", "Madanapalle APMC", "Madanapalli", "Madanapalle"]
+    },
+    "Mulakalacheruvu APMC": {
+      "canonical_name": "Mulakalacheruvu APMC",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.9167,
+      "longitude": 78.3167,
+      "aliases": ["Mulakalacheruvu APMC", "Mulakalacheruvu"]
+    },
+    "Punganur APMC": {
+      "canonical_name": "Punganur APMC",
+      "district": "Chittoor",
+      "state": "Andhra Pradesh",
+      "latitude": 13.3667,
+      "longitude": 78.5833,
+      "aliases": ["Punganur APMC", "Punganur", "Punganoor"]
+    },
+    "Valmikipuram APMC": {
+      "canonical_name": "Valmikipuram APMC",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.6500,
+      "longitude": 78.6333,
+      "aliases": ["Valmikipuram APMC", "Valmikipuram", "Vayalpad AMC"]
+    },
+    "Kuppam APMC": {
+      "canonical_name": "Kuppam APMC",
+      "district": "Chittoor",
+      "state": "Andhra Pradesh",
+      "latitude": 12.7500,
+      "longitude": 78.3500,
+      "aliases": ["Kuppam APMC", "Kuppam"]
+    },
+    "Palamaner APMC": {
+      "canonical_name": "Palamaner APMC",
+      "district": "Chittoor",
+      "state": "Andhra Pradesh",
+      "latitude": 13.2000,
+      "longitude": 78.7500,
+      "aliases": ["Palamaner APMC", "Palamaneru APMC", "Palamaner"]
+    },
+    "Vayalapadu APMC": {
+      "canonical_name": "Vayalapadu APMC",
+      "district": "Annamayya",
+      "state": "Andhra Pradesh",
+      "latitude": 13.6167,
+      "longitude": 78.6167,
+      "aliases": ["Vayalapadu APMC", "Vayalpad APMC", "Vayalapadu"]
+    },
+    "Pattikonda APMC": {
+      "canonical_name": "Pattikonda APMC",
+      "district": "Kurnool",
+      "state": "Andhra Pradesh",
+      "latitude": 15.4000,
+      "longitude": 77.5000,
+      "aliases": ["Pattikonda APMC", "Pattikonda"]
+    }
+  },
+  "district_aliases": {
+    "Ananthapuramu": "Anantapur",
+    "Chittor": "Chittoor",
+    "Annamayya": "Annamayya",
+    "Kurnool": "Kurnool"
+  },
+  "commodity_aliases": {
+    "Tomato": "Tomato",
+    "Carrot": "Carrot",
+    "Brinjal": "Brinjal",
+    "Potato": "Potato",
+    "Cabbage": "Cabbage",
+    "Beetroot": "Beetroot"
+  }
+}

@@ -1,0 +1,530 @@
+================================================================================
+CROPMANDI AI - PREDICTION SYSTEM CODEBASE INSPECTION REPORT
+File: prediction_issue_files.txt
+Generated At: 2026-08-19
+================================================================================
+
+--------------------------------------------------------------------------------
+1. GENERATE 3-DAY FORECAST BUTTON
+--------------------------------------------------------------------------------
+- File Path:
+  * Component: cropmandi-ai/frontend/src/components/forecast/ForecastButton.tsx
+  * Parent Form: cropmandi-ai/frontend/src/components/FarmerForecastTab.tsx
+- Function / Component Name:
+  * `ForecastButton` in ForecastButton.tsx
+  * `handleGenerateForecast` in FarmerForecastTab.tsx
+- Line Numbers:
+  * ForecastButton.tsx: lines 10-91 (button element id="btn-generate-3-days-forecast" at lines 17-89)
+  * FarmerForecastTab.tsx: lines 124-128 (handler) and lines 340-377 (button element id="btn-generate-forecast")
+- Short Relevant Code Excerpt:
+  ```tsx
+  // FarmerForecastTab.tsx (lines 124-128)
+  const handleGenerateForecast = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid || loading) return;
+    generateForecast(selectedCrop, selectedMarket, forecastDate, true);
+  };
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: NO (UI trigger element)
+- Uses master-data.csv: NO
+- Calls a Trained Model: NO (triggers frontend hook)
+- Uses a Fallback: NO
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+2. FRONTEND FORECAST API REQUEST
+--------------------------------------------------------------------------------
+- File Path:
+  * API Service: cropmandi-ai/frontend/src/services/forecastService.ts
+  * React Hook: cropmandi-ai/frontend/src/hooks/useVerifiedForecast.ts
+- Function Name:
+  * `fetchVerifiedForecast` in forecastService.ts
+  * `generateForecast` in useVerifiedForecast.ts
+- Line Numbers:
+  * forecastService.ts: lines 167-173
+  * useVerifiedForecast.ts: lines 39-129
+- Short Relevant Code Excerpt:
+  ```typescript
+  // forecastService.ts (lines 167-173)
+  export const fetchVerifiedForecast = async (
+    request: VerifiedForecastRequest,
+    signal?: AbortSignal
+  ): Promise<VerifiedForecastResponse> => {
+    const response = await api.post<VerifiedForecastResponse>('/forecast/verified', request, { signal });
+    return response.data;
+  };
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Sends request to backend endpoint which fetches/reconciles official API data
+- Uses master-data.csv: Backend handles CSV lookup
+- Calls a Trained Model: Backend handles ML prediction
+- Uses a Fallback: Catches request abort/network errors
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+3. BACKEND FORECAST ENDPOINT
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/routers/forecast.py
+- Function Name: `verified_forecast`
+- Line Numbers: lines 25-42
+- Short Relevant Code Excerpt:
+  ```python
+  @router.post("/forecast/verified", response_model=VerifiedForecastResponse)
+  @router.post("/api/v1/forecast/verified", response_model=VerifiedForecastResponse)
+  def verified_forecast(req: VerifiedForecastRequest, db: Session = Depends(get_db)):
+      try:
+          return reconcile_verified_forecast(db, req)
+      except HTTPException:
+          raise
+      except Exception as exc:
+          logger.exception("Error executing verified forecast: %s", exc)
+          raise HTTPException(status_code=500, detail=f"Forecast reconciliation error: {str(exc)}")
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: YES (delegates to `reconcile_verified_forecast`)
+- Uses master-data.csv: YES (delegates to `reconcile_verified_forecast`)
+- Calls a Trained Model: YES (delegates to `reconcile_verified_forecast`)
+- Uses a Fallback: YES (delegates to `reconcile_verified_forecast`)
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+4. OFFICIAL DATA.GOV.IN API LOOKUP
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/services/official_market_sync_service.py
+- Function Name: `fetch_date_range_records` (and `normalize_api_record`)
+- Line Numbers: lines 289-365
+- Short Relevant Code Excerpt:
+  ```python
+  def fetch_date_range_records(
+      db: Session,
+      commodity: str,
+      market: str,
+      start_date: datetime.date,
+      end_date: datetime.date,
+      limit: int = 100
+  ) -> Dict[datetime.date, Dict[str, Any]]:
+      ...
+      params = {
+          "api-key": DATA_GOV_API_KEY,
+          "format": "json",
+          "limit": limit,
+          "filters[commodity]": commodity,
+          "filters[market]": market
+      }
+      ...
+      resp = requests.get(safe_url, params=params, headers=headers, timeout=12)
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: YES (queries official data.gov.in AGMARKNET resource)
+- Uses master-data.csv: NO
+- Calls a Trained Model: NO
+- Uses a Fallback: Retries up to 3 times on 429/connection error; returns empty map if no records found
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+5. MASTER-DATA.CSV LOOKUP
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/services/master_data_service.py
+- Function Name: `find_exact_master_record` (and `load_master_data`)
+- Line Numbers: lines 233-274 (and lines 140-218)
+- Short Relevant Code Excerpt:
+  ```python
+  def find_exact_master_record(
+      commodity: str,
+      market: str,
+      target_date: Any
+  ) -> MasterRecordResult:
+      index = load_master_data()
+      key = (comm_norm.lower(), mkt_norm.lower(), target_date_str)
+      record = index.get(key)
+      if record and validate_master_record(record):
+          return MasterRecordResult(record=record, status="found", is_valid=True)
+      return MasterRecordResult(record=None, status="not_found", is_valid=False)
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: NO
+- Uses master-data.csv: YES (indexes CSV into memory hashtable by `(commodity, market, date)`)
+- Calls a Trained Model: NO
+- Uses a Fallback: Returns `MasterRecordResult(status="not_found")` if record not in CSV
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+6. SOURCE-PRIORITY LOGIC
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/services/forecast_reconciliation_service.py
+- Function Name: `resolve_price_for_date` and `reconcile_verified_forecast`
+- Line Numbers: lines 117-360 (`resolve_price_for_date`) and lines 422-503 (`reconcile_verified_forecast`)
+- Short Relevant Code Excerpt:
+  ```python
+  # 1. SOURCE 1: Fresh Official API Check
+  api_record = official_api_map.get(target_date)
+  if api_found and api_record:
+      return ForecastRecord(..., price_source="official_api", data_status="observed_live", is_observed=True, is_predicted=False)
+
+  # 2. SOURCE 2: Authoritative master-data.csv Check
+  csv_result = find_exact_master_record(commodity=commodity, market=market, target_date=target_date)
+  if csv_found and csv_result.record:
+      return ForecastRecord(..., price_source="official_csv", data_status="observed_csv", is_observed=True, is_predicted=False)
+
+  # 3. SOURCE 3: CatBoost ML Prediction Model
+  pred_data = predictions_map.get(target_date.isoformat())
+  if pred_found and pred_data:
+      return ForecastRecord(..., price_source="predicted", data_status="predicted_fallback", is_observed=False, is_predicted=True)
+
+  # 4. SOURCE 4: Unavailable
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: YES (Priority 1)
+- Uses master-data.csv: YES (Priority 2)
+- Calls a Trained Model: YES (Priority 3 via `predictions_map`)
+- Uses a Fallback: YES (Priority order: Official API -> master-data.csv -> ML prediction -> Unavailable)
+- Contains Hard-coded Prices or Confidence Values: Assigns `confidence_level=1.00` for observed data, `0.80` default for predictions, `0.0` for unavailable.
+
+--------------------------------------------------------------------------------
+7. FEATURE ENGINEERING
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/feature_engineering.py
+- Function Name: `create_features`
+- Line Numbers: lines 73-130
+- Short Relevant Code Excerpt:
+  ```python
+  def create_features(df: pd.DataFrame, is_training: bool = True) -> pd.DataFrame:
+      df = df.copy()
+      grouped = df.groupby(['market', 'commodity'])
+      for lag in [1, 2, 3, 7, 14, 21, 28]:
+          df[f'lag_{lag}'] = grouped['modal_price'].shift(lag).bfill().fillna(0.0)
+      ...
+      df = build_seasonal_features(df)
+      df = build_arrival_features(df)
+      df = build_cross_market_features(df)
+      df = build_weather_features(df)
+      return df
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Operates on CleanedMarketPrice table (populated from API & master data)
+- Uses master-data.csv: Ingested cleaned historical records
+- Calls a Trained Model: NO (prepares feature matrix for training & inference)
+- Uses a Fallback: Uses `.shift()`, `.bfill()`, `.fillna(0.0)` to handle missing lags
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+8. ARRIVAL-QUANTITY FEATURES
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/arrival_features.py
+- Function Name: `build_arrival_features`
+- Line Numbers: lines 4-65
+- Short Relevant Code Excerpt:
+  ```python
+  def build_arrival_features(df: pd.DataFrame) -> pd.DataFrame:
+      df = df.copy()
+      grouped = df.groupby(['market', 'commodity'])
+      df['arrival_missing'] = df['arrival_quantity'].isna().astype(int)
+      ...
+      for lag in [1, 2, 3, 7, 14, 28]:
+          df[f'arrival_quantity_lag_{lag}'] = grouped['arrival_quantity_imputed'].shift(lag).fillna(0.0)
+      ...
+      df['arrival_pressure'] = df['arrival_quantity_lag_1'] / (df['arrival_rolling_mean_28'] + 1.0)
+      return df
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Uses arrival quantities recorded in database
+- Uses master-data.csv: Uses arrival quantities recorded in master dataset
+- Calls a Trained Model: NO
+- Uses a Fallback: Imputes missing arrival values with 28-day rolling median, then 0.0
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+9. WEATHER FEATURES
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/weather_features.py
+- Function Name: `build_weather_features`
+- Line Numbers: lines 17-78
+- Short Relevant Code Excerpt:
+  ```python
+  def build_weather_features(df: pd.DataFrame) -> pd.DataFrame:
+      df = df.copy()
+      ...
+      df['temp_max_clean'] = df['temperature_max'].fillna(32.0)
+      df['temp_min_clean'] = df['temperature_min'].fillna(22.0)
+      df['temp_mean_clean'] = (df['temp_max_clean'] + df['temp_min_clean']) / 2.0
+      df['precip_clean'] = df['precipitation'].fillna(0.0)
+      df['humidity_clean'] = df['humidity'].fillna(65.0)
+      df['wind_clean'] = df['wind_speed'].fillna(10.0)
+      ...
+      df['heavy_rain_flag'] = (df['rainfall_3d'] >= 25.0).astype(int)
+      df['heat_stress_flag'] = (df['temp_max_clean'] >= 38.0).astype(int)
+      ...
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Joined with Open-Meteo WeatherObservation database records
+- Uses master-data.csv: NO
+- Calls a Trained Model: NO
+- Uses a Fallback: Fills missing weather with regional seasonal defaults (`temp_max=32.0`, `temp_min=22.0`, `precip=0.0`, `humidity=65.0`, `wind=10.0`)
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+10. SEASONAL FEATURES
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/seasonal_features.py
+- Function Name: `build_seasonal_features`
+- Line Numbers: lines 22-77
+- Short Relevant Code Excerpt:
+  ```python
+  def build_seasonal_features(df: pd.DataFrame) -> pd.DataFrame:
+      df = df.copy()
+      config = load_season_config()
+      obs_date = pd.to_datetime(df['observation_date'])
+      df['year'] = obs_date.dt.year
+      df['month'] = obs_date.dt.month
+      ...
+      df['sin_day_of_year'] = np.sin(2 * np.pi * df['day_of_year'] / 365.25)
+      df['cos_day_of_year'] = np.cos(2 * np.pi * df['day_of_year'] / 365.25)
+      ...
+      df['modal_price_lag_365'] = grouped['modal_price'].shift(365).ffill(limit=7).fillna(0.0)
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: NO (derived from dates and historical price series)
+- Uses master-data.csv: Historical dates from database
+- Calls a Trained Model: NO
+- Uses a Fallback: Shifts 365 days with `.ffill(limit=7).fillna(0.0)`
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+11. CATBOOST MODEL LOADING
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/model_registry.py
+- Function Name: `load_model_artifacts`
+- Line Numbers: lines 22-37
+- Short Relevant Code Excerpt:
+  ```python
+  def load_model_artifacts(model_version: str) -> tuple:
+      models = {}
+      for h in [1, 2, 3]:
+          path = get_model_path(model_version, h)
+          if os.path.exists(path):
+              from catboost import CatBoostRegressor
+              cb = CatBoostRegressor()
+              cb.load_model(path)
+              models[h] = cb
+              
+      meta_path = get_metadata_path(model_version)
+      metadata = {}
+      if os.path.exists(meta_path):
+          metadata = joblib.load(meta_path)
+
+      return models, metadata
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: NO
+- Uses master-data.csv: NO
+- Calls a Trained Model: Loads CatBoost `.cbm` model files and `.pkl` metadata into memory
+- Uses a Fallback: Returns empty dictionaries if files not found
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+12. THE EXACT MODEL.PREDICT() CALL
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/predict.py
+- Function Name: `generate_3day_prediction`
+- Line Numbers: lines 166-182
+- Short Relevant Code Excerpt:
+  ```python
+  try:
+      raw_output = model.predict(X_pred)
+      if raw_output is None or len(raw_output) == 0:
+          raise ValueError("Model returned empty output")
+      raw_val = float(raw_output[0] if isinstance(raw_output, (list, np.ndarray)) else raw_output)
+      if not np.isfinite(raw_val):
+          raise ValueError("Model returned non-finite output")
+      if raw_val < 0:
+          raise ValueError("Model returned negative price")
+      
+      raw_pred = round(raw_val, 2)
+      pred_price = raw_pred
+      prediction_executed = True
+      prediction_method = "CatBoostRegressor"
+      price_source = "predicted_model"
+      fallback_reason = None
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Feeds engineered features from latest observation row
+- Uses master-data.csv: Feeds features from database
+- Calls a Trained Model: YES (`raw_output = model.predict(X_pred)`)
+- Uses a Fallback: Catches exceptions and sets `pred_price = round(latest_price, 2)` (fallback to last observed)
+- Contains Hard-coded Prices or Confidence Values: NO during successful prediction; fallback uses `latest_price`.
+
+--------------------------------------------------------------------------------
+13. FALLBACK LOGIC
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/ml/predict.py
+- Function Name: `_fallback_response` and except block in `generate_3day_prediction`
+- Line Numbers: lines 183-194 (in-loop fallback) and lines 291-379 (`_fallback_response`)
+- Short Relevant Code Excerpt:
+  ```python
+  except Exception as exc:
+      logger.exception(
+          "Model prediction failed for %s at %s (h=%d, model_version=%s): %s",
+          commodity_name, market_name, h, model_version, exc
+      )
+      raw_pred = None
+      pred_price = round(latest_price, 2)
+      prediction_executed = False
+      prediction_method = "fallback"
+      price_source = "fallback_last_observed"
+      fallback_reason = f"model_prediction_error: {str(exc)}"
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Uses `latest_price` (last observed price)
+- Uses master-data.csv: Last observed price from DB
+- Calls a Trained Model: NO (called when model fails or is missing)
+- Uses a Fallback: YES (returns the last observed modal price or `None`)
+- Contains Hard-coded Prices or Confidence Values: Computes fallback interval as `[max(50.0, latest_price * 0.90), latest_price * 1.10]` with `confidence_level = None`.
+
+--------------------------------------------------------------------------------
+14. PREDICTION RESPONSE MAPPING
+--------------------------------------------------------------------------------
+- File Path: cropmandi-ai/backend/app/services/forecast_reconciliation_service.py
+- Function Name: `reconcile_verified_forecast`
+- Line Numbers: lines 532-568
+- Short Relevant Code Excerpt:
+  ```python
+  return VerifiedForecastResponse(
+      request_id=req_id,
+      commodity=req.commodity,
+      market=req.market,
+      selected_date=req.selected_date,
+      forecast_origin_date=req.selected_date,
+      date_range=DateRangeSummary(start=start_date, end=end_date),
+      fetched_at=now,
+      api_checked=True,
+      api_status=api_status,
+      sync_performed=api_checked,
+      refresh_performed=req.force_refresh,
+      latest_observed_price=latest_price,
+      latest_observed_date=latest_date_str,
+      trend_direction=trend_dir,
+      percentage_change_3d=pct_change,
+      records=records,
+      summary={
+          "official_api_count": api_count,
+          "official_csv_count": csv_count,
+          "predicted_count": pred_count,
+          "unavailable_count": unavail_count,
+          "official_values": api_count + csv_count,
+          "predicted_values": pred_count,
+          "unavailable_values": unavail_count
+      },
+      ...
+  )
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Formats official API records in `records` list
+- Uses master-data.csv: Formats master data records in `records` list
+- Calls a Trained Model: Formats model predictions in `records` list
+- Uses a Fallback: Formats fallback / unavailable records in `records` list
+- Contains Hard-coded Prices or Confidence Values: NO
+
+--------------------------------------------------------------------------------
+15. FRONTEND PRICE-SOURCE LABELS
+--------------------------------------------------------------------------------
+- File Path:
+  * Badge Component: cropmandi-ai/frontend/src/components/forecast/PriceSourceBadge.tsx
+  * Result Cards: cropmandi-ai/frontend/src/components/forecast/ForecastResult.tsx
+- Function Name:
+  * `PriceSourceBadge` in PriceSourceBadge.tsx
+  * `ForecastResult` in ForecastResult.tsx
+- Line Numbers:
+  * PriceSourceBadge.tsx: lines 9-109
+  * ForecastResult.tsx: lines 182-205
+- Short Relevant Code Excerpt:
+  ```tsx
+  // ForecastResult.tsx (lines 182-205)
+  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: isObserved ? '#15803d' : '#0284c7', textTransform: 'uppercase' }}>
+    {isObserved ? (
+      <>ACTUAL PRICE <br /><span style={{ fontWeight: 700 }}>(RECORDED)</span></>
+    ) : (
+      <>PREDICTED PRICE <br /><span style={{ fontWeight: 700 }}>(AI MODEL)</span></>
+    )}
+  </div>
+  <span ...>
+    {isObserved ? 'ORIGINAL DB DATA' : 'CATBOOST ML'}
+  </span>
+  ```
+- Is Active Runtime Code: YES
+- Uses Official API Data: Renders 'Official API value' / 'ACTUAL PRICE (RECORDED)'
+- Uses master-data.csv: Renders 'Official value from master-data.csv' / 'ORIGINAL DB DATA'
+- Calls a Trained Model: Renders 'Predicted value' / 'CATBOOST ML'
+- Uses a Fallback: ForecastResult.tsx labels any unobserved record as `PREDICTED PRICE (AI MODEL)` / `CATBOOST ML` even if it was produced by a fallback.
+- Contains Hard-coded Prices or Confidence Values: ForecastResult.tsx calculates fallback bounds `currentPrice * 0.90` and `currentPrice * 1.10` (lines 143-144) when confidence bounds are missing.
+
+================================================================================
+ADDITIONAL SYSTEM IDENTIFICATIONS
+================================================================================
+
+1. ACTIVE MODEL VERSION:
+   - Value: `v20260818_153724`
+   - Verified via: Active row in `ModelRun` table (`is_active = True`).
+
+2. ACTIVE MODEL ARTIFACT PATHS:
+   - Direct 1-Day Horizon: `ml/models/catboost_h1_vv20260818_153724.cbm`
+   - Direct 2-Day Horizon: `ml/models/catboost_h2_vv20260818_153724.cbm`
+   - Direct 3-Day Horizon: `ml/models/catboost_h3_vv20260818_153724.cbm`
+   - Model Metadata & Conformal Q80: `ml/models/metadata_vv20260818_153724.pkl`
+
+3. FEATURE COLUMNS (Total 98 Features):
+   - Categorical (3):
+     ['market', 'commodity', 'district']
+   - Seasonal & Calendar (19):
+     ['year', 'month', 'day_of_week', 'day_of_year', 'is_weekend', 'quarter',
+      'sin_month', 'cos_month', 'sin_day_of_year', 'cos_day_of_year',
+      'sin_day_of_week', 'cos_day_of_week', 'monsoon_flag', 'summer_flag', 'winter_flag',
+      'modal_price_lag_365', 'price_change_from_last_year', 'price_ratio_to_last_year',
+      'seasonal_reference_available']
+   - Price Lags & Statistics (27):
+     ['price_range', 'price_range_percentage', 'modal_position',
+      'lag_1', 'lag_2', 'lag_3', 'lag_7', 'lag_14', 'lag_21', 'lag_28',
+      'rolling_mean_3', 'rolling_mean_7', 'rolling_mean_14', 'rolling_mean_28',
+      'rolling_median_7', 'rolling_min_7', 'rolling_max_7',
+      'rolling_std_7', 'rolling_std_14', 'rolling_std_28',
+      'price_change_1', 'price_change_3', 'price_change_7',
+      'price_percentage_change_1', 'price_percentage_change_7',
+      'price_vs_7_day_average', 'price_vs_28_day_average']
+   - Arrival Features (18):
+     ['arrival_missing', 'arrival_imputed', 'arrival_quantity_lag_1', 'arrival_quantity_lag_2',
+      'arrival_quantity_lag_3', 'arrival_quantity_lag_7', 'arrival_quantity_lag_14',
+      'arrival_change_1', 'arrival_change_7', 'arrival_pct_change_1',
+      'arrival_rolling_mean_3', 'arrival_rolling_mean_7', 'arrival_rolling_mean_14',
+      'arrival_rolling_mean_28', 'arrival_vs_7_day_average', 'arrival_vs_28_day_average',
+      'arrival_pressure', 'arrival_zscore_28']
+   - Cross-Market Features (10):
+     ['same_day_regional_mean', 'same_day_regional_median', 'same_day_regional_min',
+      'same_day_regional_max', 'same_day_regional_std', 'market_price_minus_regional_mean',
+      'market_price_ratio_to_regional_mean', 'number_of_markets_reporting',
+      'regional_arrival_total', 'regional_arrival_mean']
+   - Weather Features (21):
+     ['weather_missing', 'temp_max_clean', 'temp_min_clean', 'temp_mean_clean',
+      'precip_clean', 'humidity_clean', 'wind_clean',
+      'rainfall_3d', 'rainfall_7d', 'rainfall_14d', 'rainfall_30d',
+      'temperature_mean_7d', 'humidity_mean_7d', 'wind_mean_7d',
+      'heavy_rain_flag', 'heat_stress_flag', 'cold_stress_flag', 'dry_spell_flag',
+      'crop_short_rainfall', 'crop_medium_rainfall', 'crop_long_rainfall']
+
+4. WHETHER ARRIVAL FEATURES REACH THE MODEL:
+   - YES. `dataset_builder.py` queries `arrival_quantity` from `CleanedMarketPrice`, `arrival_features.py` builds the 18 arrival features, and `predict.py` selects them in `cols_to_use` which are passed directly to `model.predict(X_pred)`.
+
+5. WHETHER WEATHER FEATURES REACH THE MODEL:
+   - YES. `dataset_builder.py` performs an outer join with `WeatherObservation`, `weather_features.py` calculates rolling weather indicators and agro-meteorological event flags, and `predict.py` passes them in `X_pred` to `model.predict(X_pred)`.
+
+6. WHETHER THE SELECTED FORECAST DATE IS RESPECTED:
+   - YES. In `predict.py` lines 110-123, observations are strictly filtered `<= pred_dt`, and the feature row is selected on or before the forecast date. In `forecast_reconciliation_service.py`, `get_date_sequence(req.selected_date, 4)` sets the sequence of forecast target dates from `selected_date` to `selected_date + 3 days`.
+
+7. WHETHER MODEL.PREDICT() IS ACTUALLY CALLED:
+   - YES. In `backend/app/ml/predict.py` line 167, `raw_output = model.predict(X_pred)` is executed for each horizon `h in [1, 2, 3]`.
+
+8. WHETHER AN EXCEPTION SILENTLY RETURNS THE PREVIOUS PRICE:
+   - YES, WITH LOGGING. In `backend/app/ml/predict.py` lines 183-194, any exception in `model.predict()` is caught, logged via `logger.exception(...)`, and sets `pred_price = round(latest_price, 2)` (the last observed price) with `price_source = "fallback_last_observed"`. In `forecast_reconciliation_service.py`, this is packaged as `price_source = "predicted"` so the API request does not fail for the user.
+
+9. WHETHER THE FRONTEND LABELS FALLBACK VALUES AS MODEL PREDICTIONS:
+   - YES. In `frontend/src/components/forecast/ForecastResult.tsx` lines 182-205, the component branches purely on `isObserved`. If `isObserved` is false, it displays `PREDICTED PRICE (AI MODEL)` with badge `CATBOOST ML`, even when the price is an uncalibrated fallback copy of the previous price.
+================================================================================

@@ -1,0 +1,18 @@
+{
+  "report_name": "PlantNet API Diagnostic Report",
+  "request_timestamp": "2026-08-19T14:46:18.432414",
+  "image_path": "data/sample_leaf.jpg",
+  "image_size_bytes": 2072,
+  "selected_crop": "Tomato",
+  "provider": "PlantNet",
+  "analysis_status": "service_error",
+  "detected_crop": null,
+  "detected_scientific_name": null,
+  "plantnet_score": null,
+  "crop_match_status": "not_provided",
+  "disease_status": "not_available",
+  "results_count": 0,
+  "plantnet_results": [],
+  "response_time_seconds": 0.0,
+  "disclaimer": "Plant identification service is temporarily unconfigured. Please try again later."
+}

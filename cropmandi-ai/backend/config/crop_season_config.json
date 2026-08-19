@@ -1,0 +1,28 @@
+{
+  "monsoon": {
+    "start_month": 6,
+    "end_month": 9
+  },
+  "summer": {
+    "start_month": 3,
+    "end_month": 5
+  },
+  "winter": {
+    "start_month": 10,
+    "end_month": 2
+  },
+  "same_season_lookback_days": 7,
+  "seasons_by_crop": {
+    "Paddy": { "kharif": [6, 11], "rabi": [12, 4] },
+    "Maize": { "kharif": [6, 10], "rabi": [10, 2], "spring": [2, 5] },
+    "Groundnut": { "kharif": [6, 11], "rabi": [11, 4] },
+    "Bengal Gram": { "rabi": [10, 3] },
+    "Red Gram": { "kharif": [6, 1] },
+    "Black Gram": { "kharif": [6, 10], "rabi": [10, 2] },
+    "Dry Chillies": { "kharif": [7, 12], "rabi": [1, 4] },
+    "Cotton": { "kharif": [5, 12] },
+    "Tomato": { "kharif": [6, 9], "rabi": [10, 1], "summer": [2, 5] },
+    "Onion": { "kharif": [6, 10], "late_kharif": [9, 1], "rabi": [12, 5] },
+    "Potato": { "rabi": [10, 3] }
+  }
+}

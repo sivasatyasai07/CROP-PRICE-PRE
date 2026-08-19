@@ -1,0 +1,14 @@
+{
+  "analysis_id": "d7f7755c-7e35-4a15-ac00-c9303efe7855",
+  "selected_crop": null,
+  "detected_crop": "Unknown",
+  "crop_match_status": "not_specified",
+  "original_confidence_values": {
+    "crop": null,
+    "health_status": null,
+    "primary_diagnosis": null
+  },
+  "history_saved": true,
+  "hard_coded_confidence_check": "passed",
+  "status": "passed"
+}
