@@ -17,12 +17,63 @@ def list_markets(
     commodity_name: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
-    if not markets:
+    all_markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
+    if not all_markets:
         from app.services.seed_service import seed_markets_and_commodities
         seed_markets_and_commodities(db)
-        markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
-    return markets
+        all_markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
+
+    if commodity_id is not None or commodity_name is not None:
+        target_comm_name = None
+        if commodity_id is not None:
+            c = db.query(Commodity).filter(Commodity.id == commodity_id).first()
+            if c:
+                target_comm_name = c.canonical_name
+        elif commodity_name:
+            target_comm_name = commodity_name
+
+        if target_comm_name:
+            from app.utils.market_normalization import normalize_commodity_name, normalize_market_name
+            from app.services.master_data_service import get_master_data_path
+            import os
+            import pandas as pd
+
+            norm_target_c = normalize_commodity_name(target_comm_name).lower()
+            matched_market_names = set()
+
+            # 1. From DB
+            if commodity_id:
+                db_m_ids = db.query(CleanedMarketPrice.market_id).filter(
+                    CleanedMarketPrice.commodity_id == commodity_id
+                ).distinct().all()
+                for m_id_tuple in db_m_ids:
+                    m = db.query(Market).filter(Market.id == m_id_tuple[0]).first()
+                    if m:
+                        matched_market_names.add(normalize_market_name(m.canonical_name).lower())
+
+            # 2. From master-data.csv
+            csv_path = get_master_data_path()
+            if os.path.exists(csv_path):
+                try:
+                    df = pd.read_csv(csv_path)
+                    comm_col = [col for col in df.columns if 'commodity' in col.lower() and 'group' not in col.lower()][0]
+                    mkt_col = [col for col in df.columns if 'market' in col.lower()][0]
+                    sub = df[df[comm_col].astype(str).apply(normalize_commodity_name).str.lower() == norm_target_c]
+                    for m_name in sub[mkt_col].dropna().unique():
+                        matched_market_names.add(normalize_market_name(str(m_name)).lower())
+                except Exception:
+                    pass
+
+            if matched_market_names:
+                filtered_markets = [
+                    m for m in all_markets
+                    if normalize_market_name(m.canonical_name).lower() in matched_market_names or
+                       normalize_market_name(m.original_name or "").lower() in matched_market_names
+                ]
+                if filtered_markets:
+                    return filtered_markets
+
+    return all_markets
 
 @router.get("/closest", response_model=ClosestMarketsResponse)
 def get_closest_markets(

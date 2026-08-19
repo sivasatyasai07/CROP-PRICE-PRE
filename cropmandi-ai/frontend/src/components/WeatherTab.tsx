@@ -90,10 +90,10 @@ const FALLBACK_APMC_MARKETS: Market[] = [
     try {
       const [fRes, hRes] = await Promise.all([
         api.get<WeatherObservation[]>('/weather/forecast', { params: { market_id: mId } }),
-        api.get<WeatherObservation[]>('/weather/history', { params: { market_id: mId, days: 14 } })
+        api.get<WeatherObservation[]>('/weather/history', { params: { market_id: mId, days: 5 } })
       ]);
-      setMandiForecast(fRes.data);
-      setMandiHistory(hRes.data);
+      setMandiForecast(fRes.data ? fRes.data.slice(0, 5) : []);
+      setMandiHistory(hRes.data ? hRes.data.slice(0, 5) : []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -250,9 +250,9 @@ const FALLBACK_APMC_MARKETS: Market[] = [
             </div>
           </div>
 
-          {/* User Location 7-Day Mini Cards */}
+          {/* User Location 5-Day Mini Cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.85rem' }}>
-            {userWeather.dailyForecast.slice(0, 7).map((d) => (
+            {userWeather.dailyForecast.slice(0, 5).map((d) => (
               <div key={d.date} style={{ background: 'rgba(255,255,255,0.85)', padding: '0.85rem', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(217,119,6,0.2)', textAlign: 'center' }}>
                 <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#78350f' }}>{d.date}</div>
                 <div style={{ margin: '0.4rem 0' }}>
@@ -284,7 +284,7 @@ const FALLBACK_APMC_MARKETS: Market[] = [
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem' }}>
-          {mandiForecast.map((w) => {
+          {mandiForecast.slice(0, 5).map((w) => {
             const isExtremeHeat = w.temperature_max && w.temperature_max >= 40;
             const isHeavyRain = w.precipitation && w.precipitation >= 25;
 
@@ -341,7 +341,7 @@ const FALLBACK_APMC_MARKETS: Market[] = [
       {/* 3. HISTORICAL WEATHER LOG */}
       <div className="glass-panel" style={{ padding: '1.5rem' }}>
         <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--primary-dark)' }}>
-          {t.historicalWeather} ({t.past14Days})
+          {t.historicalWeather} (5 {language === 'te' ? 'రోజుల చరిత్ర' : 'Days History'})
         </h3>
 
         <div style={{ overflowX: 'auto' }}>
@@ -357,7 +357,7 @@ const FALLBACK_APMC_MARKETS: Market[] = [
               </tr>
             </thead>
             <tbody>
-              {mandiHistory.map((h) => (
+              {mandiHistory.slice(0, 5).map((h) => (
                 <tr key={h.observation_date} style={{ borderBottom: '1px solid rgba(45,106,79,0.08)' }}>
                   <td style={{ padding: '0.65rem', fontWeight: 600 }}>{h.observation_date}</td>
                   <td style={{ padding: '0.65rem', color: 'var(--primary-dark)', fontWeight: 700 }}>{h.temperature_max}°C</td>

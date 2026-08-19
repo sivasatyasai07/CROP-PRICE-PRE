@@ -64,6 +64,66 @@ def get_price_history(
     recs = q.order_by(CleanedMarketPrice.observation_date.desc()).limit(limit).all()
     recs = sorted(recs, key=lambda r: r.observation_date)
 
+    if not recs:
+        # Fallback to master-data.csv
+        from app.services.master_data_service import get_master_data_path, parse_csv_date
+        from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
+        import os, pandas as pd
+
+        m_obj = db.query(Market).get(market_id)
+        c_obj = db.query(Commodity).get(commodity_id)
+        csv_path = get_master_data_path()
+        if m_obj and c_obj and os.path.exists(csv_path):
+            try:
+                df = pd.read_csv(csv_path)
+                comm_col = [col for col in df.columns if 'commodity' in col.lower() and 'group' not in col.lower()][0]
+                mkt_col = [col for col in df.columns if 'market' in col.lower()][0]
+                date_col = [col for col in df.columns if 'date' in col.lower()][0]
+                modal_col = [col for col in df.columns if 'modal' in col.lower() or 'price' in col.lower()][0]
+                arr_col = [col for col in df.columns if 'arrival' in col.lower() or 'quantity' in col.lower()][0]
+
+                target_m = normalize_market_name(m_obj.canonical_name).lower()
+                target_c = normalize_commodity_name(c_obj.canonical_name).lower()
+
+                sub = df[
+                    (df[comm_col].astype(str).apply(normalize_commodity_name).str.lower() == target_c) &
+                    (df[mkt_col].astype(str).apply(normalize_market_name).str.lower() == target_m)
+                ]
+
+                history_items = []
+                for _, row in sub.iterrows():
+                    d_parsed = parse_csv_date(str(row[date_col]))
+                    if not d_parsed or d_parsed < effective_start:
+                        continue
+                    if end_date and d_parsed > end_date:
+                        continue
+                    try:
+                        p_val = float(row[modal_col])
+                    except Exception:
+                        continue
+                    if p_val <= 0:
+                        continue
+                    try:
+                        arr_val = float(row[arr_col])
+                    except Exception:
+                        arr_val = 0.0
+
+                    history_items.append(
+                        PriceHistoryItem(
+                            observation_date=d_parsed,
+                            modal_price=p_val,
+                            min_price=round(p_val * 0.95, 2),
+                            max_price=round(p_val * 1.05, 2),
+                            arrival_quantity=arr_val,
+                            quality_status="verified_master"
+                        )
+                    )
+                if history_items:
+                    history_items.sort(key=lambda x: str(x.observation_date))
+                    return history_items[-limit:]
+            except Exception:
+                pass
+
     return [
         PriceHistoryItem(
             observation_date=r.observation_date,
@@ -132,6 +192,88 @@ def compare_market_prices(
         q = q.filter(Market.state.ilike(f"%{state}%"))
 
     results = q.all()
+
+    if not results:
+        # Fallback to master-data.csv
+        from app.services.master_data_service import get_master_data_path, parse_csv_date
+        from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
+        import os, pandas as pd
+
+        csv_path = get_master_data_path()
+        if os.path.exists(csv_path) and comm_obj:
+            try:
+                df = pd.read_csv(csv_path)
+                comm_col = [col for col in df.columns if 'commodity' in col.lower() and 'group' not in col.lower()][0]
+                mkt_col = [col for col in df.columns if 'market' in col.lower()][0]
+                date_col = [col for col in df.columns if 'date' in col.lower()][0]
+                modal_col = [col for col in df.columns if 'modal' in col.lower() or 'price' in col.lower()][0]
+                arr_col = [col for col in df.columns if 'arrival' in col.lower() or 'quantity' in col.lower()][0]
+                dist_col = [col for col in df.columns if 'district' in col.lower()][0] if any('district' in c.lower() for c in df.columns) else None
+
+                target_c = normalize_commodity_name(comm_obj.canonical_name).lower()
+                sub = df[df[comm_col].astype(str).apply(normalize_commodity_name).str.lower() == target_c]
+
+                market_latest_map = {}
+                for _, row in sub.iterrows():
+                    d_parsed = parse_csv_date(str(row[date_col]))
+                    if not d_parsed:
+                        continue
+                    if target_date and d_parsed > target_date:
+                        continue
+                    m_norm = normalize_market_name(str(row[mkt_col]))
+                    try:
+                        p_val = float(row[modal_col])
+                    except Exception:
+                        continue
+                    if p_val <= 0:
+                        continue
+
+                    if m_norm not in market_latest_map or d_parsed > market_latest_map[m_norm]["date"]:
+                        try:
+                            arr_val = float(row[arr_col])
+                        except Exception:
+                            arr_val = 0.0
+                        d_name = str(row[dist_col]) if dist_col else "Andhra Pradesh"
+
+                        # Find matching Market in DB
+                        m_db = db.query(Market).filter(
+                            (Market.canonical_name == m_norm) | (Market.original_name == m_norm)
+                        ).first()
+
+                        market_latest_map[m_norm] = {
+                            "market_id": m_db.id if m_db else 999,
+                            "market_name": m_db.canonical_name if m_db else m_norm,
+                            "district": m_db.district if m_db else d_name,
+                            "latitude": m_db.latitude if m_db else 14.5,
+                            "longitude": m_db.longitude if m_db else 78.5,
+                            "date": d_parsed,
+                            "modal_price": p_val,
+                            "min_price": round(p_val * 0.95, 2),
+                            "max_price": round(p_val * 1.05, 2),
+                            "arrival_quantity": arr_val,
+                            "unit": comm_obj.unit or "Rs./Quintal"
+                        }
+
+                compare_items = [
+                    PriceCompareItem(
+                        market_id=item["market_id"],
+                        market_name=item["market_name"],
+                        district=item["district"],
+                        latitude=item["latitude"],
+                        longitude=item["longitude"],
+                        latest_date=item["date"],
+                        latest_modal_price=item["modal_price"],
+                        min_price=item["min_price"],
+                        max_price=item["max_price"],
+                        arrival_quantity=item["arrival_quantity"],
+                        unit=item["unit"]
+                    )
+                    for item in market_latest_map.values()
+                ]
+                if compare_items:
+                    return sorted(compare_items, key=lambda x: x.market_name)
+            except Exception:
+                pass
 
     items = [
         PriceCompareItem(

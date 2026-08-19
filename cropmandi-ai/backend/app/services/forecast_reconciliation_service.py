@@ -139,7 +139,9 @@ def resolve_price_for_date(
     feature_snapshot_id: str,
     model_version: str,
     district: Optional[str] = None,
-    state: Optional[str] = None
+    state: Optional[str] = None,
+    latest_recorded_price: Optional[float] = None,
+    latest_recorded_date: Optional[str] = None
 ) -> ForecastRecord:
     trace: List[Dict[str, Any]] = []
     horizon = (target_date - forecast_origin_date).days
@@ -511,7 +513,75 @@ def resolve_price_for_date(
                 lookup_trace=trace
             )
 
-    # 4. SOURCE 4: Unavailable
+    # 4. SOURCE 4: Latest Recorded Price Fallback (if exact date is not yet published)
+    if latest_recorded_price is not None and latest_recorded_price > 0:
+        rec_label = f"Last Recorded Price ({latest_recorded_date})" if latest_recorded_date else "Last Recorded Official Price"
+        trace.append({
+            "source": "fallback_last_observed",
+            "searched": True,
+            "found": True,
+            "status": "latest_recorded_applied",
+            "reason": f"Exact record for {target_date} not yet published. Showing latest recorded official price ({latest_recorded_date or 'recent history'})."
+        })
+
+        return ForecastRecord(
+            date=target_date,
+            target_date=target_date,
+            forecast_origin_date=forecast_origin_date,
+            horizon=horizon,
+            modal_price=round(float(latest_recorded_price), 2),
+            min_price=None,
+            max_price=None,
+            arrival_quantity=None,
+            arrival_unit="Metric Tonnes",
+            price_unit="Rs./Quintal",
+            price_source="fallback_last_observed",
+            data_status="observed_historical",
+            prediction_status="last_recorded",
+            prediction_method="last_recorded",
+            model_predict_called=False,
+            prediction_executed=False,
+            model_error_code=None,
+            raw_model_output=None,
+            final_prediction=round(float(latest_recorded_price), 2),
+            is_observed=True,
+            is_predicted=False,
+            source_label=rec_label,
+            verification_status="last_recorded_verified",
+            source_name=f"Latest recorded price (as of {latest_recorded_date or 'recent history'})",
+            source_record_id=None,
+            fetched_at=None,
+            data_fetched_at=None,
+            generated_at=now,
+            model_name="Latest recorded baseline",
+            model_version=None,
+            feature_snapshot_id=feature_snapshot_id,
+            previous_forecast=None,
+            data_freshness="historical_latest",
+            confidence_level=None,
+            confidence_source="unavailable",
+            interval_available=False,
+            interval_method=None,
+            lower_bound=None,
+            upper_bound=None,
+            confidence_interval=None,
+            fallback_reason=f"Official data for {target_date} not yet published. Showing latest recorded price from {latest_recorded_date}.",
+            arrival_features_used=False,
+            weather_features_used=False,
+            seasonal_features_used=False,
+            arrival_missing=True,
+            weather_missing=True,
+            feature_row_date=latest_recorded_date,
+            api_checked=True,
+            api_record_found=False,
+            master_csv_checked=True,
+            master_csv_record_found=False,
+            prediction_generated=False,
+            final_source="fallback_last_observed",
+            lookup_trace=trace
+        )
+
+    # 5. SOURCE 5: Unavailable
     trace.append({
         "source": "unavailable",
         "searched": True,
@@ -743,6 +813,26 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
         prediction_error_code = type(exc).__name__
         prediction_error_message = str(exc)
 
+    # Resolve latest recorded price prior to or on selected date from DB or master-data
+    latest_obs_record = db.query(CleanedMarketPrice).filter(
+        CleanedMarketPrice.market_id == market_obj.id,
+        CleanedMarketPrice.commodity_id == commodity_obj.id,
+        CleanedMarketPrice.observation_date <= req.selected_date
+    ).order_by(CleanedMarketPrice.observation_date.desc()).first()
+
+    latest_price = float(latest_obs_record.modal_price) if (latest_obs_record and latest_obs_record.modal_price) else None
+    latest_date_str = str(latest_obs_record.observation_date) if latest_obs_record else None
+
+    if latest_price is None or latest_price <= 0:
+        from app.services.master_data_service import find_latest_master_record
+        m_rec = find_latest_master_record(req.commodity, req.market, max_date=req.selected_date)
+        if m_rec:
+            try:
+                latest_price = float(m_rec.get("modal_price", 0))
+            except Exception:
+                latest_price = None
+            latest_date_str = str(m_rec.get("date", req.selected_date))
+
     records: List[ForecastRecord] = []
     for d in forecast_dates:
         record = resolve_price_for_date(
@@ -760,7 +850,9 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
             feature_snapshot_id=feature_snapshot_id,
             model_version=model_ver,
             district=req.district,
-            state=req.state
+            state=req.state,
+            latest_recorded_price=latest_price,
+            latest_recorded_date=latest_date_str
         )
         records.append(record)
 

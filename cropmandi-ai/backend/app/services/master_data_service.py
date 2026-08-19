@@ -290,5 +290,42 @@ def find_exact_master_record(
     )
 
 
+def find_latest_master_record(
+    commodity: str,
+    market: str,
+    max_date: Optional[Any] = None
+) -> Optional[Dict[str, Any]]:
+    """
+    Finds the latest available recorded row in master-data.csv on or before max_date.
+    """
+    if not _is_loaded:
+        load_master_data()
+
+    comm_canonical = normalize_commodity_name(commodity).lower()
+    mkt_canonical = normalize_market_name(market).lower()
+
+    max_d_str = None
+    if max_date:
+        if isinstance(max_date, date):
+            max_d_str = max_date.strftime("%Y-%m-%d")
+        elif isinstance(max_date, str):
+            parsed = parse_csv_date(max_date)
+            max_d_str = parsed if parsed else max_date.strip()
+
+    matching_dates = []
+    for (c, m, d_str) in _master_index.keys():
+        if c == comm_canonical and m == mkt_canonical:
+            if max_d_str is None or d_str <= max_d_str:
+                matching_dates.append(d_str)
+
+    if not matching_dates:
+        return None
+
+    matching_dates.sort(reverse=True)
+    best_date = matching_dates[0]
+    return _master_index.get((comm_canonical, mkt_canonical, best_date))
+
+
 # Alias
 find_exact_record = find_exact_master_record
+
