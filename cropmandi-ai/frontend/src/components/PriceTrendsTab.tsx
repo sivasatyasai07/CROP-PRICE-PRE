@@ -128,12 +128,12 @@ const FALLBACK_MARKETS: Market[] = [
     setLoading(true);
     try {
       const promises: Promise<any>[] = [
-        api.get<PriceHistoryItem[]>('/prices/history', { params: { market_id: m1Id, commodity_id: cId, limit: 10 } }),
+        api.get<PriceHistoryItem[]>('/prices/history', { params: { market_id: m1Id, commodity_id: cId, limit: 30 } }),
         api.get<PriceCompareItem[]>('/prices/compare', { params: { commodity_id: cId } })
       ];
 
       if (m2Id) {
-        promises.push(api.get<PriceHistoryItem[]>('/prices/history', { params: { market_id: m2Id, commodity_id: cId, limit: 10 } }));
+        promises.push(api.get<PriceHistoryItem[]>('/prices/history', { params: { market_id: m2Id, commodity_id: cId, limit: 30 } }));
       }
 
       const results = await Promise.all(promises);
@@ -182,24 +182,24 @@ const FALLBACK_MARKETS: Market[] = [
     labels: allDatesSet,
     datasets: [
       {
-        label: `${getLocalizedMarketName(p1Name, language)} (Last 10 Days ₹/qtl)`,
+        label: `${getLocalizedMarketName(p1Name, language)} (Last 30 Days ₹/qtl)`,
         data: chartData1,
         borderColor: '#10b981',
         backgroundColor: 'rgba(16, 185, 129, 0.15)',
         tension: 0.3,
         fill: false,
-        pointRadius: 5,
-        borderWidth: 3,
+        pointRadius: 4,
+        borderWidth: 2.5,
       },
       ...(p2Name ? [{
-        label: `${getLocalizedMarketName(p2Name, language)} (Last 10 Days ₹/qtl)`,
+        label: `${getLocalizedMarketName(p2Name, language)} (Last 30 Days ₹/qtl)`,
         data: chartData2,
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.15)',
         tension: 0.3,
         fill: false,
-        pointRadius: 5,
-        borderWidth: 3,
+        pointRadius: 4,
+        borderWidth: 2.5,
       }] : [])
     ]
   };
@@ -371,16 +371,16 @@ const FALLBACK_MARKETS: Market[] = [
         </div>
       )}
 
-      {/* Historical 10-Day Comparison Chart */}
+      {/* Historical 30-Day Comparison Chart */}
       <div className="glass-panel" style={{ padding: '1.5rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
             <h3 style={{ fontSize: '1.2rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <TrendingUp size={20} color="var(--primary)" />
-              Original 10-Day Market Price Trend Comparison
+              {language === 'te' ? '30 రోజుల మార్కెట్ ధరల పోలిక' : '30-Day Market Price Trend Comparison'}
             </h3>
             <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
-              Actual recorded APMC prices for the last 10 days (Daily API Data Updates)
+              {language === 'te' ? 'గత 30 రోజుల అసలైన APMC మార్కెట్ ధరల రికార్డులు' : 'Actual recorded APMC prices for the last 30 days (Daily API Data Updates)'}
             </div>
           </div>
         </div>
