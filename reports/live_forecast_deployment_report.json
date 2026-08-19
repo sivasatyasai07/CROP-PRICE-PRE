@@ -2,7 +2,17 @@
   "deployment_status": "ready",
   "model_health": {
     "status": "ready",
+    "requested_version": "v20260818_153724",
+    "resolved_version": "v20260818_153724",
     "active_model_version": "v20260818_153724",
+    "h1_exists": true,
+    "h2_exists": true,
+    "h3_exists": true,
+    "metadata_exists": true,
+    "h1_loaded": true,
+    "h2_loaded": true,
+    "h3_loaded": true,
+    "error": null,
     "artifact_directory": "cropmandi-ai/ml/models",
     "horizons": {
       "h1": {
@@ -24,11 +34,10 @@
         "sha256": "7c6ce3e06ad8cff5f878642e06a89e4034969515f11709459cb73e6fe1b58c08"
       }
     },
-    "metadata_exists": true,
     "feature_count": 98,
     "feature_schema_match": true,
     "message": "All multi-horizon CatBoost models (H1, H2, H3) and conformal metadata for version v20260818_153724 loaded successfully.",
-    "checked_at": "2026-08-19T17:22:22.449181"
+    "checked_at": "2026-08-19T18:13:54.480228"
   },
   "forecast_response": {
     "commodity": "Tomato",
@@ -38,5 +47,5 @@
     "trend_direction": null,
     "total_records": 4
   },
-  "timestamp": "2026-08-19T17:22:33.745018"
+  "timestamp": "2026-08-19T18:14:03.127140"
 }

@@ -29,6 +29,50 @@ def build_dataset_from_db(db: Session) -> pd.DataFrame:
      .all()
 
     if not results:
+        import os
+        from app.services.master_data_service import get_master_data_path, parse_csv_date
+        from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
+        csv_path = get_master_data_path()
+        if os.path.exists(csv_path):
+            try:
+                df_csv = pd.read_csv(csv_path)
+                data = []
+                for _, row in df_csv.iterrows():
+                    obs_d = parse_csv_date(str(row.get("arrival_date", row.get("Date", ""))))
+                    mkt_norm = normalize_market_name(str(row.get("market", row.get("Market", ""))))
+                    comm_norm = normalize_commodity_name(str(row.get("commodity", row.get("Commodity", ""))))
+                    dist = str(row.get("district", row.get("District", "Andhra Pradesh")))
+                    try:
+                        m_p = float(row.get("modal_price", row.get("Modal_Price", 0)))
+                    except Exception:
+                        m_p = 0.0
+                    try:
+                        arr_q = float(row.get("arrival_quantity", row.get("Arrivals", 0)))
+                    except Exception:
+                        arr_q = 0.0
+                    
+                    if obs_d and m_p > 0:
+                        data.append({
+                            'market': mkt_norm,
+                            'district': dist,
+                            'commodity': comm_norm,
+                            'observation_date': obs_d,
+                            'modal_price': m_p,
+                            'min_price': m_p * 0.95,
+                            'max_price': m_p * 1.05,
+                            'arrival_quantity': arr_q,
+                            'temperature_max': 30.0,
+                            'temperature_min': 22.0,
+                            'precipitation': 0.0,
+                            'humidity': 65.0,
+                            'wind_speed': 10.0,
+                            'weather_code': 0
+                        })
+                if data:
+                    raw_df = pd.DataFrame(data)
+                    return create_features(raw_df)
+            except Exception:
+                pass
         return pd.DataFrame()
 
     data = []

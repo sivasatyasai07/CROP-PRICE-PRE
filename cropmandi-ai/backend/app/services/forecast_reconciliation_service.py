@@ -679,6 +679,9 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
     feature_latest_date = None
     latest_price_used = None
     latest_arrival_used = None
+    prediction_service_status = "success"
+    prediction_error_code: Optional[str] = None
+    prediction_error_message: Optional[str] = None
 
     try:
         pred_resp = generate_3day_prediction(
@@ -700,6 +703,10 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
         feature_latest_date = pred_resp.get("feature_latest_date")
         latest_price_used = pred_resp.get("latest_price_used_for_features")
         latest_arrival_used = pred_resp.get("latest_arrival_used_for_features")
+
+        # Determine prediction service status
+        if any(p.get("price_source") in ["fallback_last_observed", "unavailable"] for p in pred_list if isinstance(p, dict)):
+            prediction_service_status = "fallback"
 
         for p in pred_list:
             t_date = p.get("target_date") if isinstance(p, dict) else getattr(p, "target_date", None)
@@ -732,6 +739,9 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
                 }
     except Exception as exc:
         logger.exception("Prediction generation error during reconciliation: %s", exc)
+        prediction_service_status = "error"
+        prediction_error_code = type(exc).__name__
+        prediction_error_message = str(exc)
 
     records: List[ForecastRecord] = []
     for d in forecast_dates:
@@ -889,7 +899,10 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
         data_age_days=data_age_days,
         stale_data_warning=stale_warning,
         records_fetched_count=sync_summary.get("records_accepted", 0),
-        records_used_in_features=len(fresh_df) if not fresh_df.empty else 0
+        records_used_in_features=len(fresh_df) if not fresh_df.empty else 0,
+        prediction_service_status=prediction_service_status,
+        prediction_error_code=prediction_error_code,
+        prediction_error_message=prediction_error_message
     )
 
     # Save live fetched JSON snapshot for audit, transparency, and frontend verification

@@ -17,7 +17,7 @@ from app.ml.feature_engineering import (
     SEASONAL_FEATURE_COLUMNS,
     validate_feature_schema,
 )
-from app.ml.model_registry import load_model_artifacts
+from app.ml.model_registry import load_model_artifacts, get_active_model_version
 from app.ml.prediction_intervals import apply_prediction_interval
 from app.ml.feature_importance import extract_feature_importance, get_farmer_friendly_explanation
 
@@ -28,7 +28,7 @@ def generate_3day_prediction(
     commodity_name: str,
     market_name: str,
     prediction_date_str: Optional[str] = None,
-    model_version: str = "2.1.0",
+    model_version: Optional[str] = None,
     df_all: Optional[pd.DataFrame] = None
 ) -> Dict[str, Any]:
     """
@@ -95,14 +95,13 @@ def generate_3day_prediction(
                 latest_price = 1500.0
 
     # 3. Load active model run version
-    if model_version in ["2.1.0", "1.0.0", "default"]:
-        from app.models import ModelRun
-        active_run = db.query(ModelRun).filter(ModelRun.is_active == True).order_by(ModelRun.created_at.desc()).first()
-        if active_run:
-            model_version = active_run.model_version
+    if not model_version or model_version in ["2.1.0", "1.0.0", "default"]:
+        model_version = get_active_model_version(db)
+        logger.info("Resolved active model version for prediction: %s", model_version)
 
     models, metadata = load_model_artifacts(model_version)
     if not models or 1 not in models:
+        logger.warning("CatBoost model artifacts not loaded for resolved version: %s", model_version)
         return _fallback_response(
             db, market_name, commodity_name, pred_dt, snapshot_id,
             latest_price=latest_price,
@@ -134,11 +133,57 @@ def generate_3day_prediction(
             reason="Feature dataset could not be built from observations"
         )
 
+    from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
+    target_m_norm = normalize_market_name(market.canonical_name).lower()
+    target_c_norm = normalize_commodity_name(commodity.canonical_name).lower()
+
     sub_df = df_all[
-        (df_all['market'] == market.canonical_name) & 
-        (df_all['commodity'] == commodity.canonical_name) & 
+        (df_all['market'].astype(str).apply(lambda x: normalize_market_name(x).lower()) == target_m_norm) & 
+        (df_all['commodity'].astype(str).apply(lambda x: normalize_commodity_name(x).lower()) == target_c_norm) & 
         (pd.to_datetime(df_all['observation_date']).dt.date <= pred_dt)
     ].sort_values('observation_date')
+
+    if sub_df.empty:
+        import os
+        from app.services.master_data_service import get_master_data_path, parse_csv_date
+        from app.ml.feature_engineering import create_features
+        csv_path = get_master_data_path()
+        if os.path.exists(csv_path):
+            try:
+                df_csv = pd.read_csv(csv_path)
+                data = []
+                for _, row in df_csv.iterrows():
+                    obs_d = parse_csv_date(str(row.get("arrival_date", row.get("Date", ""))))
+                    mkt_norm = normalize_market_name(str(row.get("Market", row.get("market", ""))))
+                    comm_norm = normalize_commodity_name(str(row.get("Commodity", row.get("commodity", ""))))
+                    if mkt_norm.lower() == target_m_norm and comm_norm.lower() == target_c_norm and obs_d:
+                        try:
+                            m_p = float(row.get("Modal Price 01-01-2021 to 16-08-2026", row.get("modal_price", row.get("Modal_Price", 0))))
+                        except Exception:
+                            m_p = 0.0
+                        if m_p > 0:
+                            data.append({
+                                'market': mkt_norm,
+                                'district': str(row.get("District", row.get("district", market.district or "Andhra Pradesh"))),
+                                'commodity': comm_norm,
+                                'observation_date': obs_d,
+                                'modal_price': m_p,
+                                'min_price': m_p * 0.95,
+                                'max_price': m_p * 1.05,
+                                'arrival_quantity': float(row.get("Arrival Quantity 01-01-2021 to 16-08-2026", row.get("arrival_quantity", 10.0)) or 10.0),
+                                'temperature_max': 30.0,
+                                'temperature_min': 22.0,
+                                'precipitation': 0.0,
+                                'humidity': 65.0,
+                                'wind_speed': 10.0,
+                                'weather_code': 0
+                            })
+                if data:
+                    raw_df = pd.DataFrame(data)
+                    feat_df = create_features(raw_df)
+                    sub_df = feat_df[pd.to_datetime(feat_df['observation_date']).dt.date <= pred_dt].sort_values('observation_date')
+            except Exception as exc:
+                logger.warning("Could not build features from master-data.csv: %s", exc)
 
     if sub_df.empty:
         return _fallback_response(
@@ -446,51 +491,58 @@ def _fallback_response(
     preds = []
     
     if latest_price is None or not np.isfinite(latest_price) or latest_price <= 0:
-        latest_price = 1500.0
-
-    horizon_multipliers = {1: 1.002, 2: 1.015, 3: 1.028}
-    horizon_lower_pct = {1: 0.96, 2: 0.94, 3: 0.92}
-    horizon_upper_pct = {1: 1.04, 2: 1.07, 3: 1.10}
+        price_src = "unavailable"
+        method_label = "none"
+        is_pred = False
+        fallback_p = None
+        feature_explanations = [
+            "No observed mandi price was available."
+        ]
+        fb_reason = reason or "No observed mandi price available"
+    else:
+        price_src = "fallback_last_observed"
+        method_label = "fallback"
+        is_pred = True
+        fallback_p = round(float(latest_price), 2)
+        feature_explanations = [
+            "Fallback estimate based on the latest observed official mandi price."
+        ]
+        fb_reason = reason or "Fallback based on last observed official price"
 
     for h in [1, 2, 3]:
         t_dt = pred_dt + timedelta(days=h)
-        mult = horizon_multipliers.get(h, 1.0)
-        h_price = round(float(latest_price) * mult, 2)
-        low_b = round(h_price * horizon_lower_pct.get(h, 0.94), 2)
-        up_b = round(h_price * horizon_upper_pct.get(h, 1.06), 2)
-
         preds.append({
             "horizon": h,
             "forecast_origin_date": pred_dt.strftime("%Y-%m-%d"),
             "target_date": t_dt.strftime("%Y-%m-%d"),
-            "predicted_modal_price": h_price,
-            "lower_bound": low_b,
-            "upper_bound": up_b,
-            "confidence_level": 0.90,
-            "confidence_source": "inductive_conformal",
-            "interval_available": True,
-            "interval_method": "conformal_residual_quantile",
+            "predicted_modal_price": fallback_p,
+            "lower_bound": None,
+            "upper_bound": None,
+            "confidence_level": None,
+            "confidence_source": "unavailable",
+            "interval_available": False,
+            "interval_method": None,
             "is_actual": False,
             "is_observed": False,
-            "is_predicted": True,
-            "price_source": "predicted_model",
-            "prediction_status": "active",
-            "model_version": "catboost-multihorizon-v2.1",
-            "model_name": "CatBoost Multi-Horizon Direct Predictor",
+            "is_predicted": is_pred,
+            "price_source": price_src,
+            "prediction_status": "active" if is_pred else "unavailable",
+            "model_version": "fallback_last_observed" if is_pred else None,
+            "model_name": "Last observed price fallback" if is_pred else None,
             "feature_snapshot_id": snapshot_id,
             "generated_at": now.isoformat(),
-            "model_predict_called": True,
-            "prediction_executed": True,
-            "prediction_method": "trained_model",
-            "fallback_reason": reason,
+            "model_predict_called": False,
+            "prediction_executed": False,
+            "prediction_method": method_label,
+            "fallback_reason": fb_reason,
             "model_error_code": None,
-            "raw_model_output": h_price,
-            "final_prediction": h_price,
-            "arrival_features_used": True,
-            "weather_features_used": True,
-            "seasonal_features_used": True,
-            "arrival_missing": False,
-            "weather_missing": False,
+            "raw_model_output": None,
+            "final_prediction": fallback_p,
+            "arrival_features_used": False,
+            "weather_features_used": False,
+            "seasonal_features_used": False,
+            "arrival_missing": True,
+            "weather_missing": True,
             "feature_row_date": latest_date_str
         })
 
@@ -500,25 +552,25 @@ def _fallback_response(
         "prediction_date": pred_dt.strftime("%Y-%m-%d"),
         "forecast_origin_date": pred_dt.strftime("%Y-%m-%d"),
         "latest_observed_date": latest_date_str or pred_dt.strftime("%Y-%m-%d"),
-        "latest_observed_price": latest_price,
+        "latest_observed_price": fallback_p,
         "feature_row_date": latest_date_str,
         "predictions": preds,
         "execution_traces": [
             {
                 "horizon": p["horizon"],
-                "prediction_executed": True,
-                "model_predict_called": True,
-                "prediction_method": "trained_model",
-                "price_source": "predicted_model",
-                "fallback_reason": reason,
-                "confidence_source": "inductive_conformal",
-                "interval_available": True
+                "prediction_executed": False,
+                "model_predict_called": False,
+                "prediction_method": method_label,
+                "price_source": price_src,
+                "fallback_reason": fb_reason,
+                "confidence_source": "unavailable",
+                "interval_available": False
             }
             for p in preds
         ],
-        "trend_direction": "upward",
-        "percentage_change_3d": round(((preds[-1]["predicted_modal_price"] - float(latest_price)) / float(latest_price)) * 100, 2),
-        "model_version": "catboost-multihorizon-v2.1",
+        "trend_direction": "stable" if fallback_p is not None else None,
+        "percentage_change_3d": 0.0 if fallback_p is not None else None,
+        "model_version": "fallback_last_observed" if is_pred else None,
         "feature_snapshot_id": snapshot_id,
         "feature_schema_match": False if "feature_schema_mismatch" in reason else True,
         "expected_feature_count": len(FEATURE_COLUMNS),
@@ -530,7 +582,7 @@ def _fallback_response(
         "seasonal_features_used": False,
         "arrival_missing": True,
         "weather_missing": True,
-        "fallback_reason": reason,
-        "feature_explanations": ["Fallback estimate based on latest observed mandi price."] if is_pred else ["No observed mandi price available."],
+        "fallback_reason": fb_reason,
+        "feature_explanations": feature_explanations,
         "top_features": []
     }

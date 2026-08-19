@@ -148,21 +148,22 @@ def compute_file_sha256(path: str) -> Optional[str]:
         return None
 
 
-def check_model_health(db: Optional[Session] = None) -> Dict[str, Any]:
+def check_model_health(db: Optional[Session] = None, requested_version: Optional[str] = None) -> Dict[str, Any]:
     """Generates a complete diagnostic report for the deployed ML model artifacts."""
     active_version = get_active_model_version(db)
+    target_ver = requested_version or active_version
     
-    h1_path = get_model_path(active_version, 1)
-    h2_path = get_model_path(active_version, 2)
-    h3_path = get_model_path(active_version, 3)
-    meta_path = get_metadata_path(active_version)
+    h1_path = get_model_path(target_ver, 1)
+    h2_path = get_model_path(target_ver, 2)
+    h3_path = get_model_path(target_ver, 3)
+    meta_path = get_metadata_path(target_ver)
 
     h1_exists = os.path.exists(h1_path)
     h2_exists = os.path.exists(h2_path)
     h3_exists = os.path.exists(h3_path)
     meta_exists = os.path.exists(meta_path)
 
-    models, metadata = load_model_artifacts(active_version)
+    models, metadata = load_model_artifacts(target_ver)
     h1_loaded = 1 in models
     h2_loaded = 2 in models
     h3_loaded = 3 in models
@@ -178,20 +179,38 @@ def check_model_health(db: Optional[Session] = None) -> Dict[str, Any]:
 
     if all_loaded and feature_schema_match:
         status = "ready"
-        message = f"All multi-horizon CatBoost models (H1, H2, H3) and conformal metadata for version {active_version} loaded successfully."
+        message = f"All multi-horizon CatBoost models (H1, H2, H3) and conformal metadata for version {target_ver} loaded successfully."
+        error_msg = None
     elif not (h1_exists or h2_exists or h3_exists):
         status = "missing"
         message = "Model artifacts are not available in this deployment."
+        error_msg = message
+    elif requested_version and requested_version != active_version:
+        status = "version_mismatch"
+        message = f"Requested version {requested_version} does not match active deployed version {active_version}."
+        error_msg = message
     elif not feature_schema_match:
         status = "schema_mismatch"
         message = "Loaded model feature schema does not match runtime FEATURE_COLUMNS definition."
+        error_msg = message
     else:
         status = "load_error"
         message = "One or more horizon model artifacts failed to load properly."
+        error_msg = message
 
     return {
         "status": status,
+        "requested_version": requested_version or active_version,
+        "resolved_version": active_version,
         "active_model_version": active_version,
+        "h1_exists": h1_exists,
+        "h2_exists": h2_exists,
+        "h3_exists": h3_exists,
+        "metadata_exists": meta_exists,
+        "h1_loaded": h1_loaded,
+        "h2_loaded": h2_loaded,
+        "h3_loaded": h3_loaded,
+        "error": error_msg,
         "artifact_directory": "cropmandi-ai/ml/models",
         "horizons": {
             "h1": {
@@ -213,7 +232,6 @@ def check_model_health(db: Optional[Session] = None) -> Dict[str, Any]:
                 "sha256": compute_file_sha256(h3_path) if h3_exists else None,
             }
         },
-        "metadata_exists": meta_exists,
         "feature_count": feature_count,
         "feature_schema_match": feature_schema_match,
         "message": message,

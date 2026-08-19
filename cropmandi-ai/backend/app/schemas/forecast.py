@@ -168,6 +168,11 @@ class VerifiedForecastResponse(BaseModel):
     stale_data_warning: Optional[str] = None
     records_fetched_count: Optional[int] = 0
     records_used_in_features: Optional[int] = 0
+    
+    # Prediction Service Status & Error Handling
+    prediction_service_status: Optional[str] = "success"
+    prediction_error_code: Optional[str] = None
+    prediction_error_message: Optional[str] = None
 
 
 class ForecastHistoryItem(BaseModel):
