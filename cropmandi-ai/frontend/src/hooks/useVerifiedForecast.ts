@@ -64,33 +64,33 @@ export function useVerifiedForecast(): UseVerifiedForecastReturn {
     setLoading(true);
     setError(null);
     setStepIndex(1);
-    setLoadingStep('Stage 1 of 5: Fetching official data for the selected filters...');
+    setLoadingStep('Stage 1 of 5: Querying official data.gov.in API records with filters...');
 
-    // Progress animation timers for pipeline stages
+    // Progress animation timers paced realistically to match backend processing duration
     stepTimerRef.current = window.setTimeout(() => {
       if (thisRequestId === activeRequestIdRef.current) {
         setStepIndex(2);
-        setLoadingStep('Stage 2 of 5: Checking official API records for each date...');
+        setLoadingStep('Stage 2 of 5: Checking verified official records across 4-date horizon...');
         stepTimerRef.current = window.setTimeout(() => {
           if (thisRequestId === activeRequestIdRef.current) {
             setStepIndex(3);
-            setLoadingStep('Stage 3 of 5: Checking master-data.csv for missing dates...');
+            setLoadingStep('Stage 3 of 5: Checking master-data.csv & building feature vectors...');
             stepTimerRef.current = window.setTimeout(() => {
               if (thisRequestId === activeRequestIdRef.current) {
                 setStepIndex(4);
-                setLoadingStep('Stage 4 of 5: Preparing predictions only for unavailable dates...');
+                setLoadingStep('Stage 4 of 5: Executing CatBoost ML model inference for missing dates...');
                 stepTimerRef.current = window.setTimeout(() => {
                   if (thisRequestId === activeRequestIdRef.current) {
                     setStepIndex(5);
-                    setLoadingStep('Stage 5 of 5: Verifying final price sources...');
+                    setLoadingStep('Stage 5 of 5: Finalizing verified predictions & conformal intervals...');
                   }
-                }, 500);
+                }, 1300);
               }
-            }, 450);
+            }, 1200);
           }
-        }, 400);
+        }, 1100);
       }
-    }, 350);
+    }, 1100);
 
     try {
       const res = await fetchVerifiedForecast(

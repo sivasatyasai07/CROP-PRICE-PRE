@@ -11,11 +11,11 @@ export const ForecastLoadingState: React.FC<ForecastLoadingStateProps> = ({
   stepIndex = 1
 }) => {
   const steps = [
-    { label: 'Stage 1 of 5: Fetching official data for the selected filters...', icon: ShieldCheck },
-    { label: 'Stage 2 of 5: Checking official API records for each date...', icon: Database },
-    { label: 'Stage 3 of 5: Checking master-data.csv for missing dates...', icon: FileCheck },
-    { label: 'Stage 4 of 5: Preparing predictions only for unavailable dates...', icon: Sparkles },
-    { label: 'Stage 5 of 5: Verifying final price sources...', icon: CheckCircle2 },
+    { label: 'Stage 1 of 5: Querying official data.gov.in API records with filters...', icon: ShieldCheck },
+    { label: 'Stage 2 of 5: Checking verified official records across 4-date horizon...', icon: Database },
+    { label: 'Stage 3 of 5: Checking master-data.csv & building feature vectors...', icon: FileCheck },
+    { label: 'Stage 4 of 5: Executing CatBoost ML model inference for missing dates...', icon: Sparkles },
+    { label: 'Stage 5 of 5: Finalizing verified predictions & conformal intervals...', icon: CheckCircle2 },
   ];
 
   const currentLabel = loadingStep || (steps[stepIndex - 1]?.label ?? 'Processing price verification…');
