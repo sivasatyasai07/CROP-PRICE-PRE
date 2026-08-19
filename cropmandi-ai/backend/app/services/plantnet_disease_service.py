@@ -410,11 +410,24 @@ def identify_plant_image(
     if not valid:
         raise ValueError(err_msg or "Invalid image file")
 
-    api_key = settings.PLANTNET_API_KEY
-    analysis_result = None
-    model_info = None
+    plantnet_key = (settings.PLANTNET_API_KEY or "").strip()
+    gemini_key = (settings.GEMINI_API_KEY or "").strip()
 
-    if api_key:
+    plantnet_result: Optional[DiseaseAnalysisResult] = None
+    plantnet_model: Optional[ModelInfo] = None
+    plantnet_error: Optional[str] = None
+    plantnet_error_category: Optional[str] = None
+
+    gemini_result: Optional[DiseaseAnalysisResult] = None
+    gemini_model: Optional[ModelInfo] = None
+    gemini_error: Optional[str] = None
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    # -------------------------------------------------------------
+    # 1. PLANTNET BOTANICAL IDENTIFICATION (if key configured)
+    # -------------------------------------------------------------
+    if plantnet_key:
         base_url = settings.PLANTNET_BASE_URL.rstrip("/")
         project = settings.PLANTNET_PROJECT or "all"
         endpoint = f"{base_url}/{project}"
@@ -422,7 +435,7 @@ def identify_plant_image(
         max_retries = int(getattr(settings, "PLANTNET_MAX_RETRIES", 2))
 
         organ = map_plantnet_organ(plant_part)
-        params = {"api-key": api_key}
+        params = {"api-key": plantnet_key}
         files = [("images", (filename, image_bytes, mime_type))]
         data = {"organs": [organ]}
 
@@ -475,46 +488,37 @@ def identify_plant_image(
                 last_error = exc
                 time.sleep(1.0)
 
-        now_iso = datetime.now(timezone.utc).isoformat()
-        model_info = ModelInfo(
+        plantnet_model = ModelInfo(
             provider="PlantNet",
             model_name="PlantNet-v2",
             project=project,
             request_timestamp=now_iso
         )
 
-        if last_status != 200 or response_json is None:
-            err_cat, err_desc = classify_plantnet_error(last_status, last_error)
-            logger.error("[PLANTNET] Failed identification: category=%s, desc=%s", err_cat, err_desc)
-            err_res = DiseaseAnalysisResult(
-                analysis_status=err_cat,
-                provider="PlantNet",
+        if last_status == 200 and response_json is not None:
+            plantnet_result = normalize_plantnet_result(
+                raw_json=response_json,
                 selected_crop=selected_crop,
-                identification_status="unavailable",
-                disease_status="not_available",
-                warnings=[ValidationWarning(field="plantnet_api", issue=err_desc, action="retry_later")],
-                limitations=[err_desc],
-                disclaimer="Plant identification service is temporarily unavailable. Please try again later."
+                plant_part=plant_part,
+                symptoms=symptoms,
+                notes=notes,
+                language=language
             )
-            return err_res, model_info
+        else:
+            err_cat, err_desc = classify_plantnet_error(last_status, last_error)
+            plantnet_error_category = err_cat
+            plantnet_error = err_desc
+            logger.warning("[PLANTNET] Identification did not succeed: %s (%s)", err_cat, err_desc)
 
-        analysis_result = normalize_plantnet_result(
-            raw_json=response_json,
-            selected_crop=selected_crop,
-            plant_part=plant_part,
-            symptoms=symptoms,
-            notes=notes,
-            language=language
-        )
-
-    # STAGE 2: DISEASE & PATHOLOGY DIAGNOSIS
-    # If Gemini disease analysis provider is active, run pathology analysis
-    if getattr(settings, "DISEASE_ANALYSIS_PROVIDER", "gemini") == "gemini" and settings.GEMINI_API_KEY:
+    # -------------------------------------------------------------
+    # 2. GEMINI AI VISION PATHOLOGY & DISEASE DIAGNOSIS
+    # -------------------------------------------------------------
+    if gemini_key:
         try:
             from app.services.gemini_crop_disease_service import analyze_crop_image
-            effective_crop = (analysis_result.detected_crop if analysis_result else None) or selected_crop
-            logger.info("[STAGE 2] Running Gemini Disease Analysis (effective_crop=%s)", effective_crop)
-            gemini_res, gemini_model = analyze_crop_image(
+            effective_crop = (plantnet_result.detected_crop if plantnet_result else None) or selected_crop
+            logger.info("[GEMINI] Running Disease & Pathology Analysis (effective_crop=%s)", effective_crop)
+            gemini_result, gemini_model = analyze_crop_image(
                 image_bytes_list=[image_bytes],
                 selected_crop=effective_crop,
                 selected_plant_part=plant_part,
@@ -524,56 +528,90 @@ def identify_plant_image(
                 growth_stage=growth_stage,
                 language=language or "en"
             )
-
-            if analysis_result:
-                # Merge Stage 2 pathology findings into Stage 1 PlantNet result
-                analysis_result.disease = gemini_res.disease
-                analysis_result.health_status = gemini_res.health_status
-                analysis_result.health_assessment = gemini_res.health_assessment
-                analysis_result.primary_diagnosis = gemini_res.primary_diagnosis
-                analysis_result.alternative_diagnoses = gemini_res.alternative_diagnoses
-                analysis_result.symptoms = gemini_res.symptoms or analysis_result.symptoms
-                analysis_result.possible_causes = gemini_res.possible_causes or analysis_result.possible_causes
-                analysis_result.management = gemini_res.management or analysis_result.management
-                analysis_result.immediate_actions = gemini_res.immediate_actions or analysis_result.immediate_actions
-                analysis_result.prevention = gemini_res.prevention or analysis_result.prevention
-                analysis_result.chemical_control_guidance = gemini_res.chemical_control_guidance
-                analysis_result.risk_level = gemini_res.risk_level
-                analysis_result.disease_status = "diagnosed" if gemini_res.health_status != "uncertain" else "unclear"
-            else:
-                # Use Gemini as complete analysis if PlantNet key was not configured
-                analysis_result = gemini_res
-                analysis_result.provider = "PlantNet + Gemini AI"
-                model_info = ModelInfo(
-                    provider="PlantNet + Gemini",
-                    model_name=getattr(gemini_model, "model_name", "gemini-2.5-flash"),
-                    project=settings.PLANTNET_PROJECT,
-                    request_timestamp=datetime.now(timezone.utc).isoformat()
-                )
+            logger.info("[GEMINI] Disease Analysis successful: %s (%s)",
+                        gemini_result.disease.name if hasattr(gemini_result.disease, 'name') else gemini_result.disease,
+                        gemini_result.health_status)
 
         except Exception as exc:
-            logger.warning("[STAGE 2] Gemini disease diagnosis failed: %s", exc)
+            gemini_error = str(exc)
+            logger.warning("[GEMINI] Disease diagnosis failed: %s (will use PlantNet fallback if available)", exc)
 
-    if not analysis_result:
-        now_iso = datetime.now(timezone.utc).isoformat()
-        model_info = ModelInfo(
-            provider="PlantNet",
-            model_name="PlantNet-v2",
+    # -------------------------------------------------------------
+    # 3. RECONCILIATION & FALLBACK RESOLUTION
+    # -------------------------------------------------------------
+
+    # Case A: Both PlantNet & Gemini Succeeded -> Combine botanical species + disease pathology
+    if plantnet_result and gemini_result:
+        final_result = plantnet_result
+        final_result.disease = gemini_result.disease
+        final_result.health_status = gemini_result.health_status
+        final_result.health_assessment = gemini_result.health_assessment
+        final_result.primary_diagnosis = gemini_result.primary_diagnosis
+        final_result.alternative_diagnoses = gemini_result.alternative_diagnoses
+        final_result.symptoms = gemini_result.symptoms or final_result.symptoms
+        final_result.possible_causes = gemini_result.possible_causes or final_result.possible_causes
+        final_result.management = gemini_result.management or final_result.management
+        final_result.immediate_actions = gemini_result.immediate_actions or final_result.immediate_actions
+        final_result.prevention = gemini_result.prevention or final_result.prevention
+        final_result.chemical_control_guidance = gemini_result.chemical_control_guidance
+        final_result.risk_level = gemini_result.risk_level
+        final_result.disease_status = "diagnosed" if gemini_result.health_status != "uncertain" else "unclear"
+        final_result.provider = "PlantNet + Gemini AI"
+
+        final_model = ModelInfo(
+            provider="PlantNet + Gemini AI",
+            model_name=f"PlantNet-v2 + {getattr(gemini_model, 'model_name', 'gemini-3.6-flash')}",
             project=settings.PLANTNET_PROJECT or "all",
             request_timestamp=now_iso
         )
-        analysis_result = DiseaseAnalysisResult(
-            analysis_status="service_error",
-            provider="PlantNet",
-            selected_crop=selected_crop,
-            identification_status="unavailable",
-            disease_status="not_available",
-            warnings=[ValidationWarning(field="plantnet_api_key", issue="Plant identification service is temporarily unavailable.", action="retry_later")],
-            limitations=["Plant identification service is not configured."],
-            disclaimer="Plant identification service is temporarily unavailable. Please try again later."
-        )
+        return final_result, final_model
 
-    return analysis_result, model_info
+    # Case B: Gemini Succeeded (PlantNet was empty or failed) -> Use Gemini Vision
+    if gemini_result:
+        gemini_result.provider = "Gemini AI Vision"
+        if plantnet_error:
+            if gemini_result.validation_warnings is None:
+                gemini_result.validation_warnings = []
+            gemini_result.validation_warnings.append(ValidationWarning(
+                field="plantnet_fallback",
+                issue=f"PlantNet botanical check unavailable ({plantnet_error}); complete diagnosis provided by Gemini Vision.",
+                action="none"
+            ))
+        return gemini_result, (gemini_model or ModelInfo(provider="Google Gemini", model_name="gemini-3.6-flash", request_timestamp=now_iso))
+
+    # Case C: Gemini Failed -> Fallback to PlantNet botanical identification!
+    if plantnet_result:
+        logger.info("[FALLBACK] Gemini Vision failed (%s); returning PlantNet botanical identification fallback", gemini_error)
+        plantnet_result.provider = "PlantNet (Botanical Fallback)"
+        if plantnet_result.validation_warnings is None:
+            plantnet_result.validation_warnings = []
+        plantnet_result.validation_warnings.append(ValidationWarning(
+            field="gemini_ai",
+            issue="Gemini pathology AI was temporarily unavailable; plant species accurately identified via PlantNet.",
+            action="consult_kvk"
+        ))
+        plantnet_result.disclaimer = "Plant species identified via PlantNet. Since AI pathology service was unavailable, please consult your local Krishi Vigyan Kendra (KVK) or agricultural extension officer for disease confirmation."
+        return plantnet_result, (plantnet_model or ModelInfo(provider="PlantNet", model_name="PlantNet-v2", request_timestamp=now_iso))
+
+    # Case D: Both Failed or Unconfigured
+    err_msg = "Both Gemini Vision and PlantNet identification services are temporarily unavailable."
+    if gemini_error:
+        err_msg += f" Gemini error: {gemini_error}."
+    if plantnet_error:
+        err_msg += f" PlantNet error: {plantnet_error}."
+
+    fallback_error_result = DiseaseAnalysisResult(
+        analysis_status=plantnet_error_category or "service_error",
+        provider="PlantNet / Gemini",
+        selected_crop=selected_crop,
+        identification_status="unavailable",
+        disease_status="not_available",
+        validation_warnings=[ValidationWarning(field="service_availability", issue=err_msg, action="retry_later")],
+        limitations=["AI identification services temporarily unavailable."],
+        disclaimer="Service is temporarily unavailable. Please verify API configuration in backend/.env and try again."
+    )
+    fallback_model = ModelInfo(provider="System", model_name="fallback", request_timestamp=now_iso)
+    return fallback_error_result, fallback_model
 
 
 def test_plantnet_connection() -> Dict[str, Any]:

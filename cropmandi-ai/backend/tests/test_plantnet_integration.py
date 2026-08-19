@@ -109,7 +109,7 @@ def test_1_valid_image_and_valid_plantnet_response(sample_image_bytes, mock_toma
 
 
 def test_2_missing_api_key(sample_image_bytes):
-    with patch("app.config.settings.PLANTNET_API_KEY", ""), patch("app.config.settings.DISEASE_ANALYSIS_PROVIDER", "expert_confirmation_required"):
+    with patch("app.config.settings.PLANTNET_API_KEY", ""), patch("app.config.settings.GEMINI_API_KEY", ""):
         res, model = identify_plant_image(sample_image_bytes)
         assert res.analysis_status == "service_error"
         assert res.identification_status == "unavailable"
@@ -122,7 +122,7 @@ def test_3_invalid_api_key(sample_image_bytes):
         mock_resp.text = "Unauthorized"
         mock_post.return_value = mock_resp
 
-        with patch("app.config.settings.PLANTNET_API_KEY", "invalid_key"):
+        with patch("app.config.settings.PLANTNET_API_KEY", "invalid_key"), patch("app.config.settings.GEMINI_API_KEY", ""):
             res, model = identify_plant_image(sample_image_bytes)
             assert res.analysis_status == "plantnet_authentication_error"
 
@@ -130,7 +130,7 @@ def test_3_invalid_api_key(sample_image_bytes):
 def test_4_timeout_handling(sample_image_bytes):
     import requests
     with patch("requests.post", side_effect=requests.Timeout("Connection timeout")):
-        with patch("app.config.settings.PLANTNET_API_KEY", "test_key"):
+        with patch("app.config.settings.PLANTNET_API_KEY", "test_key"), patch("app.config.settings.GEMINI_API_KEY", ""):
             res, model = identify_plant_image(sample_image_bytes)
             assert res.analysis_status == "plantnet_timeout"
 
@@ -142,9 +142,26 @@ def test_5_rate_limit_handling(sample_image_bytes):
         mock_resp.text = "Too Many Requests"
         mock_post.return_value = mock_resp
 
-        with patch("app.config.settings.PLANTNET_API_KEY", "test_key"):
+        with patch("app.config.settings.PLANTNET_API_KEY", "test_key"), patch("app.config.settings.GEMINI_API_KEY", ""):
             res, model = identify_plant_image(sample_image_bytes)
             assert res.analysis_status == "plantnet_rate_limit_error"
+
+
+def test_gemini_failure_fallback_to_plantnet(sample_image_bytes, mock_tomato_plantnet_json):
+    with patch("requests.post") as mock_post:
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = mock_tomato_plantnet_json
+        mock_post.return_value = mock_resp
+
+        with patch("app.services.gemini_crop_disease_service.analyze_crop_image", side_effect=Exception("Gemini quota error")), \
+             patch("app.config.settings.PLANTNET_API_KEY", "valid_plantnet_key"), \
+             patch("app.config.settings.GEMINI_API_KEY", "gemini_key"):
+            res, model = identify_plant_image(sample_image_bytes, selected_crop="Tomato")
+            assert res.analysis_status == "success"
+            assert res.detected_crop == "Tomato"
+            assert res.provider == "PlantNet (Botanical Fallback)"
+            assert any("Gemini pathology AI was temporarily unavailable" in w.issue for w in (res.validation_warnings or []))
 
 
 def test_6_invalid_image_validation():
