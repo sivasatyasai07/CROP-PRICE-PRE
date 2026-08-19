@@ -214,13 +214,8 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
         }}
       >
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(180px, 1fr) minmax(220px, 1.4fr) minmax(180px, 1.1fr) auto',
-            gap: '1.25rem',
-            alignItems: 'flex-end',
-          }}
           className="forecast-control-grid"
+          style={{ width: '100%' }}
         >
           
           {/* 1. Select Crop / Commodity */}
@@ -351,7 +346,7 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
           </div>
 
           {/* 4. Action Buttons (Generate 3-Day Forecast + Live Location Symbol) */}
-          <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', width: '100%' }}>
             <button
               id="btn-generate-forecast"
               type="button"
@@ -363,7 +358,7 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
                 color: '#ffffff',
                 fontWeight: 700,
                 fontSize: '0.92rem',
-                padding: '0 1.35rem',
+                padding: '0 1.25rem',
                 height: '44px',
                 borderRadius: '10px',
                 border: 'none',
@@ -376,6 +371,8 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
                 transition: 'all 0.2s ease',
                 whiteSpace: 'nowrap',
                 opacity: !isFormValid && !loading ? 0.6 : 1,
+                flex: 1,
+                minWidth: '160px',
               }}
             >
               {loading ? (

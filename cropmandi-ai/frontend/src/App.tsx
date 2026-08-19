@@ -15,7 +15,7 @@ export function App() {
 
   return (
     <AuthProvider>
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100%', overflowX: 'hidden' }}>
         
         {/* Header Bar with Logo & Title */}
         <Navbar
@@ -26,7 +26,7 @@ export function App() {
         />
 
         {/* Main Container */}
-        <main style={{ flex: 1, maxWidth: '1280px', width: '100%', margin: '0 auto', padding: '2rem 1.5rem' }}>
+        <main style={{ flex: 1, maxWidth: '1280px', width: '100%', margin: '0 auto', padding: '1.5rem 1rem' }}>
           {activeTab === 'forecast' && <FarmerForecastTab language={language} onNavigateTab={setActiveTab} />}
           {activeTab === 'trends' && <PriceTrendsTab language={language} />}
           {activeTab === 'disease' && <CropDiseaseTab language={language} />}

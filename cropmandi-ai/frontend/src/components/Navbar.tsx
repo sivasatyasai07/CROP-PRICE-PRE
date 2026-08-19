@@ -31,24 +31,25 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header style={{ borderBottom: '1px solid var(--border-color)', background: '#ffffff', boxShadow: 'var(--shadow-sm)', position: 'sticky', top: 0, zIndex: 100 }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0.85rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="navbar-container">
         
         {/* Brand Logo & Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
           <img
             src="/logo.jpg"
-            alt="Mandi Price Prediction Logo"
+            alt="CropMandi AI Logo"
             style={{
-              width: '52px',
-              height: '52px',
+              width: '48px',
+              height: '48px',
               borderRadius: '50%',
               objectFit: 'cover',
               border: '2px solid var(--primary)',
-              boxShadow: 'var(--shadow-sm)'
+              boxShadow: 'var(--shadow-sm)',
+              flexShrink: 0,
             }}
           />
           <div>
-            <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: 'var(--primary-dark)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h1 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--primary-dark)', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
               <span>{t.appTitle}</span>
               <span className="badge badge-green" style={{ fontSize: '0.7rem' }}>APMC AI</span>
             </h1>
@@ -59,10 +60,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Right Navigation & 5-Language Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+        <div className="navbar-right">
           
           {/* Navigation Tabs */}
-          <nav style={{ display: 'flex', gap: '0.4rem', background: 'var(--bg-secondary)', padding: '0.35rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+          <nav className="navbar-nav">
             {[
               { id: 'forecast', label: t.tabs.forecast, icon: TrendingUp },
               { id: 'trends', label: t.tabs.trends, icon: Sprout },
