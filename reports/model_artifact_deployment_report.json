@@ -1,0 +1,30 @@
+{
+  "status": "ready",
+  "active_model_version": "v20260818_153724",
+  "artifact_directory": "cropmandi-ai/ml/models",
+  "horizons": {
+    "h1": {
+      "exists": true,
+      "loaded": true,
+      "path": "catboost_h1_vv20260818_153724.cbm",
+      "sha256": "0f858bb49ff5bb8846126a91941c571e9361537580c4d859cff09793c3cbe82f"
+    },
+    "h2": {
+      "exists": true,
+      "loaded": true,
+      "path": "catboost_h2_vv20260818_153724.cbm",
+      "sha256": "8a370b543f105db6e654a0d52c7786001a602345670e660ebcf55b8870ecaddb"
+    },
+    "h3": {
+      "exists": true,
+      "loaded": true,
+      "path": "catboost_h3_vv20260818_153724.cbm",
+      "sha256": "7c6ce3e06ad8cff5f878642e06a89e4034969515f11709459cb73e6fe1b58c08"
+    }
+  },
+  "metadata_exists": true,
+  "feature_count": 98,
+  "feature_schema_match": true,
+  "message": "All multi-horizon CatBoost models (H1, H2, H3) and conformal metadata for version v20260818_153724 loaded successfully.",
+  "checked_at": "2026-08-19T17:21:32.509218"
+}

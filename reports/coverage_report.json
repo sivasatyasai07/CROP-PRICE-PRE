@@ -1,0 +1,6958 @@
+{
+  "commodities_count": 36,
+  "commodities": [
+    "Tomato",
+    "Beetroot",
+    "Cabbage",
+    "Potato",
+    "Bitter gourd",
+    "Bottle gourd",
+    "Brinjal",
+    "Carrot",
+    "Cauliflower",
+    "Green Chilli",
+    "Onion",
+    "Turmeric(raw)",
+    "Groundnut pods(raw)",
+    "Bhindi(Ladies Finger)",
+    "Cluster beans",
+    "Cucumbar(Kheera)",
+    "Raddish",
+    "Ridgeguard(Tori)",
+    "Sweet Potato",
+    "Lemon",
+    "Paddy",
+    "Maize",
+    "Jowar",
+    "Groundnut",
+    "Castor Seed",
+    "Sunflower",
+    "Bengal Gram",
+    "Red Gram",
+    "Black Gram",
+    "Dry Chillies",
+    "Turmeric",
+    "Ajwan",
+    "Cluster Beans",
+    "Ridge Gourd",
+    "Sponge gourd",
+    "Ridgeguard"
+  ],
+  "markets_count": 768,
+  "markets_with_coordinates": 42,
+  "markets": [
+    {
+      "id": 1,
+      "name": "Anantapur APMC",
+      "district": "Anantapur",
+      "coords": [
+        14.6819,
+        77.6006
+      ]
+    },
+    {
+      "id": 2,
+      "name": "B.Kothakota H/Q Angallu",
+      "district": "Annamayya",
+      "coords": [
+        13.6333,
+        78.4333
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Guramkonda Sub-yard of AMC Valmikipuram",
+      "district": "Annamayya",
+      "coords": [
+        13.7833,
+        78.5833
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Kalikiri APMC",
+      "district": "Annamayya",
+      "coords": [
+        13.6833,
+        78.7833
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Madanapalli APMC",
+      "district": "Annamayya",
+      "coords": [
+        13.55,
+        78.5
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Mulakalacheruvu APMC",
+      "district": "Annamayya",
+      "coords": [
+        13.7833,
+        78.3333
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Punganur APMC",
+      "district": "Chittoor",
+      "coords": [
+        13.3667,
+        78.5833
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Somala APMC",
+      "district": "Chittoor",
+      "coords": [
+        13.4333,
+        78.85
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Valmikipuram APMC",
+      "district": "Annamayya",
+      "coords": [
+        13.65,
+        78.6333
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Kuppam APMC",
+      "district": "Chittoor",
+      "coords": [
+        12.75,
+        78.3667
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Palamaner APMC",
+      "district": "Chittoor",
+      "coords": [
+        13.2,
+        78.75
+      ]
+    },
+    {
+      "id": 12,
+      "name": "V. Kota Sub-yard of AMC Palamaneru",
+      "district": "Chittoor",
+      "coords": [
+        13.15,
+        78.5833
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Vayalapadu APMC",
+      "district": "Chittoor",
+      "coords": [
+        13.6167,
+        78.6167
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Pattikonda APMC",
+      "district": "Kurnool",
+      "coords": [
+        15.4,
+        77.5
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Kurnool APMC",
+      "district": "Kurnool",
+      "coords": [
+        15.8281,
+        78.0373
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Chintapally APMC",
+      "district": "Alluri Sitharama Raju",
+      "coords": [
+        17.8667,
+        82.35
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Parchur APMC",
+      "district": "Bapatla",
+      "coords": [
+        15.9667,
+        80.2667
+      ]
+    },
+    {
+      "id": 18,
+      "name": "A.A.Nagar,Kurnool,RBZ APMC",
+      "district": "Kurnool",
+      "coords": [
+        15.83,
+        78.04
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Yerraguntla APMC",
+      "district": "YSR Kadapa",
+      "coords": [
+        14.6333,
+        78.5333
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Gopalapuram APMC",
+      "district": "East Godavari",
+      "coords": [
+        17.1,
+        81.5333
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Chintalapudi APMC",
+      "district": "Eluru",
+      "coords": [
+        17.0667,
+        80.9833
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Denduluru APMC",
+      "district": "Eluru",
+      "coords": [
+        16.75,
+        81.1667
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Eluru APMC",
+      "district": "Eluru",
+      "coords": [
+        16.7107,
+        81.0952
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Tenali APMC",
+      "district": "Guntur",
+      "coords": [
+        16.2437,
+        80.64
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Banaganapalli APMC",
+      "district": "Nandyal",
+      "coords": [
+        15.3167,
+        78.2333
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Atmakur (Nandyal District) APMC",
+      "district": "Nandyal",
+      "coords": [
+        15.8833,
+        78.5833
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Rajahmundry APMC",
+      "district": "East Godavari",
+      "coords": [
+        17.0005,
+        81.804
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Tiruvuru APMC",
+      "district": "NTR",
+      "coords": [
+        17.1167,
+        80.6167
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Tanuku APMC",
+      "district": "West Godavari",
+      "coords": [
+        16.7547,
+        81.6811
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Sampara (Kakinada Rural) APMC",
+      "district": "Kakinada",
+      "coords": [
+        16.9833,
+        82.2333
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Nandyal APMC",
+      "district": "Nandyal",
+      "coords": [
+        15.4886,
+        78.4832
+      ]
+    },
+    {
+      "id": 32,
+      "name": "Alur APMC",
+      "district": "Kurnool",
+      "coords": [
+        15.3333,
+        77.2333
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Adoni APMC",
+      "district": "Kurnool",
+      "coords": [
+        15.6322,
+        77.2728
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Kadapa APMC",
+      "district": "YSR Kadapa",
+      "coords": [
+        14.4673,
+        78.8242
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Yemmiganuru APMC",
+      "district": "Kurnool",
+      "coords": [
+        15.7333,
+        77.4833
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Dhone APMC",
+      "district": "Nandyal",
+      "coords": [
+        15.4167,
+        77.8667
+      ]
+    },
+    {
+      "id": 37,
+      "name": "Guntur APMC",
+      "district": "Guntur",
+      "coords": [
+        16.3067,
+        80.4365
+      ]
+    },
+    {
+      "id": 38,
+      "name": "Piduguralla (Palnadu) APMC",
+      "district": "Palnadu",
+      "coords": [
+        16.4833,
+        79.8833
+      ]
+    },
+    {
+      "id": 39,
+      "name": "Duggirala APMC",
+      "district": "Guntur",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 40,
+      "name": "Madanapalle APMC",
+      "district": "Annamayya",
+      "coords": [
+        13.55,
+        78.5
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Kannauj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 42,
+      "name": "Amarwda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 43,
+      "name": "Segaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 44,
+      "name": "Indore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 45,
+      "name": "Anjad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 46,
+      "name": "Piplya APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 47,
+      "name": "Mundi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 48,
+      "name": "Balwadi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 49,
+      "name": "Sehore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 50,
+      "name": "Gandhwani APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 51,
+      "name": "Guna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 52,
+      "name": "Chaurai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 53,
+      "name": "Betul APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 54,
+      "name": "Loharda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 55,
+      "name": "Lateri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 56,
+      "name": "Multai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 57,
+      "name": "Bagli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 58,
+      "name": "Itarsi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 59,
+      "name": "Burhanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 60,
+      "name": "Dhamnod APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 61,
+      "name": "Mandsaur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 62,
+      "name": "Manasa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 63,
+      "name": "Pandhana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 64,
+      "name": "Seoni APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 65,
+      "name": "Gokak APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 66,
+      "name": "Kolaras APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 67,
+      "name": "Neemuch APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 68,
+      "name": "Badarwas APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 69,
+      "name": "Bhikangaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 70,
+      "name": "Ratlam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 71,
+      "name": "Jabalpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 72,
+      "name": "Sendhwa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 73,
+      "name": "Kalagategi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 74,
+      "name": "Khilchipur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 75,
+      "name": "Karhi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 76,
+      "name": "Badwaha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 77,
+      "name": "Chhindwara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 78,
+      "name": "Kukshi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 79,
+      "name": "Sailana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 80,
+      "name": "Khirakiya APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 81,
+      "name": "Yeola APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 82,
+      "name": "Petlawad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 83,
+      "name": "Dhar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 84,
+      "name": "Daloda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 85,
+      "name": "Hoovinahadagali APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 86,
+      "name": "Shamgarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 87,
+      "name": "Nasrullaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 88,
+      "name": "Bhensdehi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 89,
+      "name": "Khetia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 90,
+      "name": "Haveri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 91,
+      "name": "Sitmau APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 92,
+      "name": "Lakhnadon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 93,
+      "name": "Jaora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 94,
+      "name": "Ichhawar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 95,
+      "name": "Kannod APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 96,
+      "name": "Sinner APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 97,
+      "name": "Nandurbar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 98,
+      "name": "Bharuasumerpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 99,
+      "name": "Kalpi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 100,
+      "name": "Majalgaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 101,
+      "name": "Paithan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 102,
+      "name": "Gevrai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 103,
+      "name": "Banda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 104,
+      "name": "Dahod APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 105,
+      "name": "Jhansi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 106,
+      "name": "Dudu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 107,
+      "name": "Siddhpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 108,
+      "name": "Rajkot APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 109,
+      "name": "Vankaner APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 110,
+      "name": "Sindagi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 111,
+      "name": "Tuljapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 112,
+      "name": "Rura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 113,
+      "name": "Chotila APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 114,
+      "name": "Dudhani APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 115,
+      "name": "Gondal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 116,
+      "name": "Zaheerabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 117,
+      "name": "Pachora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 118,
+      "name": "Visavadar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 119,
+      "name": "Jasdan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 120,
+      "name": "Varipaal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 121,
+      "name": "Murum APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 122,
+      "name": "Malegaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 123,
+      "name": "Kalburgi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 124,
+      "name": "Ausa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 125,
+      "name": "Palitana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 126,
+      "name": "Dhule APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 127,
+      "name": "Barad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 128,
+      "name": "Noida APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 129,
+      "name": "Taleja APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 130,
+      "name": "Amreli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 131,
+      "name": "Junagadh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 132,
+      "name": "Savarkundla APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 133,
+      "name": "Bilaspur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 134,
+      "name": "Gajol APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 135,
+      "name": "Babra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 136,
+      "name": "Bhabhar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 137,
+      "name": "Veraval APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 138,
+      "name": "Bhanvad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 139,
+      "name": "Rapar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 140,
+      "name": "Savanur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 141,
+      "name": "Warangal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 142,
+      "name": "Bijapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 143,
+      "name": "Alirajpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 144,
+      "name": "Thirupathur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 145,
+      "name": "Jobat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 146,
+      "name": "Pohari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 147,
+      "name": "Bhander APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 148,
+      "name": "Shivpuri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 149,
+      "name": "Dehgam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 150,
+      "name": "Harij APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 151,
+      "name": "Lakhani APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 152,
+      "name": "Unava APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 153,
+      "name": "Radhanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 154,
+      "name": "Kalol APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 155,
+      "name": "Patan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 156,
+      "name": "Jamnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 157,
+      "name": "Nohar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 158,
+      "name": "Gadwal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 159,
+      "name": "Kalawad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 160,
+      "name": "Visnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 161,
+      "name": "Botad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 162,
+      "name": "Deesa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 163,
+      "name": "Sumerpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 164,
+      "name": "Ahmednagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 165,
+      "name": "Tharad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 166,
+      "name": "Kadi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 167,
+      "name": "Dhanera APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 168,
+      "name": "Palanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 169,
+      "name": "Bhuj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 170,
+      "name": "Amirgadh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 171,
+      "name": "Anjar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 172,
+      "name": "Thara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 173,
+      "name": "APMC HALVAD",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 174,
+      "name": "Mansa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 175,
+      "name": "Koppal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 176,
+      "name": "Kottur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 177,
+      "name": "Annigeri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 178,
+      "name": "Davangere APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 179,
+      "name": "Chitradurga APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 180,
+      "name": "Jalana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 181,
+      "name": "Shimoga APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 182,
+      "name": "Bagalakot APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 183,
+      "name": "Raichur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 184,
+      "name": "Yalburga APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 185,
+      "name": "Yadgir APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 186,
+      "name": "Mundaragi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 187,
+      "name": "Soundati APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 188,
+      "name": "Nargunda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 189,
+      "name": "Ranebennur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 190,
+      "name": "Bellary APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 191,
+      "name": "Laxmeshwar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 192,
+      "name": "Gadag APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 193,
+      "name": "Badami APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 194,
+      "name": "Jalgaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 195,
+      "name": "Lashkar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 196,
+      "name": "Binaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 197,
+      "name": "Tendukheda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 198,
+      "name": "Pachaur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 199,
+      "name": "Kalapipal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 200,
+      "name": "Obedullaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 201,
+      "name": "Mungawali APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 202,
+      "name": "Panna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 203,
+      "name": "Rewa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 204,
+      "name": "Begamganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 205,
+      "name": "Patharia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 206,
+      "name": "Khatora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 207,
+      "name": "Maksudangarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 208,
+      "name": "Ujjain APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 209,
+      "name": "Shujalpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 210,
+      "name": "Kurwai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 211,
+      "name": "Rajgarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 212,
+      "name": "Ashoknagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 213,
+      "name": "Khurai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 214,
+      "name": "Soyatkalan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 215,
+      "name": "Garoth APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 216,
+      "name": "Shamshabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 217,
+      "name": "Aron APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 218,
+      "name": "Garhakota APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 219,
+      "name": "Sagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 220,
+      "name": "Rehli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 221,
+      "name": "Gairatganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 222,
+      "name": "Kumbhraj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 223,
+      "name": "Narsinghpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 224,
+      "name": "Morena APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 225,
+      "name": "Damoh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 226,
+      "name": "Harsood APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 227,
+      "name": "Badnawar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 228,
+      "name": "Datia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 229,
+      "name": "Bhind APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 230,
+      "name": "Piprai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 231,
+      "name": "Susner APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 232,
+      "name": "Raghogarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 233,
+      "name": "Ashta APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 234,
+      "name": "Bhopal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 235,
+      "name": "Brahmpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 236,
+      "name": "Tonk APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 237,
+      "name": "Lalsot APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 238,
+      "name": "Morbi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 239,
+      "name": "Mandawari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 240,
+      "name": "Jogipet APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 241,
+      "name": "Devarakadra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 242,
+      "name": "Jagtial APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 243,
+      "name": "Nizamabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 244,
+      "name": "Karimnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 245,
+      "name": "Achampet APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 246,
+      "name": "Cherial APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 247,
+      "name": "Kesamudram APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 248,
+      "name": "Badepalli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 249,
+      "name": "Asifabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 250,
+      "name": "Sirsi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 251,
+      "name": "Bishenpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 252,
+      "name": "Hindupur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        13.8333,
+        77.4833
+      ]
+    },
+    {
+      "id": 253,
+      "name": "Imphal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 254,
+      "name": "Khammam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 255,
+      "name": "Enkoor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 256,
+      "name": "Sindhanur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 257,
+      "name": "Bhagepalli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 258,
+      "name": "Sahnewal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 259,
+      "name": "Tarantaran APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 260,
+      "name": "Gehri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 261,
+      "name": "Sonepat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 262,
+      "name": "Jalore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 263,
+      "name": "Samana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 264,
+      "name": "Patti APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 265,
+      "name": "Gossaigaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 266,
+      "name": "Mohanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 267,
+      "name": "Sikanderabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 268,
+      "name": "Kalmeshwar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 269,
+      "name": "Viswan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 270,
+      "name": "Balugaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 271,
+      "name": "Bolpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 272,
+      "name": "Asansol APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 273,
+      "name": "Jaunpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 274,
+      "name": "Jasvantnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 275,
+      "name": "Champadanga APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 276,
+      "name": "Raibareilly APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 277,
+      "name": "Achalda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 278,
+      "name": "Churu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 279,
+      "name": "Khurja APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 280,
+      "name": "Kicchha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 281,
+      "name": "Akbarpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 282,
+      "name": "Vadhvan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 283,
+      "name": "Jayas APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 284,
+      "name": "Samsabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 285,
+      "name": "Farukhabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 286,
+      "name": "Sheoraphuly APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 287,
+      "name": "Safdarganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 288,
+      "name": "Wazirganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 289,
+      "name": "Robertsganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 290,
+      "name": "Lalganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 291,
+      "name": "Mainpuri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 292,
+      "name": "Chhibramau APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 293,
+      "name": "Bachranwa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 294,
+      "name": "Silachhari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 295,
+      "name": "Kalipur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 296,
+      "name": "Ayodhya APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 297,
+      "name": "Ghiraur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 298,
+      "name": "Jahangirabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 299,
+      "name": "Thanabhavan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 300,
+      "name": "Teliamura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 301,
+      "name": "Nutanbazar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 302,
+      "name": "Dablirathan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 303,
+      "name": "Golagokarnath APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 304,
+      "name": "Durgapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 305,
+      "name": "Hodal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 306,
+      "name": "Pukharayan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 307,
+      "name": "Chitwadagaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 308,
+      "name": "Chandausi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 309,
+      "name": "Sonamura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 310,
+      "name": "Gopiganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 311,
+      "name": "Babain APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 312,
+      "name": "Puranpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 313,
+      "name": "Aliganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 314,
+      "name": "Bassi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 315,
+      "name": "Sanchore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 316,
+      "name": "Ulundurpettai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 317,
+      "name": "Vadaseri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 318,
+      "name": "HanumangarhTown APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 319,
+      "name": "Goluwala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 320,
+      "name": "Balarampuram APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 321,
+      "name": "Thuraiyur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 322,
+      "name": "Tindivanam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 323,
+      "name": "Rawatsar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 324,
+      "name": "Vellore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 325,
+      "name": "Tiruchengode APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 326,
+      "name": "Kamlaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 327,
+      "name": "Zira APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 328,
+      "name": "Barwala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 329,
+      "name": "Karvi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 330,
+      "name": "Bangarpet APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 331,
+      "name": "Samrala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 332,
+      "name": "Bowenpally APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 333,
+      "name": "Pune APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 334,
+      "name": "Nagpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 335,
+      "name": "Iamailabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 336,
+      "name": "Shahabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 337,
+      "name": "Jalukie APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 338,
+      "name": "Shajapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 339,
+      "name": "Bansi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 340,
+      "name": "Gandacharra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 341,
+      "name": "Moga APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 342,
+      "name": "Tura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 343,
+      "name": "Kalyan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 344,
+      "name": "Amroha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 345,
+      "name": "Auraiya APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 346,
+      "name": "Belgaum APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 347,
+      "name": "Samsi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 348,
+      "name": "Dhekiajuli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 349,
+      "name": "Hingna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 350,
+      "name": "Ujhani APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 351,
+      "name": "Ramtek APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 352,
+      "name": "Kamthi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 353,
+      "name": "Manmad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 354,
+      "name": "Ramnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 355,
+      "name": "Rasda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 356,
+      "name": "Gurdaspur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 357,
+      "name": "Tauru APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 358,
+      "name": "Kamakhyanagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 359,
+      "name": "Bhavnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 360,
+      "name": "Shevgaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 361,
+      "name": "Allahabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 362,
+      "name": "Biaora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 363,
+      "name": "Chandvad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 364,
+      "name": "Badnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 365,
+      "name": "Tiroda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 366,
+      "name": "Sheopurkalan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 367,
+      "name": "Dindori APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 368,
+      "name": "Vidisha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 369,
+      "name": "Sahiyapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 370,
+      "name": "Aranthangi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 371,
+      "name": "Nawabganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 372,
+      "name": "Mugrabaadshahpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 373,
+      "name": "Prayagraj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 374,
+      "name": "Chamorshi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 375,
+      "name": "Pratapgarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 376,
+      "name": "Balrampur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 377,
+      "name": "Paatan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 378,
+      "name": "Basti APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 379,
+      "name": "Sirsaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 380,
+      "name": "Udaipura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 381,
+      "name": "Semriharchand APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 382,
+      "name": "Bichhiya APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 383,
+      "name": "Bhatapara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 384,
+      "name": "Baramkela APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 385,
+      "name": "Kurud APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 386,
+      "name": "Balod APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 387,
+      "name": "Naila APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 388,
+      "name": "Katghora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 389,
+      "name": "Jaitgiri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 390,
+      "name": "Korar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 391,
+      "name": "Jagdalpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 392,
+      "name": "Vishrampur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 393,
+      "name": "Amadula APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 394,
+      "name": "Dhanora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 395,
+      "name": "Gamhari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 396,
+      "name": "Keshkal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 397,
+      "name": "Devda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 398,
+      "name": "Manjhanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 399,
+      "name": "Somvarpet APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 400,
+      "name": "Pandavapura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 401,
+      "name": "Kumta APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 402,
+      "name": "K.R.Nagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 403,
+      "name": "Karwar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 404,
+      "name": "Chaakghat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 405,
+      "name": "Navapara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 406,
+      "name": "Melaghar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 407,
+      "name": "Chhuria APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 408,
+      "name": "Ramanujganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 409,
+      "name": "Rajnandgaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 410,
+      "name": "Kakinada (Urban) APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 411,
+      "name": "Chaksu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 412,
+      "name": "Mohangarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 413,
+      "name": "Bajju APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 414,
+      "name": "Bagasara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 415,
+      "name": "Chhatarpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 416,
+      "name": "Charkhari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 417,
+      "name": "Niwadi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 418,
+      "name": "Cuddapah APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 419,
+      "name": "Naugaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 420,
+      "name": "Pandhurna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 421,
+      "name": "Magroni APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 422,
+      "name": "Harpalpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 423,
+      "name": "Khanyadhana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 424,
+      "name": "Shahapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 425,
+      "name": "Khargapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 426,
+      "name": "Karera APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 427,
+      "name": "Kurawar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 428,
+      "name": "Dewas APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 429,
+      "name": "Gadarwada APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 430,
+      "name": "Ganjbasoda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 431,
+      "name": "Gotegaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 432,
+      "name": "Nagod APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 433,
+      "name": "Deori APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 434,
+      "name": "Banapura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 435,
+      "name": "Jeerapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 436,
+      "name": "Katni APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 437,
+      "name": "Tarana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 438,
+      "name": "Sironj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 439,
+      "name": "Burgampadu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 440,
+      "name": "Thoubal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 441,
+      "name": "Mangalore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 442,
+      "name": "Rahuri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 443,
+      "name": "Kosikalan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 444,
+      "name": "Mathura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 445,
+      "name": "Birbhum APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 446,
+      "name": "Belur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 447,
+      "name": "Nanjangud APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 448,
+      "name": "Talalagir APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 449,
+      "name": "Kanakapura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 450,
+      "name": "Sainthia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 451,
+      "name": "Rairangpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 452,
+      "name": "Ghatal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 453,
+      "name": "Birmaharajpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 454,
+      "name": "Rajpura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 455,
+      "name": "Khateema APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 456,
+      "name": "Chevella APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 457,
+      "name": "Barabanki APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 458,
+      "name": "Patiala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 459,
+      "name": "Etawah APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 460,
+      "name": "Hapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 461,
+      "name": "Sikarpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 462,
+      "name": "Mawana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 463,
+      "name": "Parimpore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 464,
+      "name": "Darjeeling APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 465,
+      "name": "Chhachrauli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 466,
+      "name": "Khanna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 467,
+      "name": "Kotkapura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 468,
+      "name": "Hospet APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 469,
+      "name": "Gowribidanoor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 470,
+      "name": "Neeleswaram APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 471,
+      "name": "Sargipali APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 472,
+      "name": "Kanjangadu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 473,
+      "name": "Aligarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 474,
+      "name": "Rohtak APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 475,
+      "name": "Perambra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 476,
+      "name": "Sirsa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 477,
+      "name": "Belacoba APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 478,
+      "name": "Boudh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 479,
+      "name": "Barara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 480,
+      "name": "Jangipura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 481,
+      "name": "Bachaibari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 482,
+      "name": "Akola APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 483,
+      "name": "Shrirampur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 484,
+      "name": "Bhilwara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 485,
+      "name": "Siwan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 486,
+      "name": "Parappanangadi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 487,
+      "name": "Sirhind APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 488,
+      "name": "Roorkee APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 489,
+      "name": "Kaliaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 490,
+      "name": "Sampla APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 491,
+      "name": "Palayam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 492,
+      "name": "Surat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 493,
+      "name": "Nuh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 494,
+      "name": "Kayamkulam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 495,
+      "name": "Munnar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 496,
+      "name": "Kathua APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 497,
+      "name": "Bazpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 498,
+      "name": "Rudrapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 499,
+      "name": "Bisoli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 500,
+      "name": "Shahaswan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 501,
+      "name": "Thalasserry APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 502,
+      "name": "Sujangarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 503,
+      "name": "Rahata APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 504,
+      "name": "Pehowa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 505,
+      "name": "Mohamadabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 506,
+      "name": "Jind APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 507,
+      "name": "Muzzafarnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 508,
+      "name": "Bonai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 509,
+      "name": "Muradabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 510,
+      "name": "Haldwani APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 511,
+      "name": "Kairana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 512,
+      "name": "Agra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 513,
+      "name": "Shikohabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 514,
+      "name": "Powayan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 515,
+      "name": "Choppadandi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 516,
+      "name": "Bhesan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 517,
+      "name": "Mandla APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 518,
+      "name": "Pichhour APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 519,
+      "name": "Vadgam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 520,
+      "name": "Raniwara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 521,
+      "name": "Vav APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 522,
+      "name": "Panthawada APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 523,
+      "name": "Himatnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 524,
+      "name": "Dhoraji APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 525,
+      "name": "Viramgam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 526,
+      "name": "Phalodi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 527,
+      "name": "Chansama APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 528,
+      "name": "Mehsana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 529,
+      "name": "Rajnagar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 530,
+      "name": "Bijawar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 531,
+      "name": "Javad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 532,
+      "name": "Tikamgarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 533,
+      "name": "Jhabua APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 534,
+      "name": "Mapusa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 535,
+      "name": "Tulsipur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 536,
+      "name": "Saharanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 537,
+      "name": "Sarangpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 538,
+      "name": "Nasik APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 539,
+      "name": "Pimpalgaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 540,
+      "name": "Bangalore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 541,
+      "name": "Nawalgarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 542,
+      "name": "Nampur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 543,
+      "name": "Shirpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 544,
+      "name": "Satana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 545,
+      "name": "Kopargaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 546,
+      "name": "Devala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 547,
+      "name": "Muktsar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 548,
+      "name": "Kalvan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 549,
+      "name": "Vaijpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 550,
+      "name": "Solapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 551,
+      "name": "Yawal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 552,
+      "name": "Kalimpong APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 553,
+      "name": "Perumbavoor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 554,
+      "name": "Firozabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 555,
+      "name": "Wadakkanchery APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 556,
+      "name": "Bilsi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 557,
+      "name": "Shadabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 558,
+      "name": "Rajsamand APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 559,
+      "name": "Kottayam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 560,
+      "name": "Panipat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 561,
+      "name": "Mohindergarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 562,
+      "name": "Pataudi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 563,
+      "name": "Agar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 564,
+      "name": "Pilibhit APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 565,
+      "name": "Mehmoodabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 566,
+      "name": "Aluva APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 567,
+      "name": "Bhehjoi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 568,
+      "name": "Pothencode APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 569,
+      "name": "Palakkad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 570,
+      "name": "Kothamangalam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 571,
+      "name": "Doharighat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 572,
+      "name": "Dankaur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 573,
+      "name": "Naanpara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 574,
+      "name": "Taliparamba APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 575,
+      "name": "Koduvayoor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 576,
+      "name": "Jalalabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 577,
+      "name": "Fazilka APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 578,
+      "name": "Gazipur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 579,
+      "name": "Chavakkad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 580,
+      "name": "Sadhaura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 581,
+      "name": "Khekda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 582,
+      "name": "Gudimalkapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 583,
+      "name": "Nalbari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 584,
+      "name": "Doomdumia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 585,
+      "name": "Meham APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 586,
+      "name": "Bareilly APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 587,
+      "name": "Rampur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 588,
+      "name": "Perinthalmanna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 589,
+      "name": "Uklana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 590,
+      "name": "Udala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 591,
+      "name": "Jagatsinghpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 592,
+      "name": "Piravam APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 593,
+      "name": "Rairakhol APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 594,
+      "name": "Chengannur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 595,
+      "name": "Payagpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 596,
+      "name": "Indri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 597,
+      "name": "Bhulath APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 598,
+      "name": "Anchal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 599,
+      "name": "Bhucho APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 600,
+      "name": "Pipli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 601,
+      "name": "Kapurthala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 602,
+      "name": "Kiratpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 603,
+      "name": "Kottarakkara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 604,
+      "name": "Vamanapuram APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 605,
+      "name": "Kondotty APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 606,
+      "name": "Safidon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 607,
+      "name": "Kashipur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 608,
+      "name": "Bhawanigarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 609,
+      "name": "Neyyatinkara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 610,
+      "name": "Quadian APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 611,
+      "name": "Hansi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 612,
+      "name": "Manjeri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 613,
+      "name": "Patran APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 614,
+      "name": "Jhargram APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 615,
+      "name": "Ahmedabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 616,
+      "name": "Fatehabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 617,
+      "name": "Kottakkal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 618,
+      "name": "Attingal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 619,
+      "name": "Keshopur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 620,
+      "name": "Satara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 621,
+      "name": "Akluj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 622,
+      "name": "Mawkyrwat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 623,
+      "name": "Ludhiana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 624,
+      "name": "Sultanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 625,
+      "name": "Aroor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 626,
+      "name": "Thirurrangadi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 627,
+      "name": "Chathanoor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 628,
+      "name": "Madhavapuram APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 629,
+      "name": "Bahadurgarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 630,
+      "name": "Rishikesh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 631,
+      "name": "Ratia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 632,
+      "name": "Phagwara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 633,
+      "name": "Gohana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 634,
+      "name": "Jakhal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 635,
+      "name": "Chikkamagalore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 636,
+      "name": "Harippad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 637,
+      "name": "Kosli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 638,
+      "name": "Punhana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 639,
+      "name": "Unjha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 640,
+      "name": "Kollengode APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 641,
+      "name": "Gulavati APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 642,
+      "name": "Kattappana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 643,
+      "name": "Padra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 644,
+      "name": "Aralamoodu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 645,
+      "name": "Thalayolaparambu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 646,
+      "name": "Thrissur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 647,
+      "name": "Pattambi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 648,
+      "name": "Vadakkenchery APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 649,
+      "name": "Nabha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 650,
+      "name": "Alwar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 651,
+      "name": "Thrippunithura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 652,
+      "name": "Jagadhri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 653,
+      "name": "Radaur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 654,
+      "name": "Vandiperiyar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 655,
+      "name": "Thamarassery APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 656,
+      "name": "Uluberia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 657,
+      "name": "Bilimora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 658,
+      "name": "Lalru APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 659,
+      "name": "Quilandy APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 660,
+      "name": "Bhusaval APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 661,
+      "name": "Chakdah APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 662,
+      "name": "Nadia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 663,
+      "name": "Falakata APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 664,
+      "name": "Mumbai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 665,
+      "name": "Chala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 666,
+      "name": "Ranaghat APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 667,
+      "name": "Doraha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 668,
+      "name": "Kurali APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 669,
+      "name": "Moynaguri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 670,
+      "name": "Vai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 671,
+      "name": "Manchar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 672,
+      "name": "Banki APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 673,
+      "name": "Charra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 674,
+      "name": "Adimali APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 675,
+      "name": "Hasanpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 676,
+      "name": "Ganaur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 677,
+      "name": "Udumalpet APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 678,
+      "name": "Kopaganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 679,
+      "name": "Kharupetia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 680,
+      "name": "Kallachi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 681,
+      "name": "Jalaun APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 682,
+      "name": "Attabira APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 683,
+      "name": "Palwal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 684,
+      "name": "Anwala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 685,
+      "name": "Samalkha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 686,
+      "name": "Azadpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 687,
+      "name": "Khair APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 688,
+      "name": "Ankleshwar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 689,
+      "name": "Gauripur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 690,
+      "name": "Siyana APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 691,
+      "name": "Naraingarh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 692,
+      "name": "Kulai APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 693,
+      "name": "Khatra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 694,
+      "name": "Bhiwani APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 695,
+      "name": "Dudhi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 696,
+      "name": "Irinjalakkuda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 697,
+      "name": "Faridabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 698,
+      "name": "vadakarapathy APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 699,
+      "name": "Ahirora APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 700,
+      "name": "Narnaul APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 701,
+      "name": "Mukkom APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 702,
+      "name": "Angamaly APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 703,
+      "name": "Gorakhpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 704,
+      "name": "Gandhimaidan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 705,
+      "name": "Giddarbaha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 706,
+      "name": "Haathras APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 707,
+      "name": "Thanesar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 708,
+      "name": "Bahraich APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 709,
+      "name": "Navsari APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 710,
+      "name": "Ladwa APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 711,
+      "name": "Shahganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 712,
+      "name": "Mahoba APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 713,
+      "name": "Ajuha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 714,
+      "name": "Dhanaura APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 715,
+      "name": "Khaga APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 716,
+      "name": "Pala APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 717,
+      "name": "Garjee APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 718,
+      "name": "Sohna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 719,
+      "name": "Kuthuparambu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 720,
+      "name": "Lakhimpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 721,
+      "name": "Sitarganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 722,
+      "name": "Kalna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 723,
+      "name": "Athirampuzha APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 724,
+      "name": "Chelakkara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 725,
+      "name": "Kanjirappally APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 726,
+      "name": "Gonda APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 727,
+      "name": "Chandoli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 728,
+      "name": "Bharthna APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 729,
+      "name": "Baraut APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 730,
+      "name": "Hardoi APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 731,
+      "name": "Kayamganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 732,
+      "name": "Bindki APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 733,
+      "name": "Meerut APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 734,
+      "name": "Baripada APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 735,
+      "name": "Manathavady APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 736,
+      "name": "Mirzapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 737,
+      "name": "Pampady APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 738,
+      "name": "Rayya APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 739,
+      "name": "Dhubri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 740,
+      "name": "Karimpur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 741,
+      "name": "Jeypore APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 742,
+      "name": "Ettumanoor APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 743,
+      "name": "Siliguri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 744,
+      "name": "Habra APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 745,
+      "name": "Dhupguri APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 746,
+      "name": "Manglaur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 747,
+      "name": "Valangaiman APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 748,
+      "name": "Burdwan APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 749,
+      "name": "Khandhla APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 750,
+      "name": "Chowmanu APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 751,
+      "name": "Pali APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 752,
+      "name": "Ropar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 753,
+      "name": "Khamano APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 754,
+      "name": "Karanjia APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 755,
+      "name": "Khalilabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 756,
+      "name": "Kharar APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 757,
+      "name": "Jamanian APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 758,
+      "name": "Goalpara APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 759,
+      "name": "Kaithal APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 760,
+      "name": "Ghaziabad APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 761,
+      "name": "Shamli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 762,
+      "name": "Atrauli APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 763,
+      "name": "Gurgaon APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 764,
+      "name": "Kasganj APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 765,
+      "name": "Gangoh APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 766,
+      "name": "Sitapur APMC",
+      "district": "Andhra Pradesh",
+      "coords": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": 767,
+      "name": "Ananthapur APMC",
+      "district": "Anantapur",
+      "coords": [
+        14.6819,
+        77.6006
+      ]
+    },
+    {
+      "id": 768,
+      "name": "Pidugurala (Palnadu) APMC",
+      "district": "Palnadu",
+      "coords": [
+        16.4833,
+        79.8833
+      ]
+    }
+  ],
+  "status": "success"
+}

@@ -78,23 +78,62 @@ def get_price_history(
 
 @router.get("/compare", response_model=List[PriceCompareItem])
 def compare_market_prices(
-    commodity_id: int = Query(...),
+    commodity_id: Optional[int] = Query(None),
+    commodity: Optional[str] = Query(None),
+    target_date: Optional[str] = Query(None, alias="date"),
+    state: Optional[str] = Query(None),
+    district: Optional[str] = Query(None),
+    start_date: Optional[str] = Query(None),
+    end_date: Optional[str] = Query(None),
+    force_refresh: Optional[bool] = Query(False),
     db: Session = Depends(get_db)
 ):
+    # Resolve commodity
+    comm_obj = None
+    if commodity_id:
+        comm_obj = db.query(Commodity).get(commodity_id)
+    elif commodity:
+        comm_obj = db.query(Commodity).filter(
+            (Commodity.canonical_name.ilike(f"%{commodity}%")) | (Commodity.original_name.ilike(f"%{commodity}%"))
+        ).first()
+
+    if not comm_obj:
+        comm_obj = db.query(Commodity).first()
+        if not comm_obj:
+            from app.services.seed_service import seed_markets_and_commodities
+            seed_markets_and_commodities(db)
+            comm_obj = db.query(Commodity).first()
+
+    c_id = comm_obj.id if comm_obj else 1
+
     # Subquery for latest date per market
     subq = db.query(
         CleanedMarketPrice.market_id,
         func.max(CleanedMarketPrice.observation_date).label("max_date")
-    ).filter(CleanedMarketPrice.commodity_id == commodity_id)\
-     .group_by(CleanedMarketPrice.market_id).subquery()
+    ).filter(CleanedMarketPrice.commodity_id == c_id)
 
-    results = db.query(CleanedMarketPrice, Market)\
-                .join(subq, (CleanedMarketPrice.market_id == subq.c.market_id) & (CleanedMarketPrice.observation_date == subq.c.max_date))\
-                .join(Market, CleanedMarketPrice.market_id == Market.id)\
-                .filter(CleanedMarketPrice.commodity_id == commodity_id)\
-                .all()
+    if target_date:
+        subq = subq.filter(CleanedMarketPrice.observation_date <= target_date)
+    if start_date:
+        subq = subq.filter(CleanedMarketPrice.observation_date >= start_date)
+    if end_date:
+        subq = subq.filter(CleanedMarketPrice.observation_date <= end_date)
 
-    return [
+    subq = subq.group_by(CleanedMarketPrice.market_id).subquery()
+
+    q = db.query(CleanedMarketPrice, Market)\
+          .join(subq, (CleanedMarketPrice.market_id == subq.c.market_id) & (CleanedMarketPrice.observation_date == subq.c.max_date))\
+          .join(Market, CleanedMarketPrice.market_id == Market.id)\
+          .filter(CleanedMarketPrice.commodity_id == c_id)
+
+    if district:
+        q = q.filter(Market.district.ilike(f"%{district}%"))
+    if state:
+        q = q.filter(Market.state.ilike(f"%{state}%"))
+
+    results = q.all()
+
+    items = [
         PriceCompareItem(
             market_id=m.id,
             market_name=m.canonical_name,
@@ -106,7 +145,9 @@ def compare_market_prices(
             min_price=p.min_price,
             max_price=p.max_price,
             arrival_quantity=p.arrival_quantity,
-            unit=p.unit
+            unit=p.unit or comm_obj.unit if comm_obj else "Rs./Quintal"
         )
         for p, m in results
     ]
+
+    return items

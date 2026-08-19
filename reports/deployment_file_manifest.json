@@ -1,0 +1,32 @@
+{
+  "backend_entry_point": "cropmandi-ai/backend/app/main.py",
+  "root_entry_point": "main.py",
+  "frontend_entry_point": "cropmandi-ai/frontend/src/main.tsx",
+  "render_start_command": "uvicorn main:app --host 0.0.0.0 --port ",
+  "forecast_endpoint": "/api/v1/forecast/verified",
+  "models_health_endpoint": "/api/v1/models/health",
+  "system_health_endpoint": "/api/v1/system/health",
+  "weather_coverage_endpoint": "/api/v1/weather/coverage",
+  "critical_runtime_files": [
+    "main.py",
+    "requirements.txt",
+    "cropmandi-ai/backend/app/main.py",
+    "cropmandi-ai/backend/app/config.py",
+    "cropmandi-ai/backend/app/database.py",
+    "cropmandi-ai/backend/app/models.py",
+    "cropmandi-ai/backend/app/services/seed_service.py",
+    "cropmandi-ai/backend/app/services/official_market_service.py",
+    "cropmandi-ai/backend/app/services/official_market_sync_service.py",
+    "cropmandi-ai/backend/app/services/forecast_reconciliation_service.py",
+    "cropmandi-ai/backend/app/services/master_data_service.py",
+    "cropmandi-ai/backend/app/ml/predict.py",
+    "cropmandi-ai/backend/app/ml/model_registry.py",
+    "cropmandi-ai/backend/app/ml/feature_engineering.py",
+    "cropmandi-ai/backend/app/ml/dataset_builder.py",
+    "cropmandi-ai/backend/data/master-data.csv",
+    "cropmandi-ai/ml/models/catboost_h1_vv20260818_153724.cbm",
+    "cropmandi-ai/ml/models/catboost_h2_vv20260818_153724.cbm",
+    "cropmandi-ai/ml/models/catboost_h3_vv20260818_153724.cbm",
+    "cropmandi-ai/ml/models/metadata_vv20260818_153724.pkl"
+  ]
+}

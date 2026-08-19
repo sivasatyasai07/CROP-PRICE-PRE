@@ -392,7 +392,7 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
               ) : (
                 <>
                   <Calendar size={20} />
-                  <span>{t.forecast?.generateBtn || 'Generate 3-Day Forecast'}</span>
+                  <span>{language === 'te' ? 'ధర అంచనా వేయి' : (language === 'hi' ? 'पूर्वानुमान प्राप्त करें' : 'Generate Forecast')}</span>
                 </>
               )}
             </button>

@@ -50,14 +50,27 @@ WEATHER_FEATURE_COLUMNS = [
     'crop_short_rainfall', 'crop_medium_rainfall', 'crop_long_rainfall'
 ]
 
-FEATURE_COLUMNS = (
-    CATEGORICAL_FEATURES +
-    SEASONAL_FEATURE_COLUMNS +
-    PRICE_FEATURE_COLUMNS +
-    ARRIVAL_FEATURE_COLUMNS +
-    CROSS_MARKET_FEATURE_COLUMNS +
-    WEATHER_FEATURE_COLUMNS
-)
+FEATURE_COLUMNS = [
+    'market', 'commodity', 'district', 'year', 'month', 'day_of_week', 'day_of_year', 'is_weekend', 'quarter',
+    'sin_month', 'cos_month', 'sin_day_of_year', 'cos_day_of_year', 'sin_day_of_week', 'cos_day_of_week',
+    'monsoon_flag', 'summer_flag', 'winter_flag', 'price_range', 'price_range_percentage', 'modal_position',
+    'lag_1', 'lag_2', 'lag_3', 'lag_7', 'lag_14', 'lag_21', 'lag_28', 'rolling_mean_3', 'rolling_mean_7',
+    'rolling_mean_14', 'rolling_mean_28', 'rolling_median_7', 'rolling_min_7', 'rolling_max_7', 'rolling_std_7',
+    'rolling_std_14', 'rolling_std_28', 'price_change_1', 'price_change_3', 'price_change_7',
+    'price_percentage_change_1', 'price_percentage_change_7', 'price_vs_7_day_average', 'price_vs_28_day_average',
+    'modal_price_lag_365', 'price_change_from_last_year', 'price_ratio_to_last_year', 'seasonal_reference_available',
+    'arrival_missing', 'arrival_imputed', 'arrival_quantity_lag_1', 'arrival_quantity_lag_2', 'arrival_quantity_lag_3',
+    'arrival_quantity_lag_7', 'arrival_quantity_lag_14', 'arrival_change_1', 'arrival_change_7', 'arrival_pct_change_1',
+    'arrival_rolling_mean_3', 'arrival_rolling_mean_7', 'arrival_rolling_mean_14', 'arrival_rolling_mean_28',
+    'arrival_vs_7_day_average', 'arrival_vs_28_day_average', 'arrival_pressure', 'arrival_zscore_28',
+    'same_day_regional_mean', 'same_day_regional_median', 'same_day_regional_min', 'same_day_regional_max',
+    'same_day_regional_std', 'market_price_minus_regional_mean', 'market_price_ratio_to_regional_mean',
+    'number_of_markets_reporting', 'regional_arrival_total', 'regional_arrival_mean', 'weather_missing',
+    'temp_max_clean', 'temp_min_clean', 'temp_mean_clean', 'precip_clean', 'humidity_clean', 'wind_clean',
+    'rainfall_3d', 'rainfall_7d', 'rainfall_14d', 'rainfall_30d', 'temperature_mean_7d', 'humidity_mean_7d',
+    'wind_mean_7d', 'heavy_rain_flag', 'heat_stress_flag', 'cold_stress_flag', 'dry_spell_flag',
+    'crop_short_rainfall', 'crop_medium_rainfall', 'crop_long_rainfall'
+]
 
 NUMERIC_FEATURES = [c for c in FEATURE_COLUMNS if c not in CATEGORICAL_FEATURES]
 

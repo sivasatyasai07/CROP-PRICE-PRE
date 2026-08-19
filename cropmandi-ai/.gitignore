@@ -28,9 +28,7 @@ ml/data/cleaned/*
 !ml/data/cleaned/.gitkeep
 ml/data/features/*
 !ml/data/features/.gitkeep
-ml/models/*.cbm
-ml/models/*.pkl
-ml/models/*.json
+# Model artifacts (.cbm, .pkl) are tracked in git for production deployment
 
 # System / IDE
 .DS_Store
