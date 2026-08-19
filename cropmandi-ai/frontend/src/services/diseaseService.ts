@@ -90,7 +90,10 @@ export async function deleteDiseaseHistory(
 
 export function getDiseaseImageUrl(analysisId: string): string {
   const token = localStorage.getItem('cropmandi_auth_token');
-  const baseUrl = 'http://127.0.0.1:8000/api/v1';
+  const rawBase = (import.meta as any).env?.VITE_API_BASE_URL;
+  const baseUrl = rawBase
+    ? `${rawBase.replace(/\/+$/, '')}/api/v1`
+    : 'http://127.0.0.1:8000/api/v1';
   return token
     ? `${baseUrl}/disease/image/${analysisId}?token=${encodeURIComponent(token)}`
     : `${baseUrl}/disease/image/${analysisId}`;
