@@ -90,6 +90,8 @@ def list_recent_markets(
         target_comm_name = commodity
 
     norm_target_c = normalize_commodity_name(target_comm_name).lower() if target_comm_name else None
+    start_date_str = start_date.strftime("%Y-%m-%d")
+    today_str = today.strftime("%Y-%m-%d")
 
     all_markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
     if not all_markets:
@@ -99,46 +101,62 @@ def list_recent_markets(
 
     master_idx = load_master_data()
 
+    # Fast single-pass tally from master data for this commodity
+    master_mkt_counts = {}
+    master_mkt_latest = {}
+    for (comm_key, mkt_key, d_str), rec in master_idx.items():
+        if norm_target_c is None or comm_key == norm_target_c:
+            if start_date_str <= d_str <= today_str:
+                try:
+                    p_val = float(rec.get("modal_price", 0))
+                    if p_val > 0:
+                        master_mkt_counts[mkt_key] = master_mkt_counts.get(mkt_key, 0) + 1
+                        if mkt_key not in master_mkt_latest or d_str > master_mkt_latest[mkt_key]:
+                            master_mkt_latest[mkt_key] = d_str
+                except Exception:
+                    pass
+
+    # DB records aggregation
+    db_mkt_counts = {}
+    db_mkt_latest = {}
+    try:
+        q = db.query(OfficialMarketPrice).filter(
+            OfficialMarketPrice.observation_date >= start_date,
+            OfficialMarketPrice.observation_date <= today
+        )
+        if commodity_id:
+            q = q.filter(OfficialMarketPrice.commodity_id == commodity_id)
+        elif target_comm_name:
+            c_ent = db.query(Commodity).filter(Commodity.canonical_name == target_comm_name).first()
+            if c_ent:
+                q = q.filter(OfficialMarketPrice.commodity_id == c_ent.id)
+
+        for r in q.all():
+            if float(r.modal_price) > 0:
+                mid = r.market_id
+                db_mkt_counts[mid] = db_mkt_counts.get(mid, 0) + 1
+                d_val = r.observation_date if isinstance(r.observation_date, date) else datetime.strptime(str(r.observation_date), "%Y-%m-%d").date()
+                if mid not in db_mkt_latest or d_val > db_mkt_latest[mid]:
+                    db_mkt_latest[mid] = d_val
+    except Exception:
+        pass
+
     results: List[RecentMarketOut] = []
 
     for m in all_markets:
         norm_m = normalize_market_name(m.canonical_name).lower()
         norm_orig_m = normalize_market_name(m.original_name or "").lower()
 
-        records_in_window = 0
-        latest_date_dt: Optional[date] = None
+        m_cnt = master_mkt_counts.get(norm_m, 0) or master_mkt_counts.get(norm_orig_m, 0)
+        records_in_window = m_cnt + db_mkt_counts.get(m.id, 0)
 
-        # 1. Master index check
-        for (comm_key, mkt_key, d_str), rec in master_idx.items():
-            if norm_target_c is None or comm_key == norm_target_c:
-                if mkt_key == norm_m or mkt_key == norm_orig_m:
-                    try:
-                        d = datetime.strptime(d_str, "%Y-%m-%d").date()
-                        if start_date <= d <= today:
-                            p_val = float(rec.get("modal_price", 0))
-                            if p_val > 0:
-                                records_in_window += 1
-                                if latest_date_dt is None or d > latest_date_dt:
-                                    latest_date_dt = d
-                    except Exception:
-                        pass
-
-        # 2. DB OfficialMarketPrice check
-        try:
-            q = db.query(OfficialMarketPrice).filter(
-                OfficialMarketPrice.market_id == m.id,
-                OfficialMarketPrice.observation_date >= start_date,
-                OfficialMarketPrice.observation_date <= today
-            )
-            if commodity_id:
-                q = q.filter(OfficialMarketPrice.commodity_id == commodity_id)
-            for r in q.all():
-                if float(r.modal_price) > 0:
-                    records_in_window += 1
-                    if latest_date_dt is None or r.observation_date > latest_date_dt:
-                        latest_date_dt = r.observation_date
-        except Exception:
-            pass
+        latest_date_dt = None
+        latest_str = master_mkt_latest.get(norm_m) or master_mkt_latest.get(norm_orig_m)
+        if latest_str:
+            latest_date_dt = datetime.strptime(latest_str, "%Y-%m-%d").date()
+        if m.id in db_mkt_latest:
+            if latest_date_dt is None or db_mkt_latest[m.id] > latest_date_dt:
+                latest_date_dt = db_mkt_latest[m.id]
 
         if records_in_window >= min_records:
             age_days = (today - latest_date_dt).days if latest_date_dt else None

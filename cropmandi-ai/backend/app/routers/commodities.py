@@ -36,6 +36,8 @@ def list_recent_commodities(
 
     today = get_ist_today()
     start_date = today - timedelta(days=days - 1)
+    start_date_str = start_date.strftime("%Y-%m-%d")
+    today_str = today.strftime("%Y-%m-%d")
 
     all_commodities = db.query(Commodity).filter(Commodity.is_active == True).order_by(Commodity.canonical_name.asc()).all()
     if not all_commodities:
@@ -45,42 +47,50 @@ def list_recent_commodities(
 
     master_idx = load_master_data()
 
-    # Tally official records per commodity in the last N days
+    # Fast single-pass tally from master data
+    master_comm_counts = {}
+    master_comm_latest = {}
+    for (comm_key, mkt_key, d_str), rec in master_idx.items():
+        if start_date_str <= d_str <= today_str:
+            try:
+                p_val = float(rec.get("modal_price", 0))
+                if p_val > 0:
+                    master_comm_counts[comm_key] = master_comm_counts.get(comm_key, 0) + 1
+                    if comm_key not in master_comm_latest or d_str > master_comm_latest[comm_key]:
+                        master_comm_latest[comm_key] = d_str
+            except Exception:
+                pass
+
+    # DB records aggregation
+    db_comm_counts = {}
+    db_comm_latest = {}
+    try:
+        db_recs = db.query(OfficialMarketPrice).filter(
+            OfficialMarketPrice.observation_date >= start_date,
+            OfficialMarketPrice.observation_date <= today
+        ).all()
+        for r in db_recs:
+            if float(r.modal_price) > 0:
+                cid = r.commodity_id
+                db_comm_counts[cid] = db_comm_counts.get(cid, 0) + 1
+                d_val = r.observation_date if isinstance(r.observation_date, date) else datetime.strptime(str(r.observation_date), "%Y-%m-%d").date()
+                if cid not in db_comm_latest or d_val > db_comm_latest[cid]:
+                    db_comm_latest[cid] = d_val
+    except Exception:
+        pass
+
     results: List[RecentCommodityOut] = []
 
     for c in all_commodities:
         norm_c = normalize_commodity_name(c.canonical_name).lower()
-        records_in_window = 0
-        latest_date_dt: Optional[date] = None
-
-        # 1. Check master index
-        for (comm_key, mkt_key, d_str), rec in master_idx.items():
-            if comm_key == norm_c:
-                try:
-                    d = datetime.strptime(d_str, "%Y-%m-%d").date()
-                    if start_date <= d <= today:
-                        p_val = float(rec.get("modal_price", 0))
-                        if p_val > 0:
-                            records_in_window += 1
-                            if latest_date_dt is None or d > latest_date_dt:
-                                latest_date_dt = d
-                except Exception:
-                    pass
-
-        # 2. Check DB OfficialMarketPrice
-        try:
-            db_recs = db.query(OfficialMarketPrice).filter(
-                OfficialMarketPrice.commodity_id == c.id,
-                OfficialMarketPrice.observation_date >= start_date,
-                OfficialMarketPrice.observation_date <= today
-            ).all()
-            for r in db_recs:
-                if float(r.modal_price) > 0:
-                    records_in_window += 1
-                    if latest_date_dt is None or r.observation_date > latest_date_dt:
-                        latest_date_dt = r.observation_date
-        except Exception:
-            pass
+        records_in_window = master_comm_counts.get(norm_c, 0) + db_comm_counts.get(c.id, 0)
+        
+        latest_date_dt = None
+        if norm_c in master_comm_latest:
+            latest_date_dt = datetime.strptime(master_comm_latest[norm_c], "%Y-%m-%d").date()
+        if c.id in db_comm_latest:
+            if latest_date_dt is None or db_comm_latest[c.id] > latest_date_dt:
+                latest_date_dt = db_comm_latest[c.id]
 
         if records_in_window >= min_records:
             age_days = (today - latest_date_dt).days if latest_date_dt else None
@@ -96,5 +106,6 @@ def list_recent_commodities(
             ))
 
     return sorted(results, key=lambda x: x.record_count, reverse=True)
+
 
 

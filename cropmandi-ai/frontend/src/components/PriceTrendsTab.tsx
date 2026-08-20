@@ -118,13 +118,13 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
     setError(null);
     try {
       const promises: Promise<any>[] = [
-        fetchPriceTrends({ commodity: cropName, market: m1Name, days: 30, force_refresh: true }),
-        fetchPriceComparison({ commodity: cropName, max_age_days: 7, force_refresh: true })
+        fetchPriceTrends({ commodity: cropName, market: m1Name, days: 30, force_refresh: false }),
+        fetchPriceComparison({ commodity: cropName, max_age_days: 7, force_refresh: false })
       ];
 
       if (m2Name) {
         promises.push(
-          fetchPriceTrends({ commodity: cropName, market: m2Name, days: 30, force_refresh: true })
+          fetchPriceTrends({ commodity: cropName, market: m2Name, days: 30, force_refresh: false })
         );
       }
 
