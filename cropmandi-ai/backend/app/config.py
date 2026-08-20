@@ -7,6 +7,11 @@ class Settings(BaseSettings):
     ENV: str = "development"
     LOG_LEVEL: str = "INFO"
     APP_TIMEZONE: str = "Asia/Kolkata"
+    TRENDS_LOOKBACK_DAYS: int = 30
+    COMPARISON_LOOKBACK_DAYS: int = 30
+    MAX_LATEST_VALUE_AGE_DAYS: int = 7
+    SHOW_CSV_IN_TRENDS: bool = True
+    SHOW_CSV_IN_COMPARISON: bool = True
     SECRET_KEY: str = "cropmandi-secret-key-change-in-production"
     AUTH_SECRET_KEY: str = "cropmandi-super-secret-key-change-in-production-2026"
     AUTH_ALGORITHM: str = "HS256"

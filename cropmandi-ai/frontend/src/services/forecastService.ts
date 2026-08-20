@@ -290,3 +290,110 @@ export const getDataSourceHealth = async (params?: {
   return response.data;
 };
 
+export interface TrendPoint {
+  date: string;
+  modal_price: number;
+  min_price?: number | null;
+  max_price?: number | null;
+  arrival_quantity?: number | null;
+  unit?: string;
+  price_source: string;
+  is_observed: boolean;
+  is_predicted: boolean;
+  data_age_days: number;
+  source_label: string;
+  observed_at: string;
+}
+
+export interface CompareMarketItem {
+  market: string;
+  district: string;
+  state: string;
+  modal_price: number;
+  min_price?: number | null;
+  max_price?: number | null;
+  arrival_quantity?: number | null;
+  observation_date: string;
+  data_age_days: number;
+  price_source: string;
+  is_observed: boolean;
+  is_predicted: boolean;
+  source_label: string;
+  is_latest_available_value: boolean;
+  unit?: string;
+  market_id?: number;
+}
+
+export interface ExcludedMarketItem {
+  market: string;
+  reason: string;
+  latest_observation_date?: string;
+  data_age_days?: number;
+}
+
+export interface CompareResponse {
+  commodity: string;
+  requested_date?: string | null;
+  current_date: string;
+  max_latest_value_age_days: number;
+  markets: CompareMarketItem[];
+  excluded_markets: ExcludedMarketItem[];
+}
+
+export interface RecentCommodity {
+  id?: number;
+  canonical_name: string;
+  commodity_name: string;
+  latest_official_observed_date?: string | null;
+  record_count: number;
+  availability_status: string;
+  data_age_days?: number | null;
+}
+
+export interface RecentMarket {
+  id?: number;
+  canonical_name: string;
+  market_name: string;
+  district: string;
+  state: string;
+  latest_official_observed_date?: string | null;
+  record_count: number;
+  availability_status: string;
+  data_age_days?: number | null;
+}
+
+export const fetchRecentCommodities = async (days: number = 30): Promise<RecentCommodity[]> => {
+  const response = await api.get<RecentCommodity[]>('/commodities/recent', { params: { days } });
+  return response.data;
+};
+
+export const fetchRecentMarkets = async (commodity: string, days: number = 30): Promise<RecentMarket[]> => {
+  const response = await api.get<RecentMarket[]>('/markets/recent', { params: { commodity, days } });
+  return response.data;
+};
+
+export const fetchPriceTrends = async (params: {
+  commodity: string;
+  market: string;
+  state?: string;
+  district?: string;
+  days?: number;
+  force_refresh?: boolean;
+}): Promise<TrendPoint[]> => {
+  const response = await api.get<TrendPoint[]>('/prices/trends', { params });
+  return response.data;
+};
+
+export const fetchPriceComparison = async (params: {
+  commodity: string;
+  state?: string;
+  district?: string;
+  date?: string;
+  max_age_days?: number;
+  force_refresh?: boolean;
+}): Promise<CompareResponse> => {
+  const response = await api.get<CompareResponse>('/prices/compare', { params });
+  return response.data;
+};
+
+

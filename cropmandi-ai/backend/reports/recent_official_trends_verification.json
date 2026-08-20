@@ -1,0 +1,666 @@
+{
+  "verified_at": "2026-08-20",
+  "timezone": "Asia/Kolkata",
+  "current_date": "2026-08-20",
+  "lookback_window_30d": {
+    "start": "2026-07-22",
+    "end": "2026-08-20",
+    "days": 30
+  },
+  "max_latest_value_age_days": 7,
+  "active_source_filter_rule": {
+    "allowed_sources": [
+      "official_api",
+      "official_csv",
+      "official_database"
+    ],
+    "blocked_sources": [
+      "fallback_last_observed",
+      "fallback_rolling_average",
+      "predicted",
+      "predicted_model",
+      "unavailable"
+    ],
+    "is_observed": true,
+    "is_predicted": false
+  },
+  "recent_commodities_count": 27,
+  "recent_commodities": [
+    {
+      "name": "Tomato",
+      "record_count_30d": 301,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Paddy",
+      "record_count_30d": 205,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Groundnut",
+      "record_count_30d": 86,
+      "latest_date": "2026-08-16",
+      "data_age_days": 4,
+      "availability_status": "available"
+    },
+    {
+      "name": "Maize",
+      "record_count_30d": 80,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Groundnut pods(raw)",
+      "record_count_30d": 78,
+      "latest_date": "2026-08-16",
+      "data_age_days": 4,
+      "availability_status": "available"
+    },
+    {
+      "name": "Jowar",
+      "record_count_30d": 72,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Lemon",
+      "record_count_30d": 68,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Dry Chillies",
+      "record_count_30d": 59,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Onion",
+      "record_count_30d": 47,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Red Gram",
+      "record_count_30d": 32,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Green Chilli",
+      "record_count_30d": 30,
+      "latest_date": "2026-08-17",
+      "data_age_days": 3,
+      "availability_status": "available"
+    },
+    {
+      "name": "Turmeric(raw)",
+      "record_count_30d": 26,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Cabbage",
+      "record_count_30d": 24,
+      "latest_date": "2026-08-17",
+      "data_age_days": 3,
+      "availability_status": "available"
+    },
+    {
+      "name": "Potato",
+      "record_count_30d": 24,
+      "latest_date": "2026-08-17",
+      "data_age_days": 3,
+      "availability_status": "available"
+    },
+    {
+      "name": "Brinjal",
+      "record_count_30d": 23,
+      "latest_date": "2026-08-17",
+      "data_age_days": 3,
+      "availability_status": "available"
+    },
+    {
+      "name": "Cauliflower",
+      "record_count_30d": 23,
+      "latest_date": "2026-08-17",
+      "data_age_days": 3,
+      "availability_status": "available"
+    },
+    {
+      "name": "Ridgeguard(Tori)",
+      "record_count_30d": 23,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Cluster Beans",
+      "record_count_30d": 21,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Cluster beans",
+      "record_count_30d": 21,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Ridge Gourd",
+      "record_count_30d": 21,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Ridgeguard",
+      "record_count_30d": 21,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Sweet Potato",
+      "record_count_30d": 21,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    },
+    {
+      "name": "Castor Seed",
+      "record_count_30d": 20,
+      "latest_date": "2026-08-16",
+      "data_age_days": 4,
+      "availability_status": "available"
+    },
+    {
+      "name": "Black Gram",
+      "record_count_30d": 8,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Ajwan",
+      "record_count_30d": 7,
+      "latest_date": "2026-08-18",
+      "data_age_days": 2,
+      "availability_status": "available"
+    },
+    {
+      "name": "Bengal Gram",
+      "record_count_30d": 2,
+      "latest_date": "2026-08-05",
+      "data_age_days": 15,
+      "availability_status": "available"
+    },
+    {
+      "name": "Sunflower",
+      "record_count_30d": 2,
+      "latest_date": "2026-08-14",
+      "data_age_days": 6,
+      "availability_status": "available"
+    }
+  ],
+  "trends_verification": [
+    {
+      "commodity": "Tomato",
+      "market": "Palamaner APMC",
+      "records_returned": 26,
+      "date_range": "2026-07-22 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Tomato",
+      "market": "Madanapalli APMC",
+      "records_returned": 26,
+      "date_range": "2026-07-22 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Tomato",
+      "market": "Valmikipuram APMC",
+      "records_returned": 26,
+      "date_range": "2026-07-22 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Paddy",
+      "market": "Tiruvuru APMC",
+      "records_returned": 26,
+      "date_range": "2026-07-22 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Paddy",
+      "market": "Banaganapalli APMC",
+      "records_returned": 24,
+      "date_range": "2026-07-23 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Paddy",
+      "market": "Atmakur (Nandyal District) APMC",
+      "records_returned": 23,
+      "date_range": "2026-07-23 to 2026-08-14",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Groundnut",
+      "market": "Kurnool APMC",
+      "records_returned": 19,
+      "date_range": "2026-07-22 to 2026-08-14",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Groundnut",
+      "market": "Palamaner APMC",
+      "records_returned": 0,
+      "date_range": "None",
+      "sources_present": []
+    },
+    {
+      "commodity": "Groundnut",
+      "market": "Tiruvuru APMC",
+      "records_returned": 0,
+      "date_range": "None",
+      "sources_present": []
+    },
+    {
+      "commodity": "Maize",
+      "market": "Tiruvuru APMC",
+      "records_returned": 26,
+      "date_range": "2026-07-22 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Maize",
+      "market": "Kurnool APMC",
+      "records_returned": 13,
+      "date_range": "2026-07-22 to 2026-08-14",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Maize",
+      "market": "Palamaner APMC",
+      "records_returned": 0,
+      "date_range": "None",
+      "sources_present": []
+    },
+    {
+      "commodity": "Groundnut pods(raw)",
+      "market": "Kurnool APMC",
+      "records_returned": 19,
+      "date_range": "2026-07-22 to 2026-08-14",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Groundnut pods(raw)",
+      "market": "Palamaner APMC",
+      "records_returned": 0,
+      "date_range": "None",
+      "sources_present": []
+    },
+    {
+      "commodity": "Groundnut pods(raw)",
+      "market": "Tiruvuru APMC",
+      "records_returned": 0,
+      "date_range": "None",
+      "sources_present": []
+    },
+    {
+      "commodity": "Jowar",
+      "market": "Banaganapalli APMC",
+      "records_returned": 24,
+      "date_range": "2026-07-23 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Jowar",
+      "market": "Alur APMC",
+      "records_returned": 26,
+      "date_range": "2026-07-22 to 2026-08-16",
+      "sources_present": [
+        "official_csv"
+      ]
+    },
+    {
+      "commodity": "Jowar",
+      "market": "Palamaner APMC",
+      "records_returned": 0,
+      "date_range": "None",
+      "sources_present": []
+    }
+  ],
+  "comparison_verification": [
+    {
+      "commodity": "Tomato",
+      "qualified_markets_count": 9,
+      "excluded_markets_count": 1,
+      "qualified_markets": [
+        {
+          "market": "Kalikiri APMC",
+          "district": "Annamayya",
+          "modal_price": 1700.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Kuppam APMC",
+          "district": "Chittoor",
+          "modal_price": 1211.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Madanapalle APMC",
+          "district": "Annamayya",
+          "modal_price": 1800.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Mulakalacheruvu APMC",
+          "district": "Annamayya",
+          "modal_price": 1300.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Pattikonda APMC",
+          "district": "Kurnool",
+          "modal_price": 1200.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Punganur APMC",
+          "district": "Chittoor",
+          "modal_price": 1600.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Somala APMC",
+          "district": "Chittoor",
+          "modal_price": 1300.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "V. Kota Sub-yard of AMC Palamaneru",
+          "district": "Chittoor",
+          "modal_price": 2300.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Valmikipuram APMC",
+          "district": "Annamayya",
+          "modal_price": 1800.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        }
+      ],
+      "excluded_markets": [
+        {
+          "market": "Ananthapur APMC",
+          "reason": "No official observed price in the recent allowed period (latest was 2025-11-06, age: 287 days > 7).",
+          "latest_observation_date": "2025-11-06",
+          "data_age_days": 287
+        }
+      ]
+    },
+    {
+      "commodity": "Paddy",
+      "qualified_markets_count": 6,
+      "excluded_markets_count": 0,
+      "qualified_markets": [
+        {
+          "market": "Atmakur (Nandyal District) APMC",
+          "district": "Nandyal",
+          "modal_price": 2470.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Banaganapalli APMC",
+          "district": "Nandyal",
+          "modal_price": 2250.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Rajahmundry APMC",
+          "district": "East Godavari",
+          "modal_price": 2369.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Sampara (Kakinada Rural) APMC",
+          "district": "Kakinada",
+          "modal_price": 2379.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Tanuku APMC",
+          "district": "West Godavari",
+          "modal_price": 2445.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Tiruvuru APMC",
+          "district": "NTR",
+          "modal_price": 2700.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        }
+      ],
+      "excluded_markets": []
+    },
+    {
+      "commodity": "Groundnut",
+      "qualified_markets_count": 4,
+      "excluded_markets_count": 0,
+      "qualified_markets": [
+        {
+          "market": "A.A.Nagar,Kurnool,RBZ APMC",
+          "district": "Kurnool",
+          "modal_price": 8299.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Adoni APMC",
+          "district": "Kurnool",
+          "modal_price": 7639.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Cuddapah APMC",
+          "district": "Andhra Pradesh",
+          "modal_price": 6866.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Yemmiganuru APMC",
+          "district": "Kurnool",
+          "modal_price": 7721.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        }
+      ],
+      "excluded_markets": []
+    },
+    {
+      "commodity": "Maize",
+      "qualified_markets_count": 3,
+      "excluded_markets_count": 2,
+      "qualified_markets": [
+        {
+          "market": "A.A.Nagar,Kurnool,RBZ APMC",
+          "district": "Kurnool",
+          "modal_price": 2450.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Nandyal APMC",
+          "district": "Nandyal",
+          "modal_price": 2450.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Tiruvuru APMC",
+          "district": "NTR",
+          "modal_price": 2400.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        }
+      ],
+      "excluded_markets": [
+        {
+          "market": "Atmakur (Nandyal District) APMC",
+          "reason": "No official observed price in the recent allowed period (latest was 2024-03-15, age: 888 days > 7).",
+          "latest_observation_date": "2024-03-15",
+          "data_age_days": 888
+        },
+        {
+          "market": "Chintalapudi APMC",
+          "reason": "No official observed price in the recent allowed period (latest was 2024-11-07, age: 651 days > 7).",
+          "latest_observation_date": "2024-11-07",
+          "data_age_days": 651
+        }
+      ]
+    },
+    {
+      "commodity": "Groundnut pods(raw)",
+      "qualified_markets_count": 4,
+      "excluded_markets_count": 0,
+      "qualified_markets": [
+        {
+          "market": "A.A.Nagar,Kurnool,RBZ APMC",
+          "district": "Kurnool",
+          "modal_price": 8299.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Adoni APMC",
+          "district": "Kurnool",
+          "modal_price": 7639.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Cuddapah APMC",
+          "district": "Andhra Pradesh",
+          "modal_price": 6866.0,
+          "observation_date": "2026-08-14",
+          "data_age_days": 6,
+          "source": "official_csv"
+        },
+        {
+          "market": "Yemmiganuru APMC",
+          "district": "Kurnool",
+          "modal_price": 7721.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        }
+      ],
+      "excluded_markets": []
+    },
+    {
+      "commodity": "Jowar",
+      "qualified_markets_count": 2,
+      "excluded_markets_count": 0,
+      "qualified_markets": [
+        {
+          "market": "Alur APMC",
+          "district": "Kurnool",
+          "modal_price": 3720.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        },
+        {
+          "market": "Banaganapalli APMC",
+          "district": "Nandyal",
+          "modal_price": 3400.0,
+          "observation_date": "2026-08-16",
+          "data_age_days": 4,
+          "source": "official_csv"
+        }
+      ],
+      "excluded_markets": []
+    }
+  ],
+  "violations": []
+}

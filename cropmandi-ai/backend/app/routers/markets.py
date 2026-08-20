@@ -7,6 +7,7 @@ from sqlalchemy import func
 from app.database import get_db
 from app.models import Market, CleanedMarketPrice, Commodity
 from app.schemas.market import MarketOut, MarketDetail, ClosestMarketsResponse, ClosestMarketItem, UserLocationOut
+from app.schemas.price import RecentMarketOut
 from app.utils.geolocation import validate_coordinates, calculate_market_distances, sort_markets_by_distance
 
 router = APIRouter(prefix="/api/v1/markets", tags=["Markets"])
@@ -53,7 +54,103 @@ def list_markets(
                 if filtered_markets:
                     return filtered_markets
 
-    return all_markets
+@router.get("/recent", response_model=List[RecentMarketOut])
+def list_recent_markets(
+    commodity: Optional[str] = Query(None),
+    commodity_id: Optional[int] = Query(None),
+    days: int = Query(30, ge=1, le=365),
+    db: Session = Depends(get_db)
+):
+    from app.schemas.price import RecentMarketOut
+    from app.utils.date_service import get_ist_today
+    from app.utils.market_normalization import normalize_commodity_name, normalize_market_name
+    from app.services.master_data_service import load_master_data
+    from app.models import OfficialMarketPrice
+    from datetime import datetime
+
+    if not isinstance(commodity_id, int):
+        commodity_id = None
+    if not isinstance(commodity, str):
+        commodity = None
+    if not isinstance(days, int) or days <= 0:
+        days = 30
+
+    today = get_ist_today()
+    start_date = today - timedelta(days=days - 1)
+
+    target_comm_name = None
+    if commodity_id is not None:
+        c_obj = db.query(Commodity).filter(Commodity.id == commodity_id).first()
+        if c_obj:
+            target_comm_name = c_obj.canonical_name
+    elif commodity:
+        target_comm_name = commodity
+
+    norm_target_c = normalize_commodity_name(target_comm_name).lower() if target_comm_name else None
+
+    all_markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
+    if not all_markets:
+        from app.services.seed_service import seed_markets_and_commodities
+        seed_markets_and_commodities(db)
+        all_markets = db.query(Market).filter(Market.is_active == True).order_by(Market.canonical_name.asc()).all()
+
+    master_idx = load_master_data()
+
+    results: List[RecentMarketOut] = []
+
+    for m in all_markets:
+        norm_m = normalize_market_name(m.canonical_name).lower()
+        norm_orig_m = normalize_market_name(m.original_name or "").lower()
+
+        records_in_window = 0
+        latest_date_dt: Optional[date] = None
+
+        # 1. Master index check
+        for (comm_key, mkt_key, d_str), rec in master_idx.items():
+            if norm_target_c is None or comm_key == norm_target_c:
+                if mkt_key == norm_m or mkt_key == norm_orig_m:
+                    try:
+                        d = datetime.strptime(d_str, "%Y-%m-%d").date()
+                        if start_date <= d <= today:
+                            records_in_window += 1
+                        if latest_date_dt is None or d > latest_date_dt:
+                            latest_date_dt = d
+                    except Exception:
+                        pass
+
+        # 2. DB OfficialMarketPrice check
+        try:
+            q = db.query(OfficialMarketPrice).filter(
+                OfficialMarketPrice.market_id == m.id,
+                OfficialMarketPrice.observation_date >= start_date,
+                OfficialMarketPrice.observation_date <= today
+            )
+            if commodity_id:
+                q = q.filter(OfficialMarketPrice.commodity_id == commodity_id)
+            for r in q.all():
+                records_in_window += 1
+                if latest_date_dt is None or r.observation_date > latest_date_dt:
+                    latest_date_dt = r.observation_date
+        except Exception:
+            pass
+
+        if records_in_window >= 1:
+            age_days = (today - latest_date_dt).days if latest_date_dt else None
+            status = "available" if records_in_window >= 2 else "limited"
+            results.append(RecentMarketOut(
+                id=m.id,
+                canonical_name=m.canonical_name,
+                market_name=m.canonical_name,
+                district=m.district,
+                state=m.state,
+                latest_official_observed_date=latest_date_dt.strftime("%Y-%m-%d") if latest_date_dt else None,
+                record_count=records_in_window,
+                availability_status=status,
+                data_age_days=age_days
+            ))
+
+    return sorted(results, key=lambda x: x.record_count, reverse=True)
+
 
 @router.get("/closest", response_model=ClosestMarketsResponse)
 def get_closest_markets(
