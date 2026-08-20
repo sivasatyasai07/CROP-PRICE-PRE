@@ -362,13 +362,13 @@ export interface RecentMarket {
   data_age_days?: number | null;
 }
 
-export const fetchRecentCommodities = async (days: number = 30): Promise<RecentCommodity[]> => {
-  const response = await api.get<RecentCommodity[]>('/commodities/recent', { params: { days } });
+export const fetchRecentCommodities = async (days: number = 30, minRecords: number = 3): Promise<RecentCommodity[]> => {
+  const response = await api.get<RecentCommodity[]>('/commodities/recent', { params: { days, min_records: minRecords } });
   return response.data;
 };
 
-export const fetchRecentMarkets = async (commodity: string, days: number = 30): Promise<RecentMarket[]> => {
-  const response = await api.get<RecentMarket[]>('/markets/recent', { params: { commodity, days } });
+export const fetchRecentMarkets = async (commodity: string, days: number = 30, minRecords: number = 3): Promise<RecentMarket[]> => {
+  const response = await api.get<RecentMarket[]>('/markets/recent', { params: { commodity, days, min_records: minRecords } });
   return response.data;
 };
 

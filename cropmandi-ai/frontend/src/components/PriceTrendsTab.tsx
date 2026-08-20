@@ -70,7 +70,7 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
     try {
       setLoading(true);
       setError(null);
-      const commList = await fetchRecentCommodities(30);
+      const commList = await fetchRecentCommodities(30, 3);
       setCommodities(commList);
       if (commList && commList.length > 0) {
         const initialCrop = commList[0].canonical_name;
@@ -88,7 +88,7 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
   const loadRecentMarketsForCrop = async (cropName: string) => {
     try {
       setLoading(true);
-      const mktList = await fetchRecentMarkets(cropName, 30);
+      const mktList = await fetchRecentMarkets(cropName, 30, 3);
       setMarkets(mktList);
 
       if (mktList && mktList.length > 0) {
@@ -202,26 +202,26 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
         data: chartData1,
         borderColor: '#10b981',
         backgroundColor: 'rgba(16, 185, 129, 0.15)',
-        tension: 0.2,
+        tension: 0.25,
         fill: false,
         pointRadius: 4,
         pointHoverRadius: 6,
         pointBackgroundColor: '#10b981',
         borderWidth: 2.5,
-        spanGaps: false, // Strict requirement: gaps where no official observation exists
+        spanGaps: true,
       },
       ...(compareMarket ? [{
         label: `${getLocalizedMarketName(compareMarket, language)} (₹/qtl)`,
         data: chartData2,
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.15)',
-        tension: 0.2,
+        tension: 0.25,
         fill: false,
         pointRadius: 4,
         pointHoverRadius: 6,
         pointBackgroundColor: '#3b82f6',
         borderWidth: 2.5,
-        spanGaps: false, // Strict requirement: gaps where no official observation exists
+        spanGaps: true,
       }] : [])
     ]
   };

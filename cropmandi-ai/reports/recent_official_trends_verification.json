@@ -24,7 +24,7 @@
     "is_observed": true,
     "is_predicted": false
   },
-  "recent_commodities_count": 27,
+  "recent_commodities_count": 25,
   "recent_commodities": [
     {
       "name": "Tomato",
@@ -199,20 +199,6 @@
       "record_count_30d": 7,
       "latest_date": "2026-08-18",
       "data_age_days": 2,
-      "availability_status": "available"
-    },
-    {
-      "name": "Bengal Gram",
-      "record_count_30d": 2,
-      "latest_date": "2026-08-05",
-      "data_age_days": 15,
-      "availability_status": "available"
-    },
-    {
-      "name": "Sunflower",
-      "record_count_30d": 2,
-      "latest_date": "2026-08-14",
-      "data_age_days": 6,
       "availability_status": "available"
     }
   ],

@@ -59,6 +59,7 @@ def list_recent_markets(
     commodity: Optional[str] = Query(None),
     commodity_id: Optional[int] = Query(None),
     days: int = Query(30, ge=1, le=365),
+    min_records: int = Query(3, ge=1),
     db: Session = Depends(get_db)
 ):
     from app.schemas.price import RecentMarketOut
@@ -74,6 +75,8 @@ def list_recent_markets(
         commodity = None
     if not isinstance(days, int) or days <= 0:
         days = 30
+    if not isinstance(min_records, int) or min_records <= 0:
+        min_records = 3
 
     today = get_ist_today()
     start_date = today - timedelta(days=days - 1)
@@ -112,9 +115,11 @@ def list_recent_markets(
                     try:
                         d = datetime.strptime(d_str, "%Y-%m-%d").date()
                         if start_date <= d <= today:
-                            records_in_window += 1
-                        if latest_date_dt is None or d > latest_date_dt:
-                            latest_date_dt = d
+                            p_val = float(rec.get("modal_price", 0))
+                            if p_val > 0:
+                                records_in_window += 1
+                                if latest_date_dt is None or d > latest_date_dt:
+                                    latest_date_dt = d
                     except Exception:
                         pass
 
@@ -128,15 +133,16 @@ def list_recent_markets(
             if commodity_id:
                 q = q.filter(OfficialMarketPrice.commodity_id == commodity_id)
             for r in q.all():
-                records_in_window += 1
-                if latest_date_dt is None or r.observation_date > latest_date_dt:
-                    latest_date_dt = r.observation_date
+                if float(r.modal_price) > 0:
+                    records_in_window += 1
+                    if latest_date_dt is None or r.observation_date > latest_date_dt:
+                        latest_date_dt = r.observation_date
         except Exception:
             pass
 
-        if records_in_window >= 1:
+        if records_in_window >= min_records:
             age_days = (today - latest_date_dt).days if latest_date_dt else None
-            status = "available" if records_in_window >= 2 else "limited"
+            status = "available" if records_in_window >= 5 else "limited"
             results.append(RecentMarketOut(
                 id=m.id,
                 canonical_name=m.canonical_name,
@@ -150,6 +156,7 @@ def list_recent_markets(
             ))
 
     return sorted(results, key=lambda x: x.record_count, reverse=True)
+
 
 
 @router.get("/closest", response_model=ClosestMarketsResponse)

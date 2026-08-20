@@ -28,11 +28,11 @@ def test_1_crop_has_30_day_official_records(db_session):
 
 def test_2_crop_has_limited_or_single_record(db_session):
     """Commodity availability status handles limited count correctly."""
-    recent_commodities = list_recent_commodities(days=30, db=db_session)
+    recent_commodities = list_recent_commodities(days=30, min_records=1, db=db_session)
     for c in recent_commodities:
-        if c.record_count == 1:
+        if c.record_count < 5:
             assert c.availability_status == "limited"
-        elif c.record_count >= 2:
+        elif c.record_count >= 5:
             assert c.availability_status == "available"
 
 
