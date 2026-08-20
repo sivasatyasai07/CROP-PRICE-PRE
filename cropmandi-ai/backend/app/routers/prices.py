@@ -1,13 +1,15 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import func
 from typing import List, Optional
-from datetime import date
+from datetime import date, datetime
 from app.database import get_db
-from app.models import CleanedMarketPrice, Market, Commodity
+from app.models import Market, Commodity, OfficialMarketPrice
 from app.schemas.price import LatestPriceOut, PriceHistoryItem, PriceCompareItem
+from app.services.master_data_service import load_master_data, parse_csv_date
+from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
 
 router = APIRouter(prefix="/api/v1/prices", tags=["Prices"])
+
 
 @router.get("/latest", response_model=LatestPriceOut)
 def get_latest_price(
@@ -15,15 +17,49 @@ def get_latest_price(
     commodity_id: int = Query(...),
     db: Session = Depends(get_db)
 ):
-    rec = db.query(CleanedMarketPrice)\
-            .filter(CleanedMarketPrice.market_id == market_id, CleanedMarketPrice.commodity_id == commodity_id)\
-            .order_by(CleanedMarketPrice.observation_date.desc()).first()
-
-    if not rec:
-        raise HTTPException(status_code=404, detail="No price record found for given market and commodity")
-
     market = db.query(Market).get(market_id)
     commodity = db.query(Commodity).get(commodity_id)
+    if not market or not commodity:
+        raise HTTPException(status_code=404, detail="Market or Commodity not found")
+
+    target_m = normalize_market_name(market.canonical_name).lower()
+    target_orig_m = normalize_market_name(market.original_name or "").lower()
+    target_c = normalize_commodity_name(commodity.canonical_name).lower()
+
+    master_idx = load_master_data()
+
+    # Find latest observation in master-data
+    matching_records = []
+    for (c, m, d_str), rec in master_idx.items():
+        if c == target_c and (m == target_m or m == target_orig_m):
+            matching_records.append((d_str, rec))
+
+    # Also check DB OfficialMarketPrice
+    db_recs = db.query(OfficialMarketPrice).filter(
+        OfficialMarketPrice.market_id == market_id,
+        OfficialMarketPrice.commodity_id == commodity_id
+    ).order_by(OfficialMarketPrice.observation_date.desc()).all()
+
+    for r in db_recs:
+        d_str = r.observation_date.strftime("%Y-%m-%d") if isinstance(r.observation_date, (date, datetime)) else str(r.observation_date)
+        matching_records.append((d_str, {
+            "modal_price": r.modal_price,
+            "min_price": r.min_price,
+            "max_price": r.max_price,
+            "arrival_quantity": r.arrival_quantity,
+            "unit": r.unit
+        }))
+
+    if not matching_records:
+        raise HTTPException(status_code=404, detail="No authentic price records found for the given market and commodity")
+
+    matching_records.sort(key=lambda x: x[0])
+    latest_date_str, latest_rec = matching_records[-1]
+
+    modal_p = float(latest_rec.get("modal_price", 0))
+    min_p = float(latest_rec.get("min_price", round(modal_p * 0.95, 2))) if latest_rec.get("min_price") is not None else round(modal_p * 0.95, 2)
+    max_p = float(latest_rec.get("max_price", round(modal_p * 1.05, 2))) if latest_rec.get("max_price") is not None else round(modal_p * 1.05, 2)
+    arr_q = float(latest_rec.get("arrival_quantity", 0)) if latest_rec.get("arrival_quantity") is not None else None
 
     return LatestPriceOut(
         market_id=market.id,
@@ -31,13 +67,14 @@ def get_latest_price(
         district=market.district,
         commodity_id=commodity.id,
         commodity_name=commodity.canonical_name,
-        observation_date=rec.observation_date,
-        modal_price=rec.modal_price,
-        min_price=rec.min_price,
-        max_price=rec.max_price,
-        arrival_quantity=rec.arrival_quantity,
-        unit=rec.unit or commodity.unit
+        observation_date=latest_date_str,
+        modal_price=modal_p,
+        min_price=min_p,
+        max_price=max_p,
+        arrival_quantity=arr_q,
+        unit=commodity.unit or "Rs./Quintal"
     )
+
 
 @router.get("/history", response_model=List[PriceHistoryItem])
 def get_price_history(
@@ -45,96 +82,84 @@ def get_price_history(
     commodity_id: int = Query(...),
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    limit: int = 100,
+    limit: int = 30,
     db: Session = Depends(get_db)
 ):
-    MIN_DATE_STR = "2021-01-01"
-    effective_start = max(start_date, MIN_DATE_STR) if start_date else MIN_DATE_STR
+    if not isinstance(start_date, str):
+        start_date = None
+    if not isinstance(end_date, str):
+        end_date = None
+    if not isinstance(limit, int):
+        limit = 30
 
-    q = db.query(CleanedMarketPrice)\
-          .filter(
-              CleanedMarketPrice.market_id == market_id,
-              CleanedMarketPrice.commodity_id == commodity_id,
-              CleanedMarketPrice.observation_date >= effective_start
-          )
+    market = db.query(Market).get(market_id)
+    commodity = db.query(Commodity).get(commodity_id)
+    if not market or not commodity:
+        return []
 
-    if end_date:
-        q = q.filter(CleanedMarketPrice.observation_date <= end_date)
+    target_m = normalize_market_name(market.canonical_name).lower()
+    target_orig_m = normalize_market_name(market.original_name or "").lower()
+    target_c = normalize_commodity_name(commodity.canonical_name).lower()
 
-    recs = q.order_by(CleanedMarketPrice.observation_date.desc()).limit(limit).all()
-    recs = sorted(recs, key=lambda r: r.observation_date)
+    master_idx = load_master_data()
 
-    if not recs:
-        # Fallback to master-data.csv
-        from app.services.master_data_service import get_master_data_path, parse_csv_date
-        from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
-        import os, pandas as pd
+    # Map by date to deduplicate and overlay live arrivals over master rows
+    date_map = {}
 
-        m_obj = db.query(Market).get(market_id)
-        c_obj = db.query(Commodity).get(commodity_id)
-        csv_path = get_master_data_path()
-        if m_obj and c_obj and os.path.exists(csv_path):
+    for (c, m, d_str), rec in master_idx.items():
+        if c == target_c and (m == target_m or m == target_orig_m):
             try:
-                df = pd.read_csv(csv_path)
-                comm_col = [col for col in df.columns if 'commodity' in col.lower() and 'group' not in col.lower()][0]
-                mkt_col = [col for col in df.columns if 'market' in col.lower()][0]
-                date_col = [col for col in df.columns if 'date' in col.lower()][0]
-                modal_col = [col for col in df.columns if 'modal' in col.lower() or 'price' in col.lower()][0]
-                arr_col = [col for col in df.columns if 'arrival' in col.lower() or 'quantity' in col.lower()][0]
-
-                target_m = normalize_market_name(m_obj.canonical_name).lower()
-                target_c = normalize_commodity_name(c_obj.canonical_name).lower()
-
-                sub = df[
-                    (df[comm_col].astype(str).apply(normalize_commodity_name).str.lower() == target_c) &
-                    (df[mkt_col].astype(str).apply(normalize_market_name).str.lower() == target_m)
-                ]
-
-                history_items = []
-                for _, row in sub.iterrows():
-                    d_parsed = parse_csv_date(str(row[date_col]))
-                    if not d_parsed or d_parsed < effective_start:
-                        continue
-                    if end_date and d_parsed > end_date:
-                        continue
-                    try:
-                        p_val = float(row[modal_col])
-                    except Exception:
-                        continue
-                    if p_val <= 0:
-                        continue
-                    try:
-                        arr_val = float(row[arr_col])
-                    except Exception:
-                        arr_val = 0.0
-
-                    history_items.append(
-                        PriceHistoryItem(
-                            observation_date=d_parsed,
-                            modal_price=p_val,
-                            min_price=round(p_val * 0.95, 2),
-                            max_price=round(p_val * 1.05, 2),
-                            arrival_quantity=arr_val,
-                            quality_status="verified_master"
-                        )
-                    )
-                if history_items:
-                    history_items.sort(key=lambda x: str(x.observation_date))
-                    return history_items[-limit:]
+                p_val = float(rec.get("modal_price", 0))
             except Exception:
-                pass
+                continue
+            if p_val <= 0:
+                continue
 
-    return [
-        PriceHistoryItem(
-            observation_date=r.observation_date,
-            modal_price=r.modal_price,
-            min_price=r.min_price,
-            max_price=r.max_price,
-            arrival_quantity=r.arrival_quantity,
-            quality_status=r.quality_status
-        )
-        for r in recs
-    ]
+            try:
+                arr_val = float(rec.get("arrival_quantity", 0))
+            except Exception:
+                arr_val = 0.0
+
+            date_map[d_str] = PriceHistoryItem(
+                observation_date=d_str,
+                modal_price=p_val,
+                min_price=float(rec.get("min_price", round(p_val * 0.95, 2))) if rec.get("min_price") is not None else round(p_val * 0.95, 2),
+                max_price=float(rec.get("max_price", round(p_val * 1.05, 2))) if rec.get("max_price") is not None else round(p_val * 1.05, 2),
+                arrival_quantity=arr_val,
+                quality_status="verified_official"
+            )
+
+    # Overlay any official live API records in DB
+    try:
+        db_recs = db.query(OfficialMarketPrice).filter(
+            OfficialMarketPrice.market_id == market_id,
+            OfficialMarketPrice.commodity_id == commodity_id
+        ).all()
+
+        for r in db_recs:
+            d_str = r.observation_date.strftime("%Y-%m-%d") if isinstance(r.observation_date, (date, datetime)) else str(r.observation_date)
+            date_map[d_str] = PriceHistoryItem(
+                observation_date=d_str,
+                modal_price=float(r.modal_price),
+                min_price=float(r.min_price) if r.min_price is not None else round(float(r.modal_price) * 0.95, 2),
+                max_price=float(r.max_price) if r.max_price is not None else round(float(r.modal_price) * 1.05, 2),
+                arrival_quantity=float(r.arrival_quantity) if r.arrival_quantity is not None else 0.0,
+                quality_status="verified_live_api"
+            )
+    except Exception:
+        pass
+
+    # Sort chronologically
+    sorted_items = [date_map[k] for k in sorted(date_map.keys())]
+
+    # Filter date range if specified
+    if start_date:
+        sorted_items = [item for item in sorted_items if str(item.observation_date) >= start_date]
+    if end_date:
+        sorted_items = [item for item in sorted_items if str(item.observation_date) <= end_date]
+
+    return sorted_items[-limit:]
+
 
 @router.get("/compare", response_model=List[PriceCompareItem])
 def compare_market_prices(
@@ -148,7 +173,21 @@ def compare_market_prices(
     force_refresh: Optional[bool] = Query(False),
     db: Session = Depends(get_db)
 ):
-    # Resolve commodity
+    if not isinstance(commodity_id, int):
+        commodity_id = None
+    if not isinstance(commodity, str):
+        commodity = None
+    if not isinstance(target_date, str):
+        target_date = None
+    if not isinstance(state, str):
+        state = None
+    if not isinstance(district, str):
+        district = None
+    if not isinstance(start_date, str):
+        start_date = None
+    if not isinstance(end_date, str):
+        end_date = None
+
     comm_obj = None
     if commodity_id:
         comm_obj = db.query(Commodity).get(commodity_id)
@@ -159,137 +198,120 @@ def compare_market_prices(
 
     if not comm_obj:
         comm_obj = db.query(Commodity).first()
-        if not comm_obj:
-            from app.services.seed_service import seed_markets_and_commodities
-            seed_markets_and_commodities(db)
-            comm_obj = db.query(Commodity).first()
 
-    c_id = comm_obj.id if comm_obj else 1
+    if not comm_obj:
+        return []
 
-    # Subquery for latest date per market
-    subq = db.query(
-        CleanedMarketPrice.market_id,
-        func.max(CleanedMarketPrice.observation_date).label("max_date")
-    ).filter(CleanedMarketPrice.commodity_id == c_id)
+    target_c = normalize_commodity_name(comm_obj.canonical_name).lower()
+    master_idx = load_master_data()
 
-    if target_date:
-        subq = subq.filter(CleanedMarketPrice.observation_date <= target_date)
-    if start_date:
-        subq = subq.filter(CleanedMarketPrice.observation_date >= start_date)
-    if end_date:
-        subq = subq.filter(CleanedMarketPrice.observation_date <= end_date)
+    # Pre-cache all DB markets for fast lookups
+    all_markets = db.query(Market).filter(Market.is_active == True).all()
+    market_lookup = {}
+    for m in all_markets:
+        market_lookup[normalize_market_name(m.canonical_name).lower()] = m
+        if m.original_name:
+            market_lookup[normalize_market_name(m.original_name).lower()] = m
 
-    subq = subq.group_by(CleanedMarketPrice.market_id).subquery()
+    market_latest_map = {}
 
-    q = db.query(CleanedMarketPrice, Market)\
-          .join(subq, (CleanedMarketPrice.market_id == subq.c.market_id) & (CleanedMarketPrice.observation_date == subq.c.max_date))\
-          .join(Market, CleanedMarketPrice.market_id == Market.id)\
-          .filter(CleanedMarketPrice.commodity_id == c_id)
+    # Extract latest recorded price per market for this commodity
+    for (c, m, d_str), rec in master_idx.items():
+        if c == target_c:
+            if target_date and d_str > target_date:
+                continue
+            if end_date and d_str > end_date:
+                continue
+            if start_date and d_str < start_date:
+                continue
 
-    if district:
-        q = q.filter(Market.district.ilike(f"%{district}%"))
-    if state:
-        q = q.filter(Market.state.ilike(f"%{state}%"))
-
-    results = q.all()
-
-    if not results:
-        # Fallback to master-data.csv
-        from app.services.master_data_service import get_master_data_path, parse_csv_date
-        from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
-        import os, pandas as pd
-
-        csv_path = get_master_data_path()
-        if os.path.exists(csv_path) and comm_obj:
             try:
-                df = pd.read_csv(csv_path)
-                comm_col = [col for col in df.columns if 'commodity' in col.lower() and 'group' not in col.lower()][0]
-                mkt_col = [col for col in df.columns if 'market' in col.lower()][0]
-                date_col = [col for col in df.columns if 'date' in col.lower()][0]
-                modal_col = [col for col in df.columns if 'modal' in col.lower() or 'price' in col.lower()][0]
-                arr_col = [col for col in df.columns if 'arrival' in col.lower() or 'quantity' in col.lower()][0]
-                dist_col = [col for col in df.columns if 'district' in col.lower()][0] if any('district' in c.lower() for c in df.columns) else None
-
-                target_c = normalize_commodity_name(comm_obj.canonical_name).lower()
-                sub = df[df[comm_col].astype(str).apply(normalize_commodity_name).str.lower() == target_c]
-
-                market_latest_map = {}
-                for _, row in sub.iterrows():
-                    d_parsed = parse_csv_date(str(row[date_col]))
-                    if not d_parsed:
-                        continue
-                    if target_date and d_parsed > target_date:
-                        continue
-                    m_norm = normalize_market_name(str(row[mkt_col]))
-                    try:
-                        p_val = float(row[modal_col])
-                    except Exception:
-                        continue
-                    if p_val <= 0:
-                        continue
-
-                    if m_norm not in market_latest_map or d_parsed > market_latest_map[m_norm]["date"]:
-                        try:
-                            arr_val = float(row[arr_col])
-                        except Exception:
-                            arr_val = 0.0
-                        d_name = str(row[dist_col]) if dist_col else "Andhra Pradesh"
-
-                        # Find matching Market in DB
-                        m_db = db.query(Market).filter(
-                            (Market.canonical_name == m_norm) | (Market.original_name == m_norm)
-                        ).first()
-
-                        market_latest_map[m_norm] = {
-                            "market_id": m_db.id if m_db else 999,
-                            "market_name": m_db.canonical_name if m_db else m_norm,
-                            "district": m_db.district if m_db else d_name,
-                            "latitude": m_db.latitude if m_db else 14.5,
-                            "longitude": m_db.longitude if m_db else 78.5,
-                            "date": d_parsed,
-                            "modal_price": p_val,
-                            "min_price": round(p_val * 0.95, 2),
-                            "max_price": round(p_val * 1.05, 2),
-                            "arrival_quantity": arr_val,
-                            "unit": comm_obj.unit or "Rs./Quintal"
-                        }
-
-                compare_items = [
-                    PriceCompareItem(
-                        market_id=item["market_id"],
-                        market_name=item["market_name"],
-                        district=item["district"],
-                        latitude=item["latitude"],
-                        longitude=item["longitude"],
-                        latest_date=item["date"],
-                        latest_modal_price=item["modal_price"],
-                        min_price=item["min_price"],
-                        max_price=item["max_price"],
-                        arrival_quantity=item["arrival_quantity"],
-                        unit=item["unit"]
-                    )
-                    for item in market_latest_map.values()
-                ]
-                if compare_items:
-                    return sorted(compare_items, key=lambda x: x.market_name)
+                p_val = float(rec.get("modal_price", 0))
             except Exception:
-                pass
+                continue
+            if p_val <= 0:
+                continue
 
-    items = [
-        PriceCompareItem(
-            market_id=m.id,
-            market_name=m.canonical_name,
-            district=m.district,
-            latitude=m.latitude,
-            longitude=m.longitude,
-            latest_date=p.observation_date,
-            latest_modal_price=p.modal_price,
-            min_price=p.min_price,
-            max_price=p.max_price,
-            arrival_quantity=p.arrival_quantity,
-            unit=p.unit or comm_obj.unit if comm_obj else "Rs./Quintal"
+            if m not in market_latest_map or d_str > market_latest_map[m]["date"]:
+                try:
+                    arr_val = float(rec.get("arrival_quantity", 0))
+                except Exception:
+                    arr_val = 0.0
+
+                m_db = market_lookup.get(m)
+
+                market_latest_map[m] = {
+                    "market_id": m_db.id if m_db else hash(m) % 10000,
+                    "market_name": m_db.canonical_name if m_db else m.title(),
+                    "district": m_db.district if m_db else rec.get("district", "Andhra Pradesh"),
+                    "state": m_db.state if m_db else rec.get("state", "Andhra Pradesh"),
+                    "latitude": m_db.latitude if (m_db and m_db.latitude) else 14.5,
+                    "longitude": m_db.longitude if (m_db and m_db.longitude) else 78.5,
+                    "date": d_str,
+                    "modal_price": p_val,
+                    "min_price": float(rec.get("min_price", round(p_val * 0.95, 2))) if rec.get("min_price") is not None else round(p_val * 0.95, 2),
+                    "max_price": float(rec.get("max_price", round(p_val * 1.05, 2))) if rec.get("max_price") is not None else round(p_val * 1.05, 2),
+                    "arrival_quantity": arr_val,
+                    "unit": comm_obj.unit or "Rs./Quintal"
+                }
+
+    # Overlay live DB records
+    try:
+        db_recs = db.query(OfficialMarketPrice).filter(
+            OfficialMarketPrice.commodity_id == comm_obj.id
+        ).all()
+
+        for r in db_recs:
+            m_db = db.query(Market).get(r.market_id)
+            if not m_db:
+                continue
+            norm_m = normalize_market_name(m_db.canonical_name).lower()
+            d_str = r.observation_date.strftime("%Y-%m-%d") if isinstance(r.observation_date, (date, datetime)) else str(r.observation_date)
+
+            if target_date and d_str > target_date:
+                continue
+
+            if norm_m not in market_latest_map or d_str > market_latest_map[norm_m]["date"]:
+                market_latest_map[norm_m] = {
+                    "market_id": m_db.id,
+                    "market_name": m_db.canonical_name,
+                    "district": m_db.district,
+                    "state": m_db.state,
+                    "latitude": m_db.latitude or 14.5,
+                    "longitude": m_db.longitude or 78.5,
+                    "date": d_str,
+                    "modal_price": float(r.modal_price),
+                    "min_price": float(r.min_price) if r.min_price is not None else round(float(r.modal_price) * 0.95, 2),
+                    "max_price": float(r.max_price) if r.max_price is not None else round(float(r.modal_price) * 1.05, 2),
+                    "arrival_quantity": float(r.arrival_quantity) if r.arrival_quantity is not None else 0.0,
+                    "unit": comm_obj.unit or "Rs./Quintal"
+                }
+    except Exception:
+        pass
+
+    # Optional filter by district or state
+    compare_items = []
+    for item in market_latest_map.values():
+        if district and district.lower() not in item["district"].lower():
+            continue
+        if state and state.lower() not in item["state"].lower():
+            continue
+
+        compare_items.append(
+            PriceCompareItem(
+                market_id=item["market_id"],
+                market_name=item["market_name"],
+                district=item["district"],
+                latitude=item["latitude"],
+                longitude=item["longitude"],
+                latest_date=item["date"],
+                latest_modal_price=item["modal_price"],
+                min_price=item["min_price"],
+                max_price=item["max_price"],
+                arrival_quantity=item["arrival_quantity"],
+                unit=item["unit"]
+            )
         )
-        for p, m in results
-    ]
 
-    return items
+    return sorted(compare_items, key=lambda x: x.market_name)
+

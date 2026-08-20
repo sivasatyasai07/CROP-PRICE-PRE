@@ -34,41 +34,21 @@ def list_markets(
 
         if target_comm_name:
             from app.utils.market_normalization import normalize_commodity_name, normalize_market_name
-            from app.services.master_data_service import get_master_data_path
-            import os
-            import pandas as pd
-
+            from app.services.master_data_service import load_master_data
+            
             norm_target_c = normalize_commodity_name(target_comm_name).lower()
-            matched_market_names = set()
+            master_idx = load_master_data()
 
-            # 1. From DB
-            if commodity_id:
-                db_m_ids = db.query(CleanedMarketPrice.market_id).filter(
-                    CleanedMarketPrice.commodity_id == commodity_id
-                ).distinct().all()
-                for m_id_tuple in db_m_ids:
-                    m = db.query(Market).filter(Market.id == m_id_tuple[0]).first()
-                    if m:
-                        matched_market_names.add(normalize_market_name(m.canonical_name).lower())
+            matched_market_norms = set()
+            for (c, m, d) in master_idx.keys():
+                if c == norm_target_c:
+                    matched_market_norms.add(m)
 
-            # 2. From master-data.csv
-            csv_path = get_master_data_path()
-            if os.path.exists(csv_path):
-                try:
-                    df = pd.read_csv(csv_path)
-                    comm_col = [col for col in df.columns if 'commodity' in col.lower() and 'group' not in col.lower()][0]
-                    mkt_col = [col for col in df.columns if 'market' in col.lower()][0]
-                    sub = df[df[comm_col].astype(str).apply(normalize_commodity_name).str.lower() == norm_target_c]
-                    for m_name in sub[mkt_col].dropna().unique():
-                        matched_market_names.add(normalize_market_name(str(m_name)).lower())
-                except Exception:
-                    pass
-
-            if matched_market_names:
+            if matched_market_norms:
                 filtered_markets = [
                     m for m in all_markets
-                    if normalize_market_name(m.canonical_name).lower() in matched_market_names or
-                       normalize_market_name(m.original_name or "").lower() in matched_market_names
+                    if normalize_market_name(m.canonical_name).lower() in matched_market_norms or
+                       normalize_market_name(m.original_name or "").lower() in matched_market_norms
                 ]
                 if filtered_markets:
                     return filtered_markets

@@ -190,6 +190,7 @@ const FALLBACK_MARKETS: Market[] = [
         fill: false,
         pointRadius: 4,
         borderWidth: 2.5,
+        spanGaps: true,
       },
       ...(p2Name ? [{
         label: `${getLocalizedMarketName(p2Name, language)} (Last 30 Days ₹/qtl)`,
@@ -200,6 +201,7 @@ const FALLBACK_MARKETS: Market[] = [
         fill: false,
         pointRadius: 4,
         borderWidth: 2.5,
+        spanGaps: true,
       }] : [])
     ]
   };
