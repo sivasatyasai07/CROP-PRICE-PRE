@@ -324,7 +324,7 @@ export const PriceTrendsTab: React.FC<Props> = ({ language }) => {
             >
               {commodities.map(c => (
                 <option key={c.canonical_name} value={c.canonical_name}>
-                  {getLocalizedCommodityName(c.canonical_name, language)} ({c.record_count} obs)
+                  {getLocalizedCommodityName(c.canonical_name, language)}
                 </option>
               ))}
             </select>
