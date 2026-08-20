@@ -97,24 +97,8 @@ def get_price_history(
     if not market or not commodity:
         return []
 
-    from app.utils.date_service import get_ist_today, parse_internal_date
-    from datetime import timedelta
-
-    today_ist = get_ist_today()
-    if end_date:
-        d_end = parse_internal_date(end_date) or today_ist
-    else:
-        d_end = today_ist
-
-    if start_date:
-        d_start = parse_internal_date(start_date) or (d_end - timedelta(days=limit - 1))
-    else:
-        d_start = d_end - timedelta(days=limit - 1)
-
-    target_calendar_dates = [
-        (d_start + timedelta(days=i)).strftime("%Y-%m-%d")
-        for i in range((d_end - d_start).days + 1)
-    ]
+    from app.utils.date_service import parse_internal_date
+    from datetime import timedelta, datetime
 
     target_m = normalize_market_name(market.canonical_name).lower()
     target_orig_m = normalize_market_name(market.original_name or "").lower()
@@ -122,7 +106,7 @@ def get_price_history(
 
     master_idx = load_master_data()
 
-    # Collect all known observations for this market and commodity
+    # 1. Collect all known authentic observations for this market and commodity
     known_obs = {}
     for (c, m, d_str), rec in master_idx.items():
         if c == target_c and (m == target_m or m == target_orig_m):
@@ -161,8 +145,26 @@ def get_price_history(
         pass
 
     sorted_known_dates = sorted(known_obs.keys())
+    if not sorted_known_dates:
+        return []
+
+    # 2. Determine target 30-day window ending on the latest available recorded date
+    if end_date:
+        d_end = parse_internal_date(end_date) or datetime.strptime(sorted_known_dates[-1], "%Y-%m-%d").date()
+    else:
+        d_end = datetime.strptime(sorted_known_dates[-1], "%Y-%m-%d").date()
+
+    if start_date:
+        d_start = parse_internal_date(start_date) or (d_end - timedelta(days=limit - 1))
+    else:
+        d_start = d_end - timedelta(days=limit - 1)
+
+    target_calendar_dates = [
+        (d_start + timedelta(days=i)).strftime("%Y-%m-%d")
+        for i in range((d_end - d_start).days + 1)
+    ]
+
     history_items = []
-    base_default_price = 1400.0
 
     for d_str in target_calendar_dates:
         if d_str in known_obs:
@@ -176,42 +178,49 @@ def get_price_history(
                 quality_status=info["quality_status"]
             ))
         else:
-            # Look for latest prior recorded date
+            # Predict missing values using trend interpolation from available prior and next data
             prior_dates = [dt for dt in sorted_known_dates if dt < d_str]
-            if prior_dates:
-                latest_dt = prior_dates[-1]
-                info = known_obs[latest_dt]
+            next_dates = [dt for dt in sorted_known_dates if dt > d_str]
+            
+            if prior_dates and next_dates:
+                p_dt = datetime.strptime(prior_dates[-1], "%Y-%m-%d").date()
+                n_dt = datetime.strptime(next_dates[0], "%Y-%m-%d").date()
+                p_price = known_obs[prior_dates[-1]]["modal_price"]
+                n_price = known_obs[next_dates[0]]["modal_price"]
+                cur_dt = datetime.strptime(d_str, "%Y-%m-%d").date()
+                
+                total_days = max((n_dt - p_dt).days, 1)
+                elapsed_days = (cur_dt - p_dt).days
+                interpolated_price = round(p_price + (n_price - p_price) * (elapsed_days / total_days), 2)
+                
                 history_items.append(PriceHistoryItem(
                     observation_date=d_str,
-                    modal_price=info["modal_price"],
-                    min_price=info["min_price"],
-                    max_price=info["max_price"],
-                    arrival_quantity=info["arrival_quantity"],
-                    quality_status="recorded_prior"
+                    modal_price=interpolated_price,
+                    min_price=round(interpolated_price * 0.95, 2),
+                    max_price=round(interpolated_price * 1.05, 2),
+                    arrival_quantity=0.0,
+                    quality_status="predicted_interpolated"
+                ))
+            elif prior_dates:
+                last_price = known_obs[prior_dates[-1]]["modal_price"]
+                history_items.append(PriceHistoryItem(
+                    observation_date=d_str,
+                    modal_price=last_price,
+                    min_price=round(last_price * 0.95, 2),
+                    max_price=round(last_price * 1.05, 2),
+                    arrival_quantity=0.0,
+                    quality_status="predicted_from_previous"
                 ))
             else:
-                # If earlier than any known date, find earliest forward known date
-                future_dates = [dt for dt in sorted_known_dates if dt > d_str]
-                if future_dates:
-                    earliest_dt = future_dates[0]
-                    info = known_obs[earliest_dt]
-                    history_items.append(PriceHistoryItem(
-                        observation_date=d_str,
-                        modal_price=info["modal_price"],
-                        min_price=info["min_price"],
-                        max_price=info["max_price"],
-                        arrival_quantity=info["arrival_quantity"],
-                        quality_status="recorded_baseline"
-                    ))
-                else:
-                    history_items.append(PriceHistoryItem(
-                        observation_date=d_str,
-                        modal_price=base_default_price,
-                        min_price=round(base_default_price * 0.95, 2),
-                        max_price=round(base_default_price * 1.05, 2),
-                        arrival_quantity=0.0,
-                        quality_status="baseline"
-                    ))
+                next_price = known_obs[next_dates[0]]["modal_price"]
+                history_items.append(PriceHistoryItem(
+                    observation_date=d_str,
+                    modal_price=next_price,
+                    min_price=round(next_price * 0.95, 2),
+                    max_price=round(next_price * 1.05, 2),
+                    arrival_quantity=0.0,
+                    quality_status="predicted_from_previous"
+                ))
 
     return history_items
 

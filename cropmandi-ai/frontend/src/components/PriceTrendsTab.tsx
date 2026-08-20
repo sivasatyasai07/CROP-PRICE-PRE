@@ -174,6 +174,8 @@ const FALLBACK_MARKETS: Market[] = [
 
   const p1Map = new Map(primaryHistory.map(h => [h.observation_date, h.modal_price]));
   const p2Map = new Map(compareHistory.map(h => [h.observation_date, h.modal_price]));
+  const p1StatusMap = new Map(primaryHistory.map(h => [h.observation_date, h.quality_status]));
+  const p2StatusMap = new Map(compareHistory.map(h => [h.observation_date, h.quality_status]));
 
   const chartData1 = allDatesSet.map(d => p1Map.get(d) ?? null);
   const chartData2 = allDatesSet.map(d => p2Map.get(d) ?? null);
@@ -242,7 +244,12 @@ const FALLBACK_MARKETS: Market[] = [
           },
           label: (context: any) => {
             const val = context.parsed.y;
-            return `${context.dataset.label.split(' (')[0]}: ₹${val !== null && val !== undefined ? val.toLocaleString('en-IN') : 'N/A'}/qtl`;
+            if (val === null || val === undefined) return '';
+            const isP1 = context.datasetIndex === 0;
+            const dateStr = allDatesSet[context.dataIndex];
+            const status = isP1 ? p1StatusMap.get(dateStr) : p2StatusMap.get(dateStr);
+            const statusTag = status && status.includes('predicted') ? ' [Estimated]' : ' [Recorded]';
+            return `${context.dataset.label.split(' (')[0]}: ₹${val.toLocaleString('en-IN')}/qtl${statusTag}`;
           }
         }
       }
