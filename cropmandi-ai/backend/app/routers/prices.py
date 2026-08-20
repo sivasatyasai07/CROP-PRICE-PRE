@@ -85,11 +85,11 @@ def get_price_history(
     limit: int = 30,
     db: Session = Depends(get_db)
 ):
-    if not isinstance(start_date, str):
+    if not isinstance(start_date, str) or not start_date.strip():
         start_date = None
-    if not isinstance(end_date, str):
+    if not isinstance(end_date, str) or not end_date.strip():
         end_date = None
-    if not isinstance(limit, int):
+    if not isinstance(limit, int) or limit <= 0:
         limit = 30
 
     market = db.query(Market).get(market_id)
@@ -97,68 +97,123 @@ def get_price_history(
     if not market or not commodity:
         return []
 
+    from app.utils.date_service import get_ist_today, parse_internal_date
+    from datetime import timedelta
+
+    today_ist = get_ist_today()
+    if end_date:
+        d_end = parse_internal_date(end_date) or today_ist
+    else:
+        d_end = today_ist
+
+    if start_date:
+        d_start = parse_internal_date(start_date) or (d_end - timedelta(days=limit - 1))
+    else:
+        d_start = d_end - timedelta(days=limit - 1)
+
+    target_calendar_dates = [
+        (d_start + timedelta(days=i)).strftime("%Y-%m-%d")
+        for i in range((d_end - d_start).days + 1)
+    ]
+
     target_m = normalize_market_name(market.canonical_name).lower()
     target_orig_m = normalize_market_name(market.original_name or "").lower()
     target_c = normalize_commodity_name(commodity.canonical_name).lower()
 
     master_idx = load_master_data()
 
-    # Map by date to deduplicate and overlay live arrivals over master rows
-    date_map = {}
-
+    # Collect all known observations for this market and commodity
+    known_obs = {}
     for (c, m, d_str), rec in master_idx.items():
         if c == target_c and (m == target_m or m == target_orig_m):
             try:
                 p_val = float(rec.get("modal_price", 0))
+                if p_val > 0:
+                    arr_val = float(rec.get("arrival_quantity", 0)) if rec.get("arrival_quantity") is not None else 0.0
+                    known_obs[d_str] = {
+                        "modal_price": p_val,
+                        "min_price": float(rec.get("min_price", round(p_val * 0.95, 2))) if rec.get("min_price") is not None else round(p_val * 0.95, 2),
+                        "max_price": float(rec.get("max_price", round(p_val * 1.05, 2))) if rec.get("max_price") is not None else round(p_val * 1.05, 2),
+                        "arrival_quantity": arr_val,
+                        "quality_status": "verified_official"
+                    }
             except Exception:
-                continue
-            if p_val <= 0:
-                continue
+                pass
 
-            try:
-                arr_val = float(rec.get("arrival_quantity", 0))
-            except Exception:
-                arr_val = 0.0
-
-            date_map[d_str] = PriceHistoryItem(
-                observation_date=d_str,
-                modal_price=p_val,
-                min_price=float(rec.get("min_price", round(p_val * 0.95, 2))) if rec.get("min_price") is not None else round(p_val * 0.95, 2),
-                max_price=float(rec.get("max_price", round(p_val * 1.05, 2))) if rec.get("max_price") is not None else round(p_val * 1.05, 2),
-                arrival_quantity=arr_val,
-                quality_status="verified_official"
-            )
-
-    # Overlay any official live API records in DB
+    # Overlay live DB official records
     try:
         db_recs = db.query(OfficialMarketPrice).filter(
             OfficialMarketPrice.market_id == market_id,
             OfficialMarketPrice.commodity_id == commodity_id
         ).all()
-
         for r in db_recs:
             d_str = r.observation_date.strftime("%Y-%m-%d") if isinstance(r.observation_date, (date, datetime)) else str(r.observation_date)
-            date_map[d_str] = PriceHistoryItem(
-                observation_date=d_str,
-                modal_price=float(r.modal_price),
-                min_price=float(r.min_price) if r.min_price is not None else round(float(r.modal_price) * 0.95, 2),
-                max_price=float(r.max_price) if r.max_price is not None else round(float(r.modal_price) * 1.05, 2),
-                arrival_quantity=float(r.arrival_quantity) if r.arrival_quantity is not None else 0.0,
-                quality_status="verified_live_api"
-            )
+            p_val = float(r.modal_price)
+            if p_val > 0:
+                known_obs[d_str] = {
+                    "modal_price": p_val,
+                    "min_price": float(r.min_price) if r.min_price is not None else round(p_val * 0.95, 2),
+                    "max_price": float(r.max_price) if r.max_price is not None else round(p_val * 1.05, 2),
+                    "arrival_quantity": float(r.arrival_quantity) if r.arrival_quantity is not None else 0.0,
+                    "quality_status": "verified_live_api"
+                }
     except Exception:
         pass
 
-    # Sort chronologically
-    sorted_items = [date_map[k] for k in sorted(date_map.keys())]
+    sorted_known_dates = sorted(known_obs.keys())
+    history_items = []
+    base_default_price = 1400.0
 
-    # Filter date range if specified
-    if start_date:
-        sorted_items = [item for item in sorted_items if str(item.observation_date) >= start_date]
-    if end_date:
-        sorted_items = [item for item in sorted_items if str(item.observation_date) <= end_date]
+    for d_str in target_calendar_dates:
+        if d_str in known_obs:
+            info = known_obs[d_str]
+            history_items.append(PriceHistoryItem(
+                observation_date=d_str,
+                modal_price=info["modal_price"],
+                min_price=info["min_price"],
+                max_price=info["max_price"],
+                arrival_quantity=info["arrival_quantity"],
+                quality_status=info["quality_status"]
+            ))
+        else:
+            # Look for latest prior recorded date
+            prior_dates = [dt for dt in sorted_known_dates if dt < d_str]
+            if prior_dates:
+                latest_dt = prior_dates[-1]
+                info = known_obs[latest_dt]
+                history_items.append(PriceHistoryItem(
+                    observation_date=d_str,
+                    modal_price=info["modal_price"],
+                    min_price=info["min_price"],
+                    max_price=info["max_price"],
+                    arrival_quantity=info["arrival_quantity"],
+                    quality_status="recorded_prior"
+                ))
+            else:
+                # If earlier than any known date, find earliest forward known date
+                future_dates = [dt for dt in sorted_known_dates if dt > d_str]
+                if future_dates:
+                    earliest_dt = future_dates[0]
+                    info = known_obs[earliest_dt]
+                    history_items.append(PriceHistoryItem(
+                        observation_date=d_str,
+                        modal_price=info["modal_price"],
+                        min_price=info["min_price"],
+                        max_price=info["max_price"],
+                        arrival_quantity=info["arrival_quantity"],
+                        quality_status="recorded_baseline"
+                    ))
+                else:
+                    history_items.append(PriceHistoryItem(
+                        observation_date=d_str,
+                        modal_price=base_default_price,
+                        min_price=round(base_default_price * 0.95, 2),
+                        max_price=round(base_default_price * 1.05, 2),
+                        arrival_quantity=0.0,
+                        quality_status="baseline"
+                    ))
 
-    return sorted_items[-limit:]
+    return history_items
 
 
 @router.get("/compare", response_model=List[PriceCompareItem])

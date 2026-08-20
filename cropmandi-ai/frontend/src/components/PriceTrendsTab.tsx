@@ -178,8 +178,23 @@ const FALLBACK_MARKETS: Market[] = [
   const chartData1 = allDatesSet.map(d => p1Map.get(d) ?? null);
   const chartData2 = allDatesSet.map(d => p2Map.get(d) ?? null);
 
+  const formatDateLabel = (dateStr: string) => {
+    try {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        const day = parts[2];
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const monthIndex = parseInt(parts[1], 10) - 1;
+        return `${day} ${monthNames[monthIndex] || parts[1]}`;
+      }
+    } catch {
+      // fallback
+    }
+    return dateStr;
+  };
+
   const lineChartData = {
-    labels: allDatesSet,
+    labels: allDatesSet.map(formatDateLabel),
     datasets: [
       {
         label: `${getLocalizedMarketName(p1Name, language)} (Last 30 Days ₹/qtl)`,
@@ -188,7 +203,7 @@ const FALLBACK_MARKETS: Market[] = [
         backgroundColor: 'rgba(16, 185, 129, 0.15)',
         tension: 0.3,
         fill: false,
-        pointRadius: 4,
+        pointRadius: 3.5,
         borderWidth: 2.5,
         spanGaps: true,
       },
@@ -199,7 +214,7 @@ const FALLBACK_MARKETS: Market[] = [
         backgroundColor: 'rgba(59, 130, 246, 0.15)',
         tension: 0.3,
         fill: false,
-        pointRadius: 4,
+        pointRadius: 3.5,
         borderWidth: 2.5,
         spanGaps: true,
       }] : [])
@@ -217,12 +232,32 @@ const FALLBACK_MARKETS: Market[] = [
       tooltip: {
         mode: 'index' as const,
         intersect: false,
+        callbacks: {
+          title: (items: any) => {
+            if (items && items[0]) {
+              const idx = items[0].dataIndex;
+              return allDatesSet[idx] ? `Date: ${allDatesSet[idx]}` : items[0].label;
+            }
+            return '';
+          },
+          label: (context: any) => {
+            const val = context.parsed.y;
+            return `${context.dataset.label.split(' (')[0]}: ₹${val !== null && val !== undefined ? val.toLocaleString('en-IN') : 'N/A'}/qtl`;
+          }
+        }
       }
     },
     scales: {
       x: {
         grid: { color: 'rgba(0, 0, 0, 0.05)' },
-        ticks: { color: '#64748b' }
+        ticks: {
+          color: '#64748b',
+          maxRotation: 45,
+          minRotation: 0,
+          autoSkip: true,
+          maxTicksLimit: 15,
+          font: { size: 11, weight: 600 }
+        }
       },
       y: {
         grid: { color: 'rgba(0, 0, 0, 0.05)' },
