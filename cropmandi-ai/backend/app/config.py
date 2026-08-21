@@ -59,7 +59,7 @@ class Settings(BaseSettings):
     PLANTNET_API_KEY: str = ""
     PLANTNET_BASE_URL: str = "https://my-api.plantnet.org/v2/identify"
     PLANTNET_PROJECT: str = "all"
-    PLANTNET_TIMEOUT_SECONDS: int = 60
+    PLANTNET_TIMEOUT_SECONDS: int = 120
     PLANTNET_MAX_RETRIES: int = 2
     PLANTNET_MIN_SCORE: float = 0.0
     PLANTNET_MAX_IMAGE_SIZE_MB: int = 10

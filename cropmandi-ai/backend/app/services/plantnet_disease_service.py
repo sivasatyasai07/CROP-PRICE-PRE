@@ -431,7 +431,7 @@ def identify_plant_image(
         base_url = settings.PLANTNET_BASE_URL.rstrip("/")
         project = settings.PLANTNET_PROJECT or "all"
         endpoint = f"{base_url}/{project}"
-        timeout_sec = float(getattr(settings, "PLANTNET_TIMEOUT_SECONDS", 60))
+        timeout_sec = float(getattr(settings, "PLANTNET_TIMEOUT_SECONDS", 120))
         max_retries = int(getattr(settings, "PLANTNET_MAX_RETRIES", 2))
 
         organ = map_plantnet_organ(plant_part)

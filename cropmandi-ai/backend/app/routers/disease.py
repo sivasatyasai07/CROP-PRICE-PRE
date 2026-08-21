@@ -165,7 +165,7 @@ async def analyze_crop_disease(
     analysis_id = str(uuid.uuid4())
     now_iso = datetime.now(timezone.utc).isoformat()
     sha256_hash = hashlib.sha256(primary_bytes).hexdigest()
-    timeout_seconds = float(getattr(settings, "PLANTNET_TIMEOUT_SECONDS", 60))
+    timeout_seconds = float(getattr(settings, "PLANTNET_TIMEOUT_SECONDS", 120))
 
     try:
         analysis_result, model_info = await asyncio.wait_for(
