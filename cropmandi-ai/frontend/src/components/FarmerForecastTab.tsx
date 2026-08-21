@@ -8,7 +8,10 @@ import { SUPPORTED_CROPS, getMarketsForCrop, getDistrictForMarket } from '../uti
 import { useVerifiedForecast } from '../hooks/useVerifiedForecast';
 import { ForecastLoadingState } from './forecast/ForecastLoadingState';
 import { ForecastResult } from './forecast/ForecastResult';
-import { Calendar, Navigation, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { PredictionHistoryModal } from './forecast/PredictionHistoryModal';
+import { AuthModal } from './auth/AuthModal';
+import { Calendar, Navigation, CheckCircle2, AlertCircle, History } from 'lucide-react';
 
 const MIN_DATE = '2021-01-01';
 
@@ -18,8 +21,13 @@ interface Props {
 }
 
 export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
+  const { user } = useAuth();
   const t = translations[language] || translations['en'];
   const todayIST = useMemo(() => getKolkataTodayString(), []);
+
+  // History & Auth Modal state
+  const [historyModalOpen, setHistoryModalOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   // Form selections
   const [selectedCrop, setSelectedCrop] = useState<string>('Tomato');
@@ -182,13 +190,41 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (!user) {
+                setAuthModalOpen(true);
+              } else {
+                setHistoryModalOpen(true);
+              }
+            }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.4rem 0.85rem',
+              borderRadius: '8px',
+              border: '1px solid #cbd5e1',
+              backgroundColor: '#ffffff',
+              color: 'var(--primary-dark)',
+              fontSize: '0.82rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            }}
+          >
+            <History size={15} color="var(--primary)" />
+            <span>{language === 'te' ? 'నా ధరల చరిత్ర' : (language === 'hi' ? 'मेरा मूल्य इतिहास' : 'Prediction History')}</span>
+          </button>
+
           <span
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.35rem',
-              padding: '0.25rem 0.75rem',
+              padding: '0.35rem 0.75rem',
               borderRadius: '50px',
               fontSize: '0.75rem',
               fontWeight: 700,
@@ -543,6 +579,19 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
           <img src="/logo.jpg" alt="APMC Seal" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
+
+      {/* Prediction History Modal */}
+      <PredictionHistoryModal
+        isOpen={historyModalOpen}
+        onClose={() => setHistoryModalOpen(false)}
+      />
+
+      {/* Auth Modal Trigger for Guest */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode="login"
+      />
 
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { fetchVerifiedForecast, type VerifiedForecastResponse } from '../services/forecastService';
+import { predictionHistoryService } from '../services/predictionHistoryService';
 
 export interface UseVerifiedForecastReturn {
   data: VerifiedForecastResponse | null;
@@ -112,6 +113,45 @@ export function useVerifiedForecast(): UseVerifiedForecastReturn {
       }
 
       setData(res);
+
+      // 5. Persist to Supabase prediction_history if user is logged in
+      try {
+        const currentPrice = res.latest_observed_price || (res.records?.[0]?.modal_price ?? 0);
+
+        await predictionHistoryService.savePrediction({
+          crop: commodity,
+          market: market,
+          state: state || res.state || 'Andhra Pradesh',
+          district: district || res.district || '',
+          predictionDate: selectedDate,
+          predictionResponse: {
+            commodity,
+            market,
+            unit: 'Rs/Quintal',
+            prediction_date: selectedDate,
+            latest_observed_price: currentPrice,
+            latest_observed_date: res.latest_observed_date || selectedDate,
+            trend_direction: (res.trend_direction?.toLowerCase() as any) || 'stable',
+            percentage_change_3d: res.percentage_change_3d || 0,
+            predictions: (res.records || []).map((r, i) => ({
+              target_date: r.date,
+              horizon: i + 1,
+              predicted_modal_price: r.modal_price || 0,
+              lower_bound: r.lower_bound || 0,
+              upper_bound: r.upper_bound || 0,
+              confidence_level: r.confidence_level || 0.85,
+            })),
+            warning: res.warnings?.join(', ') || '',
+            model_name: 'CatBoost Regressor',
+            model_version: res.model_version || '1.0',
+            data_freshness: res.data_refresh_status || 'verified',
+            weather_available: true,
+            fallback_used: false,
+          },
+        });
+      } catch (saveErr) {
+        console.warn('Prediction history save skipped/failed:', saveErr);
+      }
     } catch (err: any) {
       if (err.name === 'AbortError' || thisRequestId !== activeRequestIdRef.current) {
         return;

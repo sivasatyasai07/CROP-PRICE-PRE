@@ -30,7 +30,7 @@ export const DiseaseHistoryCard: React.FC<DiseaseHistoryCardProps> = ({
     minute: '2-digit',
   });
 
-  const imageUrl = getDiseaseImageUrl(item.analysis_id);
+  const imageUrl = getDiseaseImageUrl(item.analysis_id, item.image_url);
 
   return (
     <div

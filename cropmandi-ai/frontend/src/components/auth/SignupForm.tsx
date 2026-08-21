@@ -11,6 +11,7 @@ interface SignupFormProps {
 
 export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess, onSwitchToLogin }) => {
   const { signup } = useAuth();
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -89,22 +90,18 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess, onSwitchToLog
         email: cleanEmail,
         password,
         confirm_password: confirmPassword,
+        full_name: fullName.trim() || undefined,
       });
-      setSuccessMsg('Account created successfully.');
+      setSuccessMsg('Account created successfully! Please check your email to verify if required.');
       if (onSuccess) {
-        setTimeout(onSuccess, 500);
+        setTimeout(onSuccess, 800);
       }
     } catch (err: any) {
-      const responseData = err.response?.data;
-      if (responseData?.errors?.email) {
-        setEmailError(responseData.errors.email[0]);
-      } else if (responseData?.errors?.password) {
-        setPasswordError(responseData.errors.password[0]);
-      } else if (responseData?.errors?.confirm_password) {
-        setConfirmError(responseData.errors.confirm_password[0]);
-      } else {
-        setErrorMsg(responseData?.detail || 'An account with this email already exists.');
+      let msg = err.message || 'An error occurred during signup.';
+      if (msg.includes('User already registered') || msg.includes('already exists')) {
+        msg = 'An account with this email address already exists.';
       }
+      setErrorMsg(msg);
     } finally {
       setLoading(false);
     }
@@ -116,7 +113,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess, onSwitchToLog
         Create CropMandi AI Account
       </h3>
       <p style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '1.25rem' }}>
-        Register to get real-time price predictions & tailored market advice.
+        Register to save your price forecasts & crop disease diagnosis history.
       </p>
 
       {errorMsg && (
@@ -161,8 +158,34 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess, onSwitchToLog
         </div>
       )}
 
+      {/* Full Name Field */}
+      <div style={{ marginBottom: '1rem' }}>
+        <label
+          htmlFor="signup-name"
+          style={{
+            display: 'block',
+            fontSize: '0.88rem',
+            fontWeight: 700,
+            color: 'var(--primary-dark)',
+            marginBottom: '0.4rem',
+          }}
+        >
+          Full Name / Farmer Name
+        </label>
+        <input
+          id="signup-name"
+          type="text"
+          className="form-input"
+          style={{ width: '100%' }}
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="e.g. Ramesh Kumar"
+          autoComplete="name"
+        />
+      </div>
+
       {/* Email Field */}
-      <div style={{ marginBottom: '1.2rem' }}>
+      <div style={{ marginBottom: '1rem' }}>
         <label
           htmlFor="signup-email"
           style={{

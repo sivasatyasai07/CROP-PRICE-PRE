@@ -1,7 +1,7 @@
 {
   "description": "CropMandi AI User Login and Authentication Records",
-  "last_updated": "2026-08-21T06:27:30.612064Z",
-  "total_logins": 15,
+  "last_updated": "2026-08-21T09:30:13.420239Z",
+  "total_logins": 19,
   "login_history": [
     {
       "event_id": "c3f5c1f8-7d66-43ef-9c63-87958ce9a3de",
@@ -167,6 +167,50 @@
       "timestamp": "2026-08-21T06:27:30.610246Z",
       "failure_reason": "Incorrect email or password",
       "client_ip": null
+    },
+    {
+      "event_id": "23e7c114-9be5-4aa0-8df5-f506ad546edd",
+      "event_type": "signup",
+      "email": "farmer.rao@example.com",
+      "user_id": "95fe6770-c6ed-4ab9-8d6b-2a165a8eba8a",
+      "role": "farmer",
+      "status": "success",
+      "timestamp": "2026-08-21T09:30:11.653982Z",
+      "failure_reason": null,
+      "client_ip": null
+    },
+    {
+      "event_id": "5b1e79b9-efab-4e5c-aef9-cce59a158198",
+      "event_type": "signup",
+      "email": "login.test@example.com",
+      "user_id": "d0bc48d3-a8f7-4613-bd4f-1e479e504334",
+      "role": "farmer",
+      "status": "success",
+      "timestamp": "2026-08-21T09:30:12.265685Z",
+      "failure_reason": null,
+      "client_ip": null
+    },
+    {
+      "event_id": "5cd0ec88-c9a9-4bde-b7f1-b697be063f82",
+      "event_type": "login",
+      "email": "login.test@example.com",
+      "user_id": "d0bc48d3-a8f7-4613-bd4f-1e479e504334",
+      "role": "farmer",
+      "status": "success",
+      "timestamp": "2026-08-21T09:30:12.848372Z",
+      "failure_reason": null,
+      "client_ip": null
+    },
+    {
+      "event_id": "c1f96309-740b-4912-b387-2eefa40a276a",
+      "event_type": "login",
+      "email": "login.test@example.com",
+      "user_id": null,
+      "role": "farmer",
+      "status": "failed",
+      "timestamp": "2026-08-21T09:30:13.392945Z",
+      "failure_reason": "Incorrect email or password",
+      "client_ip": null
     }
   ],
   "registered_users": [
@@ -184,8 +228,8 @@
       "email": "farmer.rao@example.com",
       "role": "farmer",
       "first_seen": "2026-08-21T04:43:48.280666Z",
-      "last_login_at": "2026-08-21T06:27:29.680004Z",
-      "login_count": 3,
+      "last_login_at": "2026-08-21T09:30:11.653982Z",
+      "login_count": 4,
       "last_attempt_status": "success"
     },
     {
@@ -193,8 +237,8 @@
       "email": "login.test@example.com",
       "role": "farmer",
       "first_seen": "2026-08-21T04:43:48.911140Z",
-      "last_login_at": "2026-08-21T06:27:30.310694Z",
-      "login_count": 6,
+      "last_login_at": "2026-08-21T09:30:12.848372Z",
+      "login_count": 8,
       "last_attempt_status": "failed"
     }
   ]

@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from './AuthModal';
-import { User, LogIn, LogOut, ShieldCheck, ChevronDown } from 'lucide-react';
+import { UserProfileModal } from './UserProfileModal';
+import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Settings } from 'lucide-react';
 
 export const AuthHeaderButton: React.FC = () => {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, profile, isAuthenticated, logout } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'login' | 'signup'>('login');
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const openLogin = () => {
     setModalMode('login');
@@ -70,11 +84,11 @@ export const AuthHeaderButton: React.FC = () => {
     );
   }
 
-  // Shorten email if needed
-  const displayEmail = user.email.length > 20 ? `${user.email.slice(0, 17)}...` : user.email;
+  const displayName = profile?.full_name || user.profile?.full_name || user.email.split('@')[0];
+  const displayEmail = user.email.length > 22 ? `${user.email.slice(0, 19)}...` : user.email;
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative' }} ref={menuRef}>
       <button
         type="button"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -85,7 +99,7 @@ export const AuthHeaderButton: React.FC = () => {
           padding: '0.4rem 0.75rem',
           borderRadius: '20px',
           border: '1px solid #e2e8f0',
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
           cursor: 'pointer',
           boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
           fontSize: '0.88rem',
@@ -112,22 +126,9 @@ export const AuthHeaderButton: React.FC = () => {
         >
           {user.role === 'admin' ? <ShieldCheck size={16} /> : <User size={16} />}
         </div>
-        <span style={{ fontWeight: 600 }}>{displayEmail}</span>
-        {user.role === 'admin' && (
-          <span
-            style={{
-              fontSize: '0.7rem',
-              fontWeight: 800,
-              backgroundColor: '#ede9fe',
-              color: '#6d28d9',
-              padding: '0.1rem 0.4rem',
-              borderRadius: '4px',
-              textTransform: 'uppercase',
-            }}
-          >
-            Admin
-          </span>
-        )}
+        <span style={{ fontWeight: 700, maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {displayName}
+        </span>
         <ChevronDown size={14} style={{ color: '#64748b' }} />
       </button>
 
@@ -137,44 +138,82 @@ export const AuthHeaderButton: React.FC = () => {
           style={{
             position: 'absolute',
             right: 0,
-            top: '110%',
+            top: '115%',
             backgroundColor: '#ffffff',
             borderRadius: '12px',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.15)',
             border: '1px solid #e2e8f0',
-            width: '220px',
+            width: '240px',
             zIndex: 100,
             padding: '0.5rem',
           }}
-          onClick={() => setMenuOpen(false)}
         >
           <div
             style={{
-              padding: '0.5rem 0.75rem',
+              padding: '0.6rem 0.75rem',
               borderBottom: '1px solid #f1f5f9',
               marginBottom: '0.35rem',
             }}
           >
-            <p style={{ margin: 0, fontSize: '0.8rem', color: '#64748b' }}>Signed in as</p>
-            <p style={{ margin: 0, fontSize: '0.88rem', fontWeight: 700, color: 'var(--primary-dark)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {user.email}
+            <p style={{ margin: 0, fontSize: '0.78rem', color: '#64748b' }}>Signed in as</p>
+            <p style={{ margin: 0, fontSize: '0.88rem', fontWeight: 800, color: 'var(--primary-dark)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {displayName}
             </p>
-            <span
-              style={{
-                display: 'inline-block',
-                marginTop: '0.25rem',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                color: user.role === 'admin' ? '#6d28d9' : 'var(--primary)',
-              }}
-            >
-              Role: {user.role.toUpperCase()}
-            </span>
+            <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.75rem', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {displayEmail}
+            </p>
+            {profile?.preferred_language && (
+              <span
+                style={{
+                  display: 'inline-block',
+                  marginTop: '0.35rem',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  backgroundColor: 'var(--accent-gold-light)',
+                  color: '#92400e',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '4px',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Lang: {profile.preferred_language}
+              </span>
+            )}
           </div>
 
           <button
             type="button"
-            onClick={logout}
+            onClick={() => {
+              setMenuOpen(false);
+              setProfileModalOpen(true);
+            }}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.55rem 0.75rem',
+              borderRadius: '6px',
+              border: 'none',
+              backgroundColor: 'transparent',
+              color: 'var(--primary-dark)',
+              fontSize: '0.88rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left',
+              transition: 'background 0.15s ease',
+            }}
+          >
+            <Settings size={16} color="var(--primary)" />
+            <span>Edit Profile</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen(false);
+              logout();
+            }}
             style={{
               width: '100%',
               display: 'flex',
@@ -197,6 +236,12 @@ export const AuthHeaderButton: React.FC = () => {
           </button>
         </div>
       )}
+
+      {/* Profile Edit Modal */}
+      <UserProfileModal
+        isOpen={profileModalOpen}
+        onClose={() => setProfileModalOpen(false)}
+      />
     </div>
   );
 };
