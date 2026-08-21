@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../api';
 import type { Language } from '../i18n/translations';
 import { translations } from '../i18n/translations';
-import { getLocalizedCommodityName, getLocalizedMarketName } from '../utils/i18nData';
+import { getLocalizedCommodityName, getLocalizedMarketName, getLocalizedDistrictName } from '../utils/i18nData';
 import { getKolkataTodayString, isFutureDateInKolkata } from '../utils/timezone';
-import { SUPPORTED_CROPS, getMarketsForCrop } from '../utils/cropMarkets';
+import { SUPPORTED_CROPS, getMarketsForCrop, getDistrictForMarket } from '../utils/cropMarkets';
 import { useVerifiedForecast } from '../hooks/useVerifiedForecast';
 import { ForecastLoadingState } from './forecast/ForecastLoadingState';
 import { ForecastResult } from './forecast/ForecastResult';
@@ -290,11 +290,15 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
               onChange={(e) => setSelectedMarket(e.target.value)}
               disabled={loading || availableMarkets.length === 0}
             >
-              {availableMarkets.map((mktName) => (
-                <option key={mktName} value={mktName}>
-                  {getLocalizedMarketName(mktName, language)}
-                </option>
-              ))}
+              {availableMarkets.map((mktName) => {
+                const distName = getDistrictForMarket(mktName);
+                const localizedDist = getLocalizedDistrictName(distName, language);
+                return (
+                  <option key={mktName} value={mktName}>
+                    {getLocalizedMarketName(mktName, language)} ({localizedDist})
+                  </option>
+                );
+              })}
             </select>
           </div>
 
@@ -504,7 +508,7 @@ export const FarmerForecastTab: React.FC<Props> = ({ language }) => {
       )}
 
       {/* Live Loading State */}
-      {loading && <ForecastLoadingState loadingStep={loadingStep} stepIndex={stepIndex} />}
+      {loading && <ForecastLoadingState loadingStep={loadingStep} stepIndex={stepIndex} language={language} />}
 
       {/* Verified Forecast Results (Hero Card + 4 Cards matching reference design) */}
       {!loading && data && <ForecastResult data={data} language={language} />}

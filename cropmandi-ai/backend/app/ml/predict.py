@@ -89,10 +89,8 @@ def generate_3day_prediction(
             from app.services.seed_service import COMMODITIES_SEED
             for c in COMMODITIES_SEED:
                 if c["canonical_name"].lower() == commodity_name.lower():
-                    latest_price = c.get("base_price", 1500.0)
+                    latest_price = c.get("base_price")
                     break
-            if latest_price is None:
-                latest_price = 1500.0
 
     # 3. Load active model run version
     if not model_version or model_version in ["2.1.0", "1.0.0", "default"]:
@@ -114,7 +112,7 @@ def generate_3day_prediction(
         df_all = build_dataset_from_db(db)
 
     # Validate dataframe currency against CleanedMarketPrice in DB
-    if not df_all.empty and latest_obs_dt:
+    if not df_all.empty and latest_obs_dt and market and commodity:
         df_crop_mkt = df_all[
             (df_all['market'] == market.canonical_name) & 
             (df_all['commodity'] == commodity.canonical_name)
@@ -134,8 +132,8 @@ def generate_3day_prediction(
         )
 
     from app.utils.market_normalization import normalize_market_name, normalize_commodity_name
-    target_m_norm = normalize_market_name(market.canonical_name).lower()
-    target_c_norm = normalize_commodity_name(commodity.canonical_name).lower()
+    target_m_norm = normalize_market_name(market.canonical_name if market else market_name).lower()
+    target_c_norm = normalize_commodity_name(commodity.canonical_name if commodity else commodity_name).lower()
 
     sub_df = df_all[
         (df_all['market'].astype(str).apply(lambda x: normalize_market_name(x).lower()) == target_m_norm) & 

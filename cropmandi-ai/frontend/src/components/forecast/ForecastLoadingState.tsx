@@ -1,24 +1,31 @@
 import React from 'react';
-import { Loader2, Database, Sparkles, ShieldCheck, FileCheck, CheckCircle2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import type { Language } from '../../i18n/translations';
+import { translations } from '../../i18n/translations';
 
 export interface ForecastLoadingStateProps {
   loadingStep?: string;
   stepIndex?: number;
+  language?: Language;
 }
 
 export const ForecastLoadingState: React.FC<ForecastLoadingStateProps> = ({
   loadingStep,
-  stepIndex = 1
+  stepIndex = 1,
+  language = 'en',
 }) => {
-  const steps = [
-    { label: 'Stage 1 of 5: Querying official data.gov.in API records with filters...', icon: ShieldCheck },
-    { label: 'Stage 2 of 5: Checking verified official records across 4-date horizon...', icon: Database },
-    { label: 'Stage 3 of 5: Checking master-data.csv & building feature vectors...', icon: FileCheck },
-    { label: 'Stage 4 of 5: Executing CatBoost ML model inference for missing dates...', icon: Sparkles },
-    { label: 'Stage 5 of 5: Finalizing verified predictions & conformal intervals...', icon: CheckCircle2 },
+  const t = translations[language] || translations['en'];
+  const stageLabels = t.forecast?.loadingStages || [
+    'Stage 1 of 5: Querying official data.gov.in API records with filters...',
+    'Stage 2 of 5: Checking verified official records across 4-date horizon...',
+    'Stage 3 of 5: Checking master-data.csv & building feature vectors...',
+    'Stage 4 of 5: Executing CatBoost ML model inference for missing dates...',
+    'Stage 5 of 5: Finalizing verified predictions & conformal intervals...',
   ];
 
-  const currentLabel = loadingStep || (steps[stepIndex - 1]?.label ?? 'Processing price verification…');
+  const currentLabel = (stepIndex >= 1 && stepIndex <= 5 && stageLabels[stepIndex - 1])
+    ? stageLabels[stepIndex - 1]
+    : (loadingStep || stageLabels[0]);
 
   return (
     <div
@@ -60,7 +67,7 @@ export const ForecastLoadingState: React.FC<ForecastLoadingStateProps> = ({
           {currentLabel}
         </h3>
         <p style={{ fontSize: '0.88rem', color: '#64748b', margin: '0 auto', maxWidth: '520px' }}>
-          Executing strict 5-level precedence: Official API (data.gov.in) → master-data.csv → CatBoost ML Prediction → Fallback → Unavailable.
+          {t.forecast?.loadingSubtitle || 'Executing strict 5-level precedence: Official API (data.gov.in) → master-data.csv → CatBoost ML Prediction → Fallback → Unavailable.'}
         </p>
       </div>
 

@@ -25,6 +25,8 @@ export interface TranslationDictionary {
     day3: string;
     confidenceBounds: string;
     predictedPrice: string;
+    loadingStages: string[];
+    loadingSubtitle: string;
   };
   location: {
     detectLocationBtn: string;
@@ -127,6 +129,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       day3: "Day +3",
       confidenceBounds: "80% Confidence Interval",
       predictedPrice: "Predicted Modal Price",
+      loadingSubtitle: "Executing strict 5-level precedence: Official API (data.gov.in) → master-data.csv → CatBoost ML Prediction → Fallback → Unavailable.",
+      loadingStages: [
+        "Stage 1 of 5: Querying official data.gov.in API records with filters...",
+        "Stage 2 of 5: Checking verified official records across 4-date horizon...",
+        "Stage 3 of 5: Checking master-data.csv & building feature vectors...",
+        "Stage 4 of 5: Executing CatBoost ML model inference for missing dates...",
+        "Stage 5 of 5: Finalizing verified predictions & conformal intervals..."
+      ]
     },
     location: {
       detectLocationBtn: "Detect My Location",
@@ -232,6 +242,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       day3: "3వ రోజు",
       confidenceBounds: "80% నమ్మకమైన పరిధి (అల్ప - అధిక)",
       predictedPrice: "అంచనా వేసిన ధర",
+      loadingSubtitle: "అధికారిక API (data.gov.in) → మాస్టర్ డేటా → CatBoost AI అంచనా క్రమంలో ప్రాసెస్ చేయబడుతోంది.",
+      loadingStages: [
+        "దశ 1/5: data.gov.in అధికారిక API నుండి రికార్డులను శోధిస్తోంది...",
+        "దశ 2/5: 4 రోజుల వ్యవధిలో ధృవీకరించబడిన అధికారిక ధరలను తనిఖీ చేస్తోంది...",
+        "దశ 3/5: మాస్టర్ డేటా మరియు ఫీచర్ వెక్టర్లను సిద్ధం చేస్తోంది...",
+        "దశ 4/5: మిస్సింగ్ తేదీల కోసం CatBoost ML మోడల్ అంచనా వేస్తోంది...",
+        "దశ 5/5: ధృవీకరించిన అంచనాలు మరియు విశ్వసనీయ పరిమితులను సిద్ధం చేస్తోంది..."
+      ]
     },
     location: {
       detectLocationBtn: "నా స్థానాన్ని గుర్తించు",
@@ -337,6 +355,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       day3: "दिन 3",
       confidenceBounds: "80% विश्वास अंतराल सीमा",
       predictedPrice: "अनुमानित भाव",
+      loadingSubtitle: "आधिकारिक API (data.gov.in) → मास्टर डेटा → CatBoost AI पूर्वानुमान क्रम में निष्पादित हो रहा है।",
+      loadingStages: [
+        "चरण 1/5: data.gov.in आधिकारिक API से मंडी मूल्य रिकॉर्ड प्राप्त किए जा रहे हैं...",
+        "चरण 2/5: 4-दिवसीय अवधि में सत्यापित आधिकारिक डेटा की जांच हो रही है...",
+        "चरण 3/5: मास्टर डेटा एवं ML फ़ीचर वैक्टर तैयार किए जा रहे हैं...",
+        "चरण 4/5: शेष तिथियों के लिए CatBoost AI मॉडल पूर्वानुमान लगा रहा है...",
+        "चरण 5/5: सत्यापित पूर्वानुमान और मूल्य सीमाएं अंतिम रूप दी जा रही हैं..."
+      ]
     },
     location: {
       detectLocationBtn: "मेरा स्थान खोजें",
@@ -442,6 +468,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       day3: "ദിവസം 3",
       confidenceBounds: "80% വിശ്വാസ്യത പരിധി",
       predictedPrice: "പ്രതീക്ഷിക്കുന്ന വില",
+      loadingSubtitle: "ഔദ്യോഗിക API → മാസ്റ്റർ ഡാറ്റ → CatBoost AI പ്രവചനം ക്രമത്തിൽ പ്രോസസ്സ് ചെയ്യുന്നു.",
+      loadingStages: [
+        "ഘട്ടം 1/5: data.gov.in ഔദ്യോഗിക API റെക്കോർഡുകൾ പരിശോധിക്കുന്നു...",
+        "ഘട്ടം 2/5: 4 ദിവസത്തെ ഔദ്യോഗിക നിരക്കുകൾ പരിശോധിക്കുന്നു...",
+        "ഘട്ടം 3/5: മാസ്റ്റർ ഡാറ്റയും ഫീച്ചർ വെക്ടറുകളും തയ്യാറാക്കുന്നു...",
+        "ഘട്ടം 4/5: കാണാതായ തീയതികൾക്കായി CatBoost AI പ്രവചനം നടത്തുന്നു...",
+        "ഘട്ടം 5/5: സ്ഥിരീകരിച്ച പ്രവചനങ്ങളും ശ്രേണികളും അന്തിമമാക്കുന്നു..."
+      ]
     },
     location: {
       detectLocationBtn: "എന്റെ സ്ഥാനം കണ്ടെത്തുക",
@@ -547,6 +581,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       day3: "நாள் 3",
       confidenceBounds: "80% நம்பிக்கை எல்லை",
       predictedPrice: "கணிக்கப்பட்ட விலை",
+      loadingSubtitle: "அதிகாரப்பூர்வ API → மாஸ்டர் தரவு → CatBoost AI கணிப்பு வரிசையில் செயல்படுத்தப்படுகிறது.",
+      loadingStages: [
+        "நிலை 1/5: data.gov.in அதிகாரப்பூர்வ API பதிவுகளை சரிபார்க்கிறது...",
+        "நிலை 2/5: 4-நாள் காலத்திற்கான அதிகாரப்பூர்வ விலைகளை சரிபார்க்கிறது...",
+        "நிலை 3/5: மாஸ்டர் தரவு மற்றும் மாதிரி அம்சங்களை உருவாக்குகிறது...",
+        "நிலை 4/5: விடுபட்ட தேதிகளுக்கு CatBoost AI மாதிரி கணிப்பை இயக்குகிறது...",
+        "நிலை 5/5: சரிபார்க்கப்பட்ட கணிப்புகள் மற்றும் இடைவெளிகளை இறுதி செய்கிறது..."
+      ]
     },
     location: {
       detectLocationBtn: "என் இருப்பிடத்தைக் கண்டுபிடி",

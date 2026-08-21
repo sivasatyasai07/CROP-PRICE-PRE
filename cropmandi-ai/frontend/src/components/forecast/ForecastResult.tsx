@@ -2,6 +2,8 @@ import React from 'react';
 import type { VerifiedForecastResponse, ForecastRecord } from '../../services/forecastService';
 import type { Language } from '../../i18n/translations';
 import { Check, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { getDistrictForMarket } from '../../utils/cropMarkets';
+import { getLocalizedDistrictName, getLocalizedMarketName } from '../../utils/i18nData';
 
 export interface ForecastResultProps {
   data: VerifiedForecastResponse;
@@ -143,10 +145,13 @@ export const ForecastResult: React.FC<ForecastResultProps> = ({ data, language: 
           </div>
 
           <div>
-            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
-              LATEST OBSERVED MODAL PRICE ({baseDateStr})
+            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: '0.55rem', flexWrap: 'wrap' }}>
+              <span>LATEST OBSERVED MODAL PRICE ({baseDateStr})</span>
+              <span style={{ background: '#f1f5f9', color: '#1e293b', border: '1px solid #cbd5e1', padding: '0.12rem 0.6rem', borderRadius: '6px', fontSize: '0.74rem', fontWeight: 700, textTransform: 'none' }}>
+                📍 {getLocalizedMarketName(data.market, _language)} • {getLocalizedDistrictName(data.district && data.district !== 'Andhra Pradesh' ? data.district : getDistrictForMarket(data.market), _language)}
+              </span>
             </div>
-            <div style={{ fontSize: '2.1rem', fontWeight: 800, color: '#000000', lineHeight: 1.15, marginTop: '0.15rem' }}>
+            <div style={{ fontSize: '2.1rem', fontWeight: 800, color: '#000000', lineHeight: 1.15, marginTop: '0.2rem' }}>
               {basePrice !== null && basePrice > 0 ? (
                 <>
                   ₹{basePrice.toFixed(2)}
@@ -257,7 +262,8 @@ export const ForecastResult: React.FC<ForecastResultProps> = ({ data, language: 
           
           const isOfficialApi = record.price_source === 'official_api';
           const isOfficialCsv = record.price_source === 'official_csv';
-          const isObserved = isOfficialApi || isOfficialCsv || (record.is_observed && !record.is_predicted);
+          const isOfficialDb = record.price_source === 'official_database';
+          const isObserved = isOfficialApi || isOfficialCsv || isOfficialDb || (record.is_observed && !record.is_predicted);
           
           const isTrainedModel = (
             record.price_source === 'predicted_model' &&
@@ -297,6 +303,13 @@ export const ForecastResult: React.FC<ForecastResultProps> = ({ data, language: 
             cardHeaderTitle = 'ACTUAL PRICE';
             cardHeaderSub = '(RECORDED)';
             cardBadgeText = 'DATA.GOV.IN API';
+            cardHeaderColor = '#15803d';
+            cardBadgeBg = '#dcfce7';
+            cardBadgeColor = '#166534';
+          } else if (isOfficialDb) {
+            cardHeaderTitle = 'ACTUAL PRICE';
+            cardHeaderSub = '(RECORDED)';
+            cardBadgeText = 'OFFICIAL DATABASE';
             cardHeaderColor = '#15803d';
             cardBadgeBg = '#dcfce7';
             cardBadgeColor = '#166534';

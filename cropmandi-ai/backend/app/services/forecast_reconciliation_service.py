@@ -321,7 +321,87 @@ def resolve_price_for_date(
             lookup_trace=trace
         )
 
-    # 3. SOURCE 3: CatBoost ML Prediction Candidate
+    # 3. SOURCE 3: Authoritative Database Official & Cleaned Records Check
+    db_obs = db.query(OfficialMarketPrice).filter(
+        OfficialMarketPrice.market_id == market_obj.id,
+        OfficialMarketPrice.commodity_id == commodity_obj.id,
+        OfficialMarketPrice.observation_date == target_date
+    ).first()
+    if not db_obs:
+        db_obs = db.query(CleanedMarketPrice).filter(
+            CleanedMarketPrice.market_id == market_obj.id,
+            CleanedMarketPrice.commodity_id == commodity_obj.id,
+            CleanedMarketPrice.observation_date == target_date
+        ).first()
+
+    if db_obs and db_obs.modal_price and float(db_obs.modal_price) > 0:
+        modal_p = round(float(db_obs.modal_price), 2)
+        min_p = round(float(getattr(db_obs, "min_price", None)), 2) if getattr(db_obs, "min_price", None) is not None else None
+        max_p = round(float(getattr(db_obs, "max_price", None)), 2) if getattr(db_obs, "max_price", None) is not None else None
+        arr_q = round(float(getattr(db_obs, "arrival_quantity", None)), 2) if getattr(db_obs, "arrival_quantity", None) is not None else None
+
+        supersede_stale_predictions_for_date(db, market_obj.id, commodity_obj.id, target_date)
+
+        trace.append({
+            "source": "official_database",
+            "searched": True,
+            "found": True,
+            "status": "exact_record_found",
+            "reason": f"Official recorded price for {target_date} found in verified database."
+        })
+
+        return ForecastRecord(
+            date=target_date,
+            target_date=target_date,
+            forecast_origin_date=forecast_origin_date,
+            horizon=horizon,
+            modal_price=modal_p,
+            min_price=min_p,
+            max_price=max_p,
+            arrival_quantity=arr_q,
+            arrival_unit="Metric Tonnes",
+            price_unit="Rs./Quintal",
+            price_source="official_database",
+            data_status="observed_database",
+            prediction_status="superseded_by_official",
+            prediction_method="official_observation",
+            model_predict_called=False,
+            prediction_executed=False,
+            model_error_code=None,
+            raw_model_output=None,
+            final_prediction=None,
+            is_observed=True,
+            is_predicted=False,
+            source_label="Official value from database",
+            verification_status="db_verified",
+            source_name="Official observed price from database",
+            source_record_id=None,
+            fetched_at=now,
+            data_fetched_at=now,
+            generated_at=None,
+            model_name=None,
+            model_version=None,
+            data_freshness="database_official",
+            confidence_level=None,
+            confidence_source="unavailable",
+            interval_available=False,
+            interval_method=None,
+            lower_bound=None,
+            upper_bound=None,
+            fallback_reason=None,
+            arrival_features_used=False,
+            weather_features_used=False,
+            seasonal_features_used=False,
+            api_checked=True,
+            api_record_found=False,
+            master_csv_checked=True,
+            master_csv_record_found=False,
+            prediction_generated=False,
+            final_source="official_database",
+            lookup_trace=trace
+        )
+
+    # 4. SOURCE 4: CatBoost ML Prediction Candidate
     pred_data = predictions_map.get(target_date.isoformat())
     if pred_data:
         p_src = pred_data.get("price_source", "unavailable")
