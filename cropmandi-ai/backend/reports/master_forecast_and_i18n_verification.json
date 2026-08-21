@@ -1,0 +1,195 @@
+{
+  "timestamp": "2026-08-21T06:53:38.520665",
+  "timezone_verified": true,
+  "server_today": "2026-08-21",
+  "checks": {
+    "ist_timezone_determination": {
+      "passed": true,
+      "details": {
+        "today_ist": "2026-08-21",
+        "expected_today": "2026-08-21"
+      }
+    },
+    "models_health_endpoint": {
+      "passed": true,
+      "details": {
+        "status_code": 200,
+        "active_model_version": "v20260818_153724",
+        "models_status": "ready"
+      }
+    },
+    "data_source_health_endpoint": {
+      "passed": true,
+      "details": {
+        "status_code": 200,
+        "fields_detected": [
+          "State",
+          "District",
+          "Market",
+          "Commodity",
+          "Arrival_Date",
+          "Min_Price",
+          "Modal_Price",
+          "Max_Price",
+          "Arrival_Quantity"
+        ],
+        "record_counts": {
+          "official_prices": 281,
+          "cleaned_prices": 26475,
+          "master_csv_records": 41527
+        },
+        "master_csv_available": true
+      }
+    },
+    "forecast_date_separation_and_official_priority": {
+      "passed": true,
+      "details": {
+        "status_code": 200,
+        "records_count": 4,
+        "official_records_count": 3,
+        "sample_record": {
+          "date": "2026-08-18",
+          "target_date": "2026-08-18",
+          "forecast_origin_date": "2026-08-18",
+          "observation_date": "2026-08-18",
+          "horizon": 0,
+          "modal_price": 1400.0,
+          "min_price": 1200.0,
+          "max_price": 1600.0,
+          "arrival_quantity": null,
+          "arrival_unit": "Metric Tonnes",
+          "price_unit": "Rs./Quintal",
+          "price_source": "official_api",
+          "data_status": "observed_live",
+          "prediction_status": "superseded_by_official",
+          "prediction_method": "official_observation",
+          "model_predict_called": false,
+          "prediction_executed": false,
+          "model_error_code": null,
+          "raw_model_output": null,
+          "final_prediction": null,
+          "is_observed": true,
+          "is_predicted": false,
+          "source_label": "Official value from data.gov.in",
+          "verification_status": "api_live_verified",
+          "source_name": "Official value from data.gov.in",
+          "source_record_id": null,
+          "fetched_at": "2026-08-21T06:53:38.624027",
+          "data_fetched_at": "2026-08-21T06:53:38.624027",
+          "generated_at": null,
+          "model_name": null,
+          "model_version": null,
+          "feature_snapshot_id": null,
+          "previous_forecast": null,
+          "data_freshness": "live_api",
+          "confidence_level": null,
+          "confidence_source": "unavailable",
+          "interval_available": false,
+          "interval_method": null,
+          "lower_bound": null,
+          "upper_bound": null,
+          "confidence_interval": null,
+          "fallback_reason": null,
+          "warning": null,
+          "arrival_features_used": false,
+          "weather_features_used": false,
+          "seasonal_features_used": false,
+          "arrival_missing": null,
+          "weather_missing": null,
+          "feature_row_date": null,
+          "api_checked": true,
+          "api_record_found": true,
+          "master_csv_checked": false,
+          "master_csv_record_found": false,
+          "prediction_generated": false,
+          "final_source": "official_api",
+          "lookup_trace": [
+            {
+              "source": "official_api",
+              "searched": true,
+              "found": true,
+              "status": "exact_record_found"
+            },
+            {
+              "source": "master-data.csv",
+              "searched": false,
+              "found": false,
+              "status": "not_needed"
+            },
+            {
+              "source": "prediction",
+              "searched": false,
+              "found": false,
+              "status": "not_needed"
+            }
+          ]
+        }
+      }
+    },
+    "target_value_stability_across_origins": {
+      "passed": true,
+      "details": {
+        "target_date": "2026-08-18",
+        "price_from_origin_18": 1400.0,
+        "price_from_origin_17": 1400.0,
+        "source_from_18": "official_api",
+        "source_from_17": "official_api"
+      }
+    },
+    "forbidden_states_and_flags_validation": {
+      "passed": true,
+      "details": {
+        "total_records_inspected": 8,
+        "no_forbidden_flags": true
+      }
+    },
+    "trends_official_only_filtering": {
+      "passed": true,
+      "details": {
+        "status_code": 200,
+        "total_points": 25,
+        "official_sources_verified": true
+      }
+    },
+    "weather_coverage_active_markets": {
+      "passed": true,
+      "details": {
+        "status_code": 200,
+        "total_active_markets": 768,
+        "markets_with_coordinates": 42
+      }
+    },
+    "complete_i18n_localization_completeness": {
+      "passed": true,
+      "details": {
+        "file_exists": true,
+        "languages_checked": [
+          "en",
+          "te",
+          "hi",
+          "ml",
+          "ta"
+        ],
+        "namespaces_checked": [
+          "common",
+          "forecast",
+          "trends",
+          "comparison",
+          "weather",
+          "disease",
+          "auth",
+          "validation",
+          "errors",
+          "warnings"
+        ],
+        "missing_elements": []
+      }
+    }
+  },
+  "summary": {
+    "total_checks": 9,
+    "passed_checks": 9,
+    "failed_checks": 0,
+    "status": "PASSED"
+  }
+}

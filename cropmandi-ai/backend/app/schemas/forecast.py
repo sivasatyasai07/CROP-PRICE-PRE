@@ -43,6 +43,7 @@ class ForecastRecord(BaseModel):
     date: date
     target_date: Optional[date] = None
     forecast_origin_date: Optional[date] = None
+    observation_date: Optional[date] = None
     horizon: Optional[int] = None
     
     modal_price: Optional[float] = None
@@ -88,6 +89,7 @@ class ForecastRecord(BaseModel):
     upper_bound: Optional[float] = None
     confidence_interval: Optional[Dict[str, Optional[float]]] = None
     fallback_reason: Optional[str] = None
+    warning: Optional[str] = None
     
     # Feature tracking
     arrival_features_used: bool = False
@@ -128,6 +130,8 @@ class VerifiedForecastResponse(BaseModel):
     refresh_performed: bool = True
     latest_observed_price: Optional[float] = None
     latest_observed_date: Optional[str] = None
+    latest_official_date: Optional[date] = None
+    latest_value_is_today: Optional[bool] = False
     trend_direction: Optional[str] = "stable"
     percentage_change_3d: Optional[float] = 0.0
     trend_source: Optional[str] = None
@@ -141,6 +145,7 @@ class VerifiedForecastResponse(BaseModel):
     summary: Dict[str, int]
     warnings: List[str]
     server_date: Optional[date] = None
+    server_today: Optional[date] = None
     future_dates_disabled: bool = True
     selected_date_valid: bool = True
     api_checked_time: Optional[str] = None

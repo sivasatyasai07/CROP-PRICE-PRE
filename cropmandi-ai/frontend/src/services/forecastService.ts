@@ -12,6 +12,7 @@ export interface ForecastRecord {
   date: string;
   target_date?: string;
   forecast_origin_date?: string;
+  observation_date?: string | null;
   horizon?: number;
   
   modal_price: number | null;
@@ -62,6 +63,7 @@ export interface ForecastRecord {
     upper?: number | null;
   } | null;
   fallback_reason?: string | null;
+  warning?: string | null;
   
   arrival_features_used?: boolean;
   weather_features_used?: boolean;
@@ -108,6 +110,8 @@ export interface VerifiedForecastResponse {
   refresh_performed: boolean;
   latest_observed_price?: number;
   latest_observed_date?: string;
+  latest_official_date?: string | null;
+  latest_value_is_today?: boolean;
   trend_direction?: string;
   percentage_change_3d?: number;
   trend_source?: string;
@@ -131,6 +135,7 @@ export interface VerifiedForecastResponse {
   };
   warnings: string[];
   server_date?: string;
+  server_today?: string;
   future_dates_disabled?: boolean;
   selected_date_valid?: boolean;
   api_checked_time?: string;
