@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     USERS_JSON_PATH: str = "data/users.json"
     LOGIN_DETAILS_JSON_PATH: str = "data/login_details.json"
     MASTER_DATA_PATH: str = "data/master-data.csv"
+    MODEL_VERSION: str = ""
     DEMO_MODE: bool = False
     
     # Database

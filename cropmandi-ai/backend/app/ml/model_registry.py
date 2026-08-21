@@ -29,11 +29,15 @@ MODEL_DIR = find_model_dir()
 
 
 def get_model_path(model_version: str, horizon: int) -> str:
+    if not model_version:
+        return ""
     v = model_version.lstrip("v")
     possible_names = [
+        f"catboost_h{horizon}_{model_version}.cbm",
         f"catboost_h{horizon}_v{model_version}.cbm",
         f"catboost_h{horizon}_vv{v}.cbm",
         f"catboost_h{horizon}_v{v}.cbm",
+        f"catboost_h{horizon}_{v}.cbm",
     ]
     for name in possible_names:
         p = os.path.join(MODEL_DIR, name)
@@ -43,11 +47,15 @@ def get_model_path(model_version: str, horizon: int) -> str:
 
 
 def get_metadata_path(model_version: str) -> str:
+    if not model_version:
+        return ""
     v = model_version.lstrip("v")
     possible_names = [
+        f"metadata_{model_version}.pkl",
         f"metadata_v{model_version}.pkl",
         f"metadata_vv{v}.pkl",
         f"metadata_v{v}.pkl",
+        f"metadata_{v}.pkl",
     ]
     for name in possible_names:
         p = os.path.join(MODEL_DIR, name)
@@ -57,16 +65,16 @@ def get_metadata_path(model_version: str) -> str:
 
 
 def get_available_model_versions() -> List[str]:
-    """Scans MODEL_DIR and returns sorted list of all model versions with complete H1, H2, H3 and metadata."""
+    """Scans MODEL_DIR and returns sorted list of all complete model versions (H1, H2, H3 and metadata)."""
     if not os.path.exists(MODEL_DIR):
         return []
     
     files = os.listdir(MODEL_DIR)
-    h1_versions = set()
+    h1_versions = []
     for f in files:
         if f.startswith("catboost_h1_") and f.endswith(".cbm"):
-            v_part = f[len("catboost_h1_"):-len(".cbm")].lstrip("v")
-            h1_versions.add(v_part)
+            v_part = f[len("catboost_h1_"):-len(".cbm")]
+            h1_versions.append(v_part)
 
     valid_versions = []
     for v in sorted(h1_versions, reverse=True):
@@ -75,12 +83,31 @@ def get_available_model_versions() -> List[str]:
         p3 = get_model_path(v, 3)
         pm = get_metadata_path(v)
         if os.path.exists(p1) and os.path.exists(p2) and os.path.exists(p3) and os.path.exists(pm):
-            valid_versions.append(f"v{v}")
+            if v not in valid_versions:
+                valid_versions.append(v)
     return valid_versions
 
 
-def get_active_model_version(db: Optional[Session] = None) -> str:
-    """Authoritatively resolves the active model version from DB ModelRun or newest valid artifact."""
+def get_active_model_version(db: Optional[Session] = None) -> Optional[str]:
+    """
+    Authoritatively resolves the active model version following the strict 4-step resolution order:
+    1. Explicit configured MODEL_VERSION (from settings/env), if valid and artifacts exist.
+    2. Active ModelRun version from DB, if its artifacts exist.
+    3. Latest complete artifact version discovered from the model directory.
+    4. None if no complete model artifacts exist.
+    """
+    # 1. Configured MODEL_VERSION
+    from app.config import settings
+    cfg_ver = getattr(settings, "MODEL_VERSION", "").strip()
+    if cfg_ver and cfg_ver.lower() not in ["2.1.0", "1.0.0", "default", "none", ""]:
+        p1 = get_model_path(cfg_ver, 1)
+        p2 = get_model_path(cfg_ver, 2)
+        p3 = get_model_path(cfg_ver, 3)
+        pm = get_metadata_path(cfg_ver)
+        if os.path.exists(p1) and os.path.exists(p2) and os.path.exists(p3) and os.path.exists(pm):
+            return cfg_ver
+
+    # 2. Active ModelRun in DB
     if db:
         try:
             from app.models import ModelRun
@@ -90,16 +117,18 @@ def get_active_model_version(db: Optional[Session] = None) -> str:
                 p1 = get_model_path(v, 1)
                 p2 = get_model_path(v, 2)
                 p3 = get_model_path(v, 3)
-                if os.path.exists(p1) and os.path.exists(p2) and os.path.exists(p3):
+                pm = get_metadata_path(v)
+                if os.path.exists(p1) and os.path.exists(p2) and os.path.exists(p3) and os.path.exists(pm):
                     return v
         except Exception as exc:
             logger.warning("Could not query active ModelRun from DB: %s", exc)
 
+    # 3. Latest complete artifact version from model directory
     available = get_available_model_versions()
     if available:
         return available[0]
     
-    return "v20260818_153724"
+    return None
 
 
 def save_model_artifacts(model_version: str, models: dict, metadata: dict):
@@ -237,3 +266,27 @@ def check_model_health(db: Optional[Session] = None, requested_version: Optional
         "message": message,
         "checked_at": datetime.utcnow().isoformat()
     }
+
+
+def log_model_startup_status(db: Optional[Session] = None):
+    """Safely logs ML model status and health during backend startup without exposing secrets."""
+    try:
+        health = check_model_health(db)
+        logger.info(
+            "[MODEL STARTUP] Status=%s | RequestedVersion=%s | ResolvedVersion=%s | Directory=%s | H1=%s (loaded=%s) | H2=%s (loaded=%s) | H3=%s (loaded=%s) | Metadata=%s",
+            health.get("status"),
+            health.get("requested_version"),
+            health.get("resolved_version"),
+            MODEL_DIR,
+            health.get("h1_exists"),
+            health.get("h1_loaded"),
+            health.get("h2_exists"),
+            health.get("h2_loaded"),
+            health.get("h3_exists"),
+            health.get("h3_loaded"),
+            health.get("metadata_exists")
+        )
+        if health.get("error"):
+            logger.warning("[MODEL STARTUP] Model Warning/Error: %s", health.get("error"))
+    except Exception as exc:
+        logger.warning("[MODEL STARTUP] Could not log model startup status: %s", exc)

@@ -817,9 +817,11 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
     fresh_df = build_dataset_from_db(db)
 
     # ML Predictions candidate map for dates lacking official data
+    from app.ml.model_registry import get_active_model_version
+    resolved_active_ver = get_active_model_version(db)
+    model_ver = resolved_active_ver or "catboost_h_ensemble"
     predictions_map: Dict[str, Dict[str, Any]] = {}
     feature_snapshot_id = f"snap_{req.commodity}_{req.market}_{req.selected_date.strftime('%Y%m%d')}_{uuid.uuid4().hex[:8]}"
-    model_ver = "catboost-v2.1"
     feature_explanations: List[str] = []
     feature_schema_match = True
     missing_feats: List[str] = []
@@ -839,6 +841,7 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
             commodity_name=commodity_obj.canonical_name,
             market_name=market_obj.canonical_name,
             prediction_date_str=req.selected_date.isoformat(),
+            model_version=resolved_active_ver,
             df_all=fresh_df
         )
         pred_list = pred_resp.get("predictions", []) if isinstance(pred_resp, dict) else getattr(pred_resp, "predictions", [])
@@ -1007,6 +1010,8 @@ def reconcile_verified_forecast(db: Session, req: VerifiedForecastRequest) -> Ve
         warnings.append(stale_warning)
     if sync_summary.get("api_status") == "failed":
         warnings.append(f"Live API synchronization failed ({sync_summary.get('error')}). Using latest verified database records.")
+    if prediction_error_message:
+        warnings.append(f"Prediction service note ({prediction_error_code}): {prediction_error_message}")
 
     response = VerifiedForecastResponse(
         request_id=req_id,

@@ -15,39 +15,6 @@
       "client_ip": null
     },
     {
-      "event_id": "cd7c63b6-8b49-4316-a322-e2efa9ff0b7c",
-      "event_type": "login",
-      "email": "farmer.demo@cropmandi.gov.in",
-      "user_id": "db758291-6ba1-43e8-bc5f-eca82b15e248",
-      "role": "farmer",
-      "status": "success",
-      "timestamp": "2026-08-21T04:43:21.195455Z",
-      "failure_reason": null,
-      "client_ip": null
-    },
-    {
-      "event_id": "ff3842e1-322c-40af-b3ff-77b803390322",
-      "event_type": "login",
-      "email": "farmer.demo@cropmandi.gov.in",
-      "user_id": null,
-      "role": "farmer",
-      "status": "failed",
-      "timestamp": "2026-08-21T04:43:21.748869Z",
-      "failure_reason": "Incorrect email or password",
-      "client_ip": null
-    },
-    {
-      "event_id": "7a9a7036-26c5-444c-a585-05ca19eab865",
-      "event_type": "signup",
-      "email": "farmer.rao@example.com",
-      "user_id": "1f0d8df4-d30b-4869-b558-f95aa3c33f4c",
-      "role": "farmer",
-      "status": "success",
-      "timestamp": "2026-08-21T04:43:48.280666Z",
-      "failure_reason": null,
-      "client_ip": null
-    },
-    {
       "event_id": "711dab4f-a850-4a24-896c-86cdb84f46ec",
       "event_type": "signup",
       "email": "login.test@example.com",

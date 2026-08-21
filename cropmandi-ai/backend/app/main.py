@@ -64,8 +64,10 @@ def startup_price_sync_event():
     from app.services.seed_service import seed_markets_and_commodities
     from app.services.master_data_service import load_master_data
     from app.services.scheduler_service import start_background_startup_sync, start_daily_scheduler
+    from app.ml.model_registry import log_model_startup_status
     seed_markets_and_commodities()
     load_master_data()
+    log_model_startup_status()
     start_background_startup_sync()
     start_daily_scheduler()
 
