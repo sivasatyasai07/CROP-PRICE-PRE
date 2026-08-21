@@ -1,0 +1,105 @@
+{
+  "users": [
+    {
+      "id": "0e4a715b-72ff-451d-b4c6-c6fadd2abe0e",
+      "email": "farmer.rao@example.com",
+      "password_hash": "$2b$12$gw0O/NnX88G9YyGD4zPkweFv2SmY1e8omnts89.kbr9W1Y2nCFw3i",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-14T15:47:30.312879Z",
+      "updated_at": "2026-08-14T15:47:30.312879Z"
+    },
+    {
+      "id": "cbc259ff-8e9c-4faf-aa50-89379f36f16b",
+      "email": "atdvtd@gmail.com",
+      "password_hash": "$2b$12$wHtYdRGR1bcdOq.mrJx.mOyf4oP.k43RjMRIIltgtPgkZ.qhXZcFy",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-14T15:53:39.738304Z",
+      "updated_at": "2026-08-14T15:53:39.738304Z"
+    },
+    {
+      "id": "cdc4f6d2-83e7-44ad-9948-9f3aac7183f4",
+      "email": "sivasatyasai2006@gmail.com",
+      "password_hash": "$2b$12$BfFX8pdjIUAc/9r7sAV6V.CPgx.9psGwuua2kfkwbTd0Hr16ME9cO",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-15T15:05:52.008060Z",
+      "updated_at": "2026-08-15T15:05:52.008060Z"
+    },
+    {
+      "id": "98d22f79-6517-4fe4-9a0e-0d67038b5514",
+      "email": "farmer_alice@example.com",
+      "password_hash": "Alice Password",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-17T19:14:30.539266Z",
+      "updated_at": "2026-08-17T19:14:30.539266Z"
+    },
+    {
+      "id": "35f7046c-d675-4c6a-85e0-8e05ba11c35f",
+      "email": "farmer_bob@example.com",
+      "password_hash": "Bob Password",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-17T19:14:30.588243Z",
+      "updated_at": "2026-08-17T19:14:30.588243Z"
+    },
+    {
+      "id": "e0b3677a-5c87-4c42-82e2-b24ff35da21d",
+      "email": "farmer_alice2@example.com",
+      "password_hash": "$2b$12$mB8MAJmdYOOX2.0UOAquB.EZ3zxNNgKd5Tbi1/BgtrLZyWvCXzRke",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-17T19:32:51.343249Z",
+      "updated_at": "2026-08-17T19:32:51.343249Z"
+    },
+    {
+      "id": "ca5ca0a4-0273-42e3-a854-c8387779eada",
+      "email": "verifier_farmer@cropmandi.test",
+      "password_hash": "Test Verifier Farmer",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-18T05:26:32.577691Z",
+      "updated_at": "2026-08-18T05:26:32.577691Z"
+    },
+    {
+      "id": "3507c110-f0c8-4f1b-aa22-1432f895079b",
+      "email": "openset_alice@example.com",
+      "password_hash": "Alice OpenSet",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-18T05:51:19.702261Z",
+      "updated_at": "2026-08-18T05:51:19.702261Z"
+    },
+    {
+      "id": "c62b2735-4f7b-40cc-a2e8-dd51c69458b9",
+      "email": "openset_bob@example.com",
+      "password_hash": "Bob OpenSet",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-18T05:51:19.723655Z",
+      "updated_at": "2026-08-18T05:51:19.723655Z"
+    },
+    {
+      "id": "0328d041-2cab-438e-a5a9-0e92383c6abf",
+      "email": "openset_verifier@cropmandi.test",
+      "password_hash": "OpenSet Verifier Farmer",
+      "role": "farmer",
+      "is_active": true,
+      "created_at": "2026-08-18T05:52:43.866586Z",
+      "updated_at": "2026-08-18T05:52:43.866586Z"
+    },
+    {
+      "id": "db758291-6ba1-43e8-bc5f-eca82b15e248",
+      "email": "farmer.demo@cropmandi.gov.in",
+      "password_hash": "$2b$12$jZ4rFC99xQUFhk10ykP89eQMboPk.BRN5xbl0REjkROOfCJ5yolI.",
+      "role": "farmer",
+      "is_active": true,
+      "login_count": 3,
+      "last_login_at": "2026-08-21T04:43:21.195455Z",
+      "created_at": "2026-08-21T04:43:20.574817Z",
+      "updated_at": "2026-08-21T04:43:21.195455Z"
+    }
+  ]
+}

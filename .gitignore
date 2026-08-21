@@ -35,11 +35,10 @@ cropmandi-ai/cropmandi.db
 cropmandi-ai/backend/cropmandi.db
 
 # User & Disease Local History
-backend/data/users.json
-data/users.json
-cropmandi-ai/backend/data/users.json
 cropmandi-ai/backend/data/disease_history/
 cropmandi-ai/backend/data/disease_images/
+data/disease_history/
+data/disease_images/
 
 # ML Artifacts & Temporary Logs
 catboost_info/

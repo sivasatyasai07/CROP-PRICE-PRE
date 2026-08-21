@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     AUTH_ALGORITHM: str = "HS256"
     AUTH_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24
     USERS_JSON_PATH: str = "data/users.json"
+    LOGIN_DETAILS_JSON_PATH: str = "data/login_details.json"
     MASTER_DATA_PATH: str = "data/master-data.csv"
     DEMO_MODE: bool = False
     

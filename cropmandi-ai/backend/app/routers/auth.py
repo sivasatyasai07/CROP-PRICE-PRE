@@ -7,7 +7,8 @@ from app.services.user_store import (
     find_user_by_email,
     create_user,
     normalize_email,
-    safe_user_dict
+    safe_user_dict,
+    record_login_event
 )
 from app.core.security import (
     validate_password_rules,
@@ -90,6 +91,7 @@ def login(req: LoginRequest):
         errors["password"] = ["Password is required."]
 
     if errors:
+        record_login_event(email=email or "unknown", status="failed", failure_reason="Validation error")
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
@@ -101,6 +103,7 @@ def login(req: LoginRequest):
 
     user = find_user_by_email(email)
     if not user or not verify_password(req.password, user.get("password_hash", "")):
+        record_login_event(email=email, status="failed", failure_reason="Incorrect email or password")
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
             content={
@@ -110,6 +113,7 @@ def login(req: LoginRequest):
         )
 
     if not user.get("is_active", True):
+        record_login_event(email=email, status="failed", role=user.get("role", "farmer"), user_id=user.get("id"), failure_reason="Account is inactive")
         return JSONResponse(
             status_code=status.HTTP_403_FORBIDDEN,
             content={
@@ -117,6 +121,15 @@ def login(req: LoginRequest):
                 "code": "INACTIVE_ACCOUNT"
             }
         )
+
+    # Record successful login in JSON store
+    record_login_event(
+        email=email,
+        status="success",
+        role=user.get("role", "farmer"),
+        user_id=user.get("id"),
+        event="login"
+    )
 
     token = create_access_token(data={"sub": user["id"], "email": user["email"], "role": user.get("role", "farmer")})
 
